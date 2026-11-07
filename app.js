@@ -1,5 +1,5 @@
 import { FaceLandmarker, HandLandmarker, FilesetResolver } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs";
-import { MEMES, handFeatures } from "./memes.js";
+import { MEMES, handFeatures, faceFeatures } from "./memes.js";
 import { catSVG, PALETTES } from "./cats.js";
 
 const MP = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm";
@@ -53,7 +53,9 @@ async function picSet(id, blob) {
 // ---------- rendering ----------
 function render(id, pop = true) {
   const m = MEMES.find((x) => x.id === id);
-  catBox.innerHTML = custom[id] ? `<img src="${custom[id]}" alt="${m.caption}">` : catSVG(m.cat, palette);
+  const src = custom[id] || m.img;
+  catBox.classList.toggle("photo", !!src);
+  catBox.innerHTML = src ? `<img src="${src}" alt="${m.caption}">` : catSVG(m.cat, palette);
   caption.textContent = m.caption;
   hint.textContent = m.id === "stare" ? "try: " + MEMES[Math.floor(Date.now() / 4000) % (MEMES.length - 1)].hint : m.hint;
   if (pop) { catBox.classList.remove("pop"); void catBox.offsetWidth; catBox.classList.add("pop"); }
@@ -71,22 +73,7 @@ function renderScores() {
 function features(fr, hr) {
   const bs = Object.fromEntries((fr.faceBlendshapes?.[0]?.categories || []).map((c) => [c.categoryName, c.score]));
   const lm = fr.faceLandmarks?.[0];
-  const g = (k) => bs[k] || 0;
-  let roll = 0;
-  if (lm) roll = (Math.atan2(lm[263].y - lm[33].y, lm[263].x - lm[33].x) * 180) / Math.PI;
-  return {
-    face: !!lm,
-    jawOpen: g("jawOpen"),
-    eyeWide: (g("eyeWideLeft") + g("eyeWideRight")) / 2,
-    blink: Math.min(g("eyeBlinkLeft"), g("eyeBlinkRight")),
-    squint: (g("eyeSquintLeft") + g("eyeSquintRight")) / 2,
-    smile: Math.max(g("mouthSmileLeft"), g("mouthSmileRight")),
-    frown: (g("mouthFrownLeft") + g("mouthFrownRight")) / 2,
-    browInnerUp: g("browInnerUp"),
-    browUp: Math.max(g("browOuterUpLeft"), g("browOuterUpRight"), g("browInnerUp")),
-    roll,
-    ...handFeatures(hr.landmarks || [], lm),
-  };
+  return { ...faceFeatures(bs, lm), ...handFeatures(hr.landmarks || [], lm) };
 }
 
 function choose(f, now) {
@@ -131,23 +118,53 @@ function loop() {
     drawOverlay(fr, hr);
     renderScores();
     frames++;
-    if (now - fpsT > 1000) { status.textContent = `${Math.round((frames * 1000) / (now - fpsT))} fps`; frames = 0; fpsT = now; }
+    if (now - fpsT > 1000) { if (showScores) setStatus(`${Math.round((frames * 1000) / (now - fpsT))} fps`); else setStatus(""); frames = 0; fpsT = now; }
   }
   if (video.requestVideoFrameCallback) video.requestVideoFrameCallback(loop); else requestAnimationFrame(loop);
 }
 
-async function makeModels() {
-  status.textContent = "loading models (one-time, ~12 MB)…";
-  const fs = await FilesetResolver.forVisionTasks(MP);
-  const opts = (path, delegate) => ({ baseOptions: { modelAssetPath: path, delegate }, runningMode: "VIDEO" });
+async function fetchModel(url, onBytes) {
+  const r = await fetch(url);
+  if (!r.ok || !r.body) return new Uint8Array(await r.arrayBuffer());
+  const reader = r.body.getReader(), parts = [];
+  let n = 0;
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    parts.push(value); n += value.length; onBytes(value.length);
+  }
+  const out = new Uint8Array(n); let o = 0;
+  for (const p of parts) { out.set(p, o); o += p.length; }
+  return out;
+}
+
+// Starts downloading at page load, so the models are usually ready by the time the camera is.
+const TOTAL = 3.76e6 + 7.82e6;                         // face + hand .task sizes (approx.)
+let got = 0, wantStatus = false, ready = false;
+const progress = () => setStatus(got >= TOTAL * 0.97 ? "warming up the cat brain…" : `loading the cat brain… ${Math.round((got / TOTAL) * 100)}%`, true);
+const modelsReady = (async () => {
+  const [fs, faceBuf, handBuf] = await Promise.all([
+    FilesetResolver.forVisionTasks(MP),
+    fetchModel(MODELS.face, (b) => { got += b; if (wantStatus) progress(); }),
+    fetchModel(MODELS.hand, (b) => { got += b; if (wantStatus) progress(); }),
+  ]);
+  if (wantStatus) progress();
+  const opts = (buf, delegate) => ({ baseOptions: { modelAssetBuffer: buf, delegate }, runningMode: "VIDEO" });
   for (const delegate of ["GPU", "CPU"]) {
     try {
-      face = await FaceLandmarker.createFromOptions(fs, { ...opts(MODELS.face, delegate), numFaces: 1, outputFaceBlendshapes: true });
-      hand = await HandLandmarker.createFromOptions(fs, { ...opts(MODELS.hand, delegate), numHands: 2 });
+      face = await FaceLandmarker.createFromOptions(fs, { ...opts(faceBuf, delegate), numFaces: 1, outputFaceBlendshapes: true });
+      hand = await HandLandmarker.createFromOptions(fs, { ...opts(handBuf, delegate), numHands: 2 });
+      ready = true;
       return delegate;
     } catch (e) { console.warn("delegate", delegate, e); }
   }
   throw new Error("could not load the models");
+})();
+modelsReady.catch(() => {});
+
+function setStatus(text, loading = false) {
+  status.textContent = text;
+  status.classList.toggle("loading", loading);
 }
 
 async function startCamera() {
@@ -159,17 +176,24 @@ async function startCamera() {
 }
 
 async function start() {
-  $("#start").disabled = true;
+  const btn = $("#start");
+  btn.disabled = true; btn.textContent = "starting the camera…";
   try {
     if (!navigator.mediaDevices?.getUserMedia) throw new Error("this browser has no camera access (open the page in Safari or Chrome, over https)");
-    const [, delegate] = await Promise.all([startCamera(), face ? Promise.resolve("ready") : makeModels()]);
-    $("#intro").hidden = true;
-    status.textContent = delegate === "CPU" ? "running on CPU (slower)" : "";
-    running = true; render(current, false); loop();
+    await startCamera();
+    $("#intro").hidden = true;                          // the camera is on: get out of the way now
+    render(current, false);
+    if (!ready) { wantStatus = true; progress(); }
+    const delegate = await modelsReady;
+    wantStatus = false;
+    setStatus(delegate === "CPU" ? "running on CPU (slower)" : "");
+    running = true; loop();
     try { await navigator.wakeLock?.request("screen"); } catch {}
   } catch (e) {
-    status.textContent = "⚠️ " + (e.message || e);
-    $("#start").disabled = false;
+    $("#intro").hidden = false;
+    setStatus("");
+    btn.disabled = false; btn.textContent = "Start the camera";
+    $("#introErr").textContent = "⚠️ " + (e.name === "NotAllowedError" ? "camera access was blocked. Allow it in Settings → Safari → Camera, then try again." : (e.message || e));
   }
 }
 
@@ -189,10 +213,17 @@ async function snap() {
   x.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--card").trim() || "#fff3e0";
   x.fillRect(0, top, W, H - top);
   const img = new Image();
-  img.src = custom[current] || "data:image/svg+xml;charset=utf-8," + encodeURIComponent(catSVG(m.cat, palette));
+  const photo = custom[current] || m.img;
+  img.src = photo || "data:image/svg+xml;charset=utf-8," + encodeURIComponent(catSVG(m.cat, palette));
   await img.decode().catch(() => {});
-  const ih = H - top - 40, iw = custom[current] ? Math.min(W - 40, (img.naturalWidth / img.naturalHeight) * ih) : ih;
-  x.drawImage(img, (W - iw) / 2, top + 20, iw, ih);
+  if (photo) {                                          // cover the bottom half
+    const bh = H - top, k = Math.max(W / img.naturalWidth, bh / img.naturalHeight);
+    const cw = W / k, ch = bh / k;
+    x.drawImage(img, (img.naturalWidth - cw) / 2, (img.naturalHeight - ch) / 2, cw, ch, 0, top, W, bh);
+  } else {
+    const ih = H - top - 40;
+    x.drawImage(img, (W - ih) / 2, top + 20, ih, ih);
+  }
   x.font = "120px Anton, Impact, 'Arial Black', sans-serif"; x.textAlign = "center"; x.textBaseline = "middle";
   x.lineWidth = 14; x.strokeStyle = "#000"; x.fillStyle = "#fff"; x.lineJoin = "round";
   x.strokeText(m.caption.toUpperCase(), W / 2, top, W - 60); x.fillText(m.caption.toUpperCase(), W / 2, top, W - 60);
@@ -210,7 +241,7 @@ function buildSettings() {
   $("#palettes").innerHTML = Object.entries(PALETTES).map(([k, p]) =>
     `<button class="sw${k === palette ? " on" : ""}" data-p="${k}" style="background:${p.fur}" aria-label="${k} cat"></button>`).join("");
   $("#pics").innerHTML = MEMES.map((m) => `<div class="pic">
-      <div class="thumb">${custom[m.id] ? `<img src="${custom[m.id]}" alt="">` : catSVG(m.cat, palette)}</div>
+      <div class="thumb">${custom[m.id] || m.img ? `<img src="${custom[m.id] || m.img}" alt="">` : catSVG(m.cat, palette)}</div>
       <div class="meta"><b>${m.caption}</b><small>${m.hint}</small></div>
       <label class="btn sm">pick<input type="file" accept="image/*" data-id="${m.id}" hidden></label>
       ${custom[m.id] ? `<button class="btn sm ghost" data-reset="${m.id}">reset</button>` : ""}
@@ -245,3 +276,4 @@ document.addEventListener("visibilitychange", () => {
 
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
 picsLoad().then(() => render(current, false));
+for (const m of MEMES) if (m.img) { const i = new Image(); i.src = m.img; }  // no flicker on the first switch

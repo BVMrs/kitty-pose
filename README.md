@@ -1,20 +1,23 @@
-# meow mirror
+# kitty pose
 
 Strike a pose, get the cat meme. Open it on your phone:
 **https://bvmrs.github.io/kitty-pose/**
 
-| Pose | Cat |
+| Pose | Meme |
 |---|---|
-| mouth wide open, eyes wide | **AAAAAAAAA** |
-| hand on your chin | **hmm.** |
-| thumbs up, sad face | **it's fine. 👍** |
-| both hands above your head | **YIPPEE** |
-| open palm to the camera | **no.** |
-| point with your index finger | **you.** |
-| half-closed eyes, one-sided smile | **heh.** |
-| head tilted, brows up | **huh?** |
-| eyes closed | **zzz** |
-| big smile | **content.** |
+| mouth wide open (O) | pop cat |
+| eyes wide, mouth a little open | shocked cat |
+| eyes wide, mouth closed | close-up stare |
+| angry brows, teeth | hissing cat |
+| sad face | crying cat |
+| big smile / smug half-smile | smiling kitten / smug cat |
+| eyes to the side / head turned away | side-eye / look-away |
+| hand on chin | thinking cat |
+| point (straight face / laughing) | "you." / laughing-pointing cat |
+| fist (calm / yelling) | fist bump / angry fist |
+| shaka 🤙 | shaka cat |
+| both palms open | wizard cat |
+| one palm, thumbs up, hands up, eyes closed, head tilt | drawn cats (no., it's fine, YIPPEE, zzz, huh?) |
 
 The shutter makes a 4:5 meme (you on top, the cat below, the caption across) and opens the share sheet.
 Tap the cat to change its colour. In settings you can swap any cat for your own picture; it is stored on the
@@ -26,7 +29,7 @@ phone only.
   Landmarker (21 points per hand), running in the browser on the GPU. No server: the video never leaves the phone.
 - `memes.js` turns those into features (jaw open, squint, head roll, thumbs-up, pointing, hand at chin, ...) and
   scores each meme 0..1. The winner is smoothed and must hold for ~0.2 s, so the cat doesn't flicker.
-- `cats.js` draws every cat from parts (eyes, mouth, paws, extras): original art, no copyrighted meme photos.
+- Meme photos live in `assets/`. `cats.js` draws a cat from parts (eyes, mouth, paws, extras) for poses without a photo.
 - Installable (Share → Add to Home Screen) and offline after the first visit (`sw.js` caches the app and models).
 
 Tune the thresholds with **settings → show detection scores**.

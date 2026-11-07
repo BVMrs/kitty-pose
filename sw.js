@@ -1,6 +1,8 @@
 // Offline after the first visit: app shell + MediaPipe runtime + models, cache-first.
-const V = "meow-v1";
-const SHELL = ["./", "index.html", "style.css", "app.js", "memes.js", "cats.js", "manifest.webmanifest", "icon.svg"];
+const V = "kitty-v2";
+const SHELL = ["./", "index.html", "style.css", "app.js", "memes.js", "cats.js", "manifest.webmanifest", "icon.svg",
+  ...["pop.jpg", "shocked.jpg", "close-stare.jpg", "hiss.jpg", "crying.jpg", "smile.jpg", "smug.jpg", "side-eye.jpg", "lookaway.jpg",
+      "think.jpg", "laugh-point.gif", "point.jpg", "fistbump.jpg", "angry-fist.jpg", "shaka.jpg", "wizard.jpg", "stare.jpg"].map((f) => "assets/" + f)];
 self.addEventListener("install", (e) => e.waitUntil(caches.open(V).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting())));
 self.addEventListener("activate", (e) => e.waitUntil(
   caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== V).map((k) => caches.delete(k)))).then(() => self.clients.claim())));

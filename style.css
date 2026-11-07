@@ -33,6 +33,10 @@ body.mirror .cam video, body.mirror .cam canvas { transform: scaleX(-1); }
 .cat { width: min(78%, 46dvh); aspect-ratio: 1; display: grid; place-items: center; cursor: pointer; }
 .cat svg, .cat img { width: 100%; height: 100%; object-fit: contain; }
 .cat img { border-radius: 16px; }
+.cat.photo { width: min(92%, 52dvh); }
+.cat.photo img { object-fit: contain; filter: drop-shadow(0 6px 18px rgba(0,0,0,.25)); }
+.status.loading { left: 50%; transform: translateX(-50%); top: 50%; font-size: 15px; padding: 10px 16px; background: rgba(0,0,0,.65); }
+.err { color: #ff9b8a; font-size: 14px; min-height: 1em; }
 .cat.pop { animation: pop .28s cubic-bezier(.2, 1.6, .4, 1); }
 @keyframes pop { from { transform: scale(.8) rotate(-4deg); } to { transform: none; } }
 .caption {

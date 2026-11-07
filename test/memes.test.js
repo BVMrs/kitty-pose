@@ -64,22 +64,35 @@ test("both hands above the head", () => {
   assert.equal(handFeatures([up[0]], face).handsUp, 0);
 });
 
-const base = { face: true, jawOpen: 0, eyeWide: 0, blink: 0, squint: 0, smile: 0, frown: 0, browInnerUp: 0, browUp: 0, roll: 0,
-  thumbsUp: 0, pointing: 0, openPalm: 0, handAtChin: 0, handsUp: 0 };
+const base = { face: true, jawOpen: 0, eyeWide: 0, blink: 0, squint: 0, smile: 0, frown: 0, browInnerUp: 0, browUp: 0, browDown: 0,
+  gazeSide: 0, roll: 0, yaw: 0, thumbsUp: 0, pointing: 0, openPalm: 0, twoPalms: 0, fist: 0, shaka: 0, handAtChin: 0, handsUp: 0, anyHand: 0 };
 const winner = (f) => MEMES.reduce((a, m) => (m.score({ ...base, ...f }) > a.s ? { id: m.id, s: m.score({ ...base, ...f }) } : a), { id: "", s: -1 }).id;
 
 test("each pose picks its meme", () => {
-  assert.equal(winner({}), "stare");
-  assert.equal(winner({ jawOpen: 0.8, eyeWide: 0.5 }), "scream");
-  assert.equal(winner({ handAtChin: 0.9 }), "think");
-  assert.equal(winner({ thumbsUp: 1, browInnerUp: 0.5 }), "thumbs");
-  assert.equal(winner({ handsUp: 1, openPalm: 1 }), "yippee");
-  assert.equal(winner({ openPalm: 1 }), "stop");
-  assert.equal(winner({ pointing: 1 }), "point");
-  assert.equal(winner({ squint: 0.7, smile: 0.6 }), "smug");
-  assert.equal(winner({ roll: 25, browUp: 0.5 }), "huh");
-  assert.equal(winner({ blink: 0.9 }), "sleepy");
-  assert.equal(winner({ smile: 0.9 }), "happy");
+  const cases = {
+    stare: {}, pop: { jawOpen: 0.8 }, shocked: { eyeWide: 0.6, jawOpen: 0.25 }, "close-stare": { eyeWide: 0.7 },
+    hiss: { browDown: 0.7, jawOpen: 0.4 }, crying: { browInnerUp: 0.7, frown: 0.4 }, smile: { smile: 0.9 },
+    smug: { squint: 0.7, smile: 0.6 }, "side-eye": { gazeSide: 0.8 }, lookaway: { yaw: 0.7 }, huh: { roll: 25, browUp: 0.5 },
+    sleepy: { blink: 0.9 }, think: { handAtChin: 0.9, anyHand: 1 }, "laugh-point": { pointing: 1, jawOpen: 0.5, anyHand: 1 },
+    point: { pointing: 1, anyHand: 1 }, fistbump: { fist: 1, anyHand: 1 }, "angry-fist": { fist: 1, jawOpen: 0.5, anyHand: 1 },
+    shaka: { shaka: 1, anyHand: 1 }, thumbs: { thumbsUp: 1, anyHand: 1 }, wizard: { twoPalms: 1, openPalm: 1, anyHand: 1 },
+    stop: { openPalm: 1, anyHand: 1 }, yippee: { handsUp: 1, openPalm: 1, twoPalms: 1, anyHand: 1 },
+  };
+  for (const [id, f] of Object.entries(cases)) assert.equal(winner(f), id, JSON.stringify(f));
+  assert.equal(Object.keys(cases).length, MEMES.length, "every meme has a case");
+});
+
+test("fist and shaka from synthetic hands", () => {
+  assert.equal(handFeatures([hand([0, 0, 0, 0, 0])], face).fist, 1);
+  const sh = handFeatures([hand([1, 0, 0, 0, 1])], face);
+  assert.equal(sh.shaka, 1);
+  assert.equal(sh.fist, 0);
+  assert.equal(handFeatures([hand([1, 0, 0, 0, 0])], face).fist, 0);   // thumbs up is not a fist
+});
+
+test("photos exist for every meme that names one", async () => {
+  const fs = await import("node:fs");
+  for (const m of MEMES) if (m.img) assert.ok(fs.existsSync(new URL("../" + m.img, import.meta.url)), m.img);
 });
 
 test("every meme and palette renders an svg", () => {

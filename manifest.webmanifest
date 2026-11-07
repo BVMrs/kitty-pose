@@ -1,6 +1,6 @@
 {
-  "name": "meow mirror",
-  "short_name": "meow",
+  "name": "kitty pose",
+  "short_name": "kitty pose",
   "description": "Strike a pose, get the cat meme. Runs on your phone.",
   "start_url": "./",
   "scope": "./",
