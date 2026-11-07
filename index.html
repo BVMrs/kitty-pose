@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>meow mirror</title>
+<meta name="description" content="Strike a pose, get the cat meme. Pose estimation runs on your phone; nothing is uploaded.">
+<meta name="theme-color" content="#16121c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="meow mirror">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <section class="cam">
+    <video id="video" playsinline muted autoplay></video>
+    <canvas id="overlay"></canvas>
+    <div id="status" class="status" aria-live="polite"></div>
+    <div id="scores" class="scores" hidden></div>
+  </section>
+
+  <section class="card">
+    <div id="cat" class="cat" title="tap to change the cat"></div>
+    <div id="caption" class="caption">*stares*</div>
+    <div id="hint" class="hint"></div>
+  </section>
+
+  <nav class="bar">
+    <button id="flip" class="btn round" aria-label="switch camera">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-3l-2-3H9L7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1z"/><path d="M9 13a3 3 0 0 1 5.2-2M15 13a3 3 0 0 1-5.2 2M14 9v2h-2M10 17v-2h2"/></svg>
+    </button>
+    <button id="snap" class="btn shutter" aria-label="make the meme"><span></span></button>
+    <button id="settingsBtn" class="btn round" aria-label="settings">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>
+    </button>
+  </nav>
+</main>
+
+<div id="intro" class="intro">
+  <div class="intro-card">
+    <div class="logo" aria-hidden="true">🐱</div>
+    <h1>meow mirror</h1>
+    <p>Strike a pose and get the cat that matches: scream, think, thumbs-up-but-sad, yippee, huh, smug, sleepy, no, you.</p>
+    <p class="small">The camera and pose detection run only on this phone. Nothing is uploaded.</p>
+    <button id="start" class="btn primary">Start the camera</button>
+  </div>
+</div>
+
+<dialog id="settings">
+  <header><h2>Settings</h2><button id="closeSettings" class="btn sm ghost" aria-label="close">done</button></header>
+  <h3>Cat</h3>
+  <div id="palettes" class="palettes"></div>
+  <h3>Your own pictures</h3>
+  <p class="small">Use any picture for a meme, e.g. the classic cat photos you have saved. They stay on this phone.</p>
+  <div id="pics" class="pics"></div>
+  <h3>Tuning</h3>
+  <label class="toggle"><input type="checkbox" id="scoresToggle"> show detection scores</label>
+  <p class="small">Add to Home Screen (Share → Add to Home Screen) to use it full screen and offline.</p>
+</dialog>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
