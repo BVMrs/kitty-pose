@@ -1,1 +1,2 @@
 2026-11-18 | hagrid-baseline | HaGRIDv2 test landmarks via Range-fetch (~106 MB, not 719 MB): handFeatures recall fist .95, pointing .99, thumbsUp .85, shaka .54, openPalm .50 (stop only .10); charter's 'unmapped=none' gives 43% false triggers, 5.5% once look-alikes excluded
+2026-11-18 | threshold-sweep | Offline sweep of handFeatures thresholds on HaGRID test: shaka thumb test t2>0.3 lifts shaka .54→.93 and thumbsUp height 0.25 lifts .85→.88, both ~free; open palm .50→.88 needs a looser thumb test and pushes no_gesture triggering 57→82 % (owner call)

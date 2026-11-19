@@ -1,0 +1,29 @@
+hands 175871
+parity mismatches (sampled 1/50): 0
+baseline {
+  thumbsUp: 0.849,
+  shaka: 0.537,
+  fist: 0.945,
+  pointing: 0.989,
+  openPalm: 0.503,
+  falseTrig: 0.014,
+  noGesture: 0.568,
+  four: 0.428
+}
+grid 1728 feasible 1296
+{"ext":1.2,"t1":1.15,"t2":0.45,"up":0.25,"palmNoThumb":true,"shakaThumb":0.3} A: {"thumbsUp":0.934,"shaka":0.934,"fist":0.895,"pointing":0.989,"openPalm":0.99,"falseTrig":0.089,"noGesture":0.843,"four":0.997} B: {"thumbsUp":0.936,"shaka":0.927,"fist":0.898,"pointing":0.988,"openPalm":0.993,"falseTrig":0.093,"noGesture":0.837,"four":0.998}
+{"ext":1.16,"t1":1.15,"t2":0.45,"up":0.25,"palmNoThumb":true,"shakaThumb":0.3} A: {"thumbsUp":0.933,"shaka":0.932,"fist":0.894,"pointing":0.988,"openPalm":0.998,"falseTrig":0.092,"noGesture":0.865,"four":0.997} B: {"thumbsUp":0.936,"shaka":0.926,"fist":0.898,"pointing":0.989,"openPalm":0.999,"falseTrig":0.096,"noGesture":0.875,"four":0.999}
+{"ext":1.2,"t1":1.1,"t2":0.45,"up":0.35,"palmNoThumb":true,"shakaThumb":0.3} A: {"thumbsUp":0.902,"shaka":0.934,"fist":0.894,"pointing":0.989,"openPalm":0.99,"falseTrig":0.089,"noGesture":0.843,"four":0.997} B: {"thumbsUp":0.9,"shaka":0.927,"fist":0.902,"pointing":0.988,"openPalm":0.993,"falseTrig":0.093,"noGesture":0.837,"four":0.998}
+{"ext":1.12,"t1":1.15,"t2":0.45,"up":0.25,"palmNoThumb":true,"shakaThumb":0.3} A: {"thumbsUp":0.931,"shaka":0.932,"fist":0.894,"pointing":0.989,"openPalm":1,"falseTrig":0.097,"noGesture":0.865,"four":0.998} B: {"thumbsUp":0.936,"shaka":0.925,"fist":0.897,"pointing":0.99,"openPalm":1,"falseTrig":0.101,"noGesture":0.881,"four":0.999}
+{"ext":1.16,"t1":1.1,"t2":0.45,"up":0.35,"palmNoThumb":true,"shakaThumb":0.3} A: {"thumbsUp":0.901,"shaka":0.932,"fist":0.894,"pointing":0.988,"openPalm":0.998,"falseTrig":0.092,"noGesture":0.865,"four":0.997} B: {"thumbsUp":0.9,"shaka":0.926,"fist":0.902,"pointing":0.989,"openPalm":0.999,"falseTrig":0.096,"noGesture":0.875,"four":0.999}
+one-at-a-time palmNoThumb true {"thumbsUp":0.849,"shaka":0.537,"fist":0.945,"pointing":0.989,"openPalm":1,"falseTrig":0.099,"noGesture":0.87,"four":0.998}
+one-at-a-time shakaThumb 0.3 {"thumbsUp":0.849,"shaka":0.928,"fist":0.945,"pointing":0.989,"openPalm":0.503,"falseTrig":0.014,"noGesture":0.572,"four":0.428}
+one-at-a-time shakaThumb 0.4 {"thumbsUp":0.849,"shaka":0.829,"fist":0.945,"pointing":0.989,"openPalm":0.503,"falseTrig":0.014,"noGesture":0.572,"four":0.428}
+one-at-a-time up 0.15 {"thumbsUp":0.878,"shaka":0.537,"fist":0.937,"pointing":0.989,"openPalm":0.503,"falseTrig":0.014,"noGesture":0.568,"four":0.428}
+one-at-a-time up 0.25 {"thumbsUp":0.878,"shaka":0.537,"fist":0.939,"pointing":0.989,"openPalm":0.503,"falseTrig":0.014,"noGesture":0.568,"four":0.428}
+one-at-a-time ext 1 {"thumbsUp":0.845,"shaka":0.536,"fist":0.943,"pointing":0.986,"openPalm":0.503,"falseTrig":0.027,"noGesture":0.577,"four":0.429}
+one-at-a-time ext 1.05 {"thumbsUp":0.847,"shaka":0.537,"fist":0.944,"pointing":0.987,"openPalm":0.503,"falseTrig":0.021,"noGesture":0.565,"four":0.429}
+one-at-a-time ext 1.2 {"thumbsUp":0.85,"shaka":0.538,"fist":0.946,"pointing":0.988,"openPalm":0.5,"falseTrig":0.01,"noGesture":0.578,"four":0.428}
+one-at-a-time t1 1 {"thumbsUp":0.85,"shaka":0.543,"fist":0.944,"pointing":0.989,"openPalm":0.518,"falseTrig":0.018,"noGesture":0.605,"four":0.446}
+one-at-a-time t2 0.35 {"thumbsUp":0.905,"shaka":0.878,"fist":0.855,"pointing":0.989,"openPalm":0.676,"falseTrig":0.036,"noGesture":0.707,"four":0.535}
+one-at-a-time t2 0.45 {"thumbsUp":0.9,"shaka":0.732,"fist":0.897,"pointing":0.989,"openPalm":0.597,"falseTrig":0.025,"noGesture":0.641,"four":0.501}
