@@ -1,0 +1,7 @@
+16:9 land  thumbsUp FAIL/ok  pointing ok/ok  openPalm FAIL/ok  fist ok/ok  shaka FAIL/ok
+4:3 land   thumbsUp ok/ok  pointing ok/ok  openPalm ok/ok  fist ok/ok  shaka ok/ok
+1:1        thumbsUp ok/ok  pointing ok/ok  openPalm ok/ok  fist ok/ok  shaka ok/ok
+3:4 port   thumbsUp ok/ok  pointing ok/ok  openPalm ok/ok  fist ok/ok  shaka ok/ok
+9:16 port  thumbsUp FAIL/ok  pointing ok/ok  openPalm FAIL/ok  fist ok/ok  shaka FAIL/ok
+9:19.5     thumbsUp FAIL/ok  pointing ok/ok  openPalm FAIL/ok  fist ok/ok  shaka FAIL/ok
+(current / aspect-corrected)

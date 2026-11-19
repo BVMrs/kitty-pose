@@ -1,0 +1,47 @@
+== recall of the intended gesture over 24 rotations (0-345 deg), synthetic hand ==
+square thumbsUp                    9/24 fails at 90,105,120,135,150,165,180,195,210,225,240,255,270,285,300
+square pointing                    24/24 
+square openPalm                    24/24 
+square fist                        24/24 
+square shaka                       24/24 
+square mirrored thumbsUp           9/24 fails at 60,75,90,105,120,135,150,165,180,195,210,225,240,255,270
+square mirrored pointing           24/24 
+square mirrored openPalm           24/24 
+square mirrored fist               24/24 
+square mirrored shaka              24/24 
+portrait916 thumbsUp               2/24 fails at 0,15,30,45,60,75,90,105,120,135,150,165,180,195,210,225,240,255,270,285,300,315
+portrait916 pointing               24/24 
+portrait916 openPalm               10/24 fails at 0,15,30,45,60,75,90,180,195,210,225,240,255,270
+portrait916 fist                   24/24 
+portrait916 shaka                  10/24 fails at 0,15,30,45,60,75,90,180,195,210,225,240,255,270
+portrait916 mirrored thumbsUp      2/24 fails at 0,45,60,75,90,105,120,135,150,165,180,195,210,225,240,255,270,285,300,315,330,345
+portrait916 mirrored pointing      24/24 
+portrait916 mirrored openPalm      10/24 fails at 0,90,105,120,135,150,165,180,270,285,300,315,330,345
+portrait916 mirrored fist          24/24 
+portrait916 mirrored shaka         10/24 fails at 0,90,105,120,135,150,165,180,270,285,300,315,330,345
+landscape43 thumbsUp               6/24 fails at 90,105,120,135,150,165,180,195,210,225,240,255,270,285,300,315,330,345
+landscape43 pointing               24/24 
+landscape43 openPalm               14/24 fails at 105,120,135,150,165,285,300,315,330,345
+landscape43 fist                   24/24 
+landscape43 shaka                  14/24 fails at 105,120,135,150,165,285,300,315,330,345
+landscape43 mirrored thumbsUp      6/24 fails at 15,30,45,60,75,90,105,120,135,150,165,180,195,210,225,240,255,270
+landscape43 mirrored pointing      24/24 
+landscape43 mirrored openPalm      14/24 fails at 15,30,45,60,75,195,210,225,240,255
+landscape43 mirrored fist          24/24 
+landscape43 mirrored shaka         14/24 fails at 15,30,45,60,75,195,210,225,240,255
+
+== rotation tolerance only (square frame): max |deg| from upright where the pose still fires ==
+thumbsUp   fires from -50 to 75 deg
+pointing   fires from -180 to 180 deg
+openPalm   fires from -180 to 180 deg
+fist       fires from -180 to 180 deg
+shaka      fires from -180 to 180 deg
+
+== fuzz: malformed input must not throw; scores must stay in [0,1] ==
+random     throws 0/2000 scores out of [0,1]: 0/44000 
+nan        throws 0/2000 scores out of [0,1]: 300/44000 
+short      throws 1516/2000 scores out of [0,1]: 0/10648 e.g. "Cannot read properties of undefined (reading 'x')"
+same       throws 0/2000 scores out of [0,1]: 0/44000 
+undefined  throws 1234/2000 scores out of [0,1]: 0/16852 e.g. "Cannot read properties of undefined (reading 'x')"
+inf        throws 0/2000 scores out of [0,1]: 0/44000 
+faceFeatures with <455 landmarks throws: Cannot read properties of undefined (reading 'y')
