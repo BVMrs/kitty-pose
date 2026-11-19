@@ -1,0 +1,44 @@
+## 1. step response (pose appears at t=0; ms to meme change / ms to return to stare after release)
+fps 8: onset 250 ms, back to stare 875 ms
+fps 15: onset 267 ms, back to stare 800 ms
+fps 30: onset 233 ms, back to stare 667 ms
+fps 60: onset 233 ms, back to stare 650 ms
+
+## 2. detector dropouts while a pose is held 3 s (200 runs each): median time to first show, share of held time on the right meme, flickers away
+fps | hit rate | burst(frames) | first show ms | shown % | flickers/run | runs never shown
+15 | 0.95 | 1 | 267 | 100 | 0.00 | 0
+15 | 0.95 | 5 | 267 | 100 | 0.01 | 0
+15 | 0.85 | 1 | 267 | 100 | 0.00 | 0
+15 | 0.85 | 5 | 267 | 99 | 0.07 | 0
+15 | 0.7 | 1 | 333 | 100 | 0.00 | 0
+15 | 0.7 | 5 | 267 | 96 | 0.18 | 0
+15 | 0.5 | 1 | 333 | 100 | 0.00 | 0
+15 | 0.5 | 5 | 333 | 92 | 0.29 | 1
+30 | 0.95 | 1 | 233 | 100 | 0.00 | 0
+30 | 0.95 | 5 | 233 | 100 | 0.00 | 0
+30 | 0.85 | 1 | 233 | 100 | 0.00 | 0
+30 | 0.85 | 5 | 233 | 100 | 0.01 | 0
+30 | 0.7 | 1 | 267 | 100 | 0.00 | 0
+30 | 0.7 | 5 | 233 | 100 | 0.03 | 0
+30 | 0.5 | 1 | 267 | 100 | 0.00 | 0
+30 | 0.5 | 5 | 600 | 97 | 0.03 | 4
+
+## 3. noisy continuous score (face blendshape on a ramp edge), 30 fps, 10 s, 50 runs: switches/run and share of time on A
+mu | sigma | switches | on A %
+0.2 | 0.05 | 0.0 | 0
+0.2 | 0.15 | 0.0 | 0
+0.2 | 0.3 | 0.1 | 1
+0.35 | 0.05 | 1.3 | 72
+0.35 | 0.15 | 1.1 | 78
+0.35 | 0.3 | 1.1 | 80
+0.45 | 0.05 | 1.0 | 97
+0.45 | 0.15 | 1.0 | 95
+0.45 | 0.3 | 1.0 | 93
+0.6 | 0.05 | 1.0 | 97
+0.6 | 0.15 | 1.0 | 97
+0.6 | 0.3 | 1.0 | 97
+
+## 4. A -> B transitions at 30 fps (ms from B appearing to B shown; path of memes shown)
+gap 0 ms: 267 ms, path A>B
+gap 100 ms: 233 ms, path A>B
+gap 300 ms: 233 ms, path A>B
