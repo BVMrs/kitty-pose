@@ -1,0 +1,18 @@
+OUTSIDE  fonts.googleapis.com  (2 refs)
+    index.html: https://fonts.googleapis.com
+    index.html: https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap
+OUTSIDE  fonts.gstatic.com  (1 refs)
+    index.html: https://fonts.gstatic.com
+ALLOWED  cdn.jsdelivr.net  (2 refs)
+    app.js: https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs
+    app.js: https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm
+ALLOWED  storage.googleapis.com  (2 refs)
+    app.js: https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/
+    app.js: https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/
+sw heavy(cdn.jsdelivr.net) = true
+sw heavy(storage.googleapis.com) = true
+sw heavy(storage.googleapis.com.evil.example) = true
+sw heavy(fonts.gstatic.com) = true
+sw heavy(example.com) = false
+referrer-policy meta: false | CSP meta: false
+outside-allowlist origins: 2
