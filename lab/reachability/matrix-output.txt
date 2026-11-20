@@ -1,0 +1,21 @@
+┌─────────┬─────────────┬────────────┬───────────────┬───────────────┬───────────────┬──────────────┬────────────┬───────────────┬────────┬──────────┬───────┬────────────┐
+│ (index) │ hand        │ neutral    │ smile         │ bigsmile_open │ pop           │ yell_angry   │ sad        │ wide_eyes     │ smug   │ blink    │ tilt  │ turn       │
+├─────────┼─────────────┼────────────┼───────────────┼───────────────┼───────────────┼──────────────┼────────────┼───────────────┼────────┼──────────┼───────┼────────────┤
+│ 0       │ 'none'      │ 'stare'    │ 'smile'       │ 'smile'       │ 'pop'         │ 'hiss'       │ 'crying'   │ 'close-stare' │ 'smug' │ 'sleepy' │ 'huh' │ 'lookaway' │
+│ 1       │ 'thumbsUp'  │ 'thumbs'   │ 'smile'       │ 'smile'       │ 'pop'         │ 'hiss'       │ 'thumbs'   │ 'thumbs'      │ 'smug' │ 'sleepy' │ 'huh' │ 'thumbs'   │
+│ 2       │ 'shaka'     │ 'shaka'    │ 'smile'       │ 'smile'       │ 'pop'         │ 'hiss'       │ 'shaka'    │ 'shaka'       │ 'smug' │ 'sleepy' │ 'huh' │ 'shaka'    │
+│ 3       │ 'fist'      │ 'fistbump' │ 'smile'       │ 'smile'       │ 'angry-fist'  │ 'angry-fist' │ 'fistbump' │ 'fistbump'    │ 'smug' │ 'sleepy' │ 'huh' │ 'fistbump' │
+│ 4       │ 'point'     │ 'point'    │ 'laugh-point' │ 'laugh-point' │ 'laugh-point' │ 'hiss'       │ 'point'    │ 'point'       │ 'smug' │ 'sleepy' │ 'huh' │ 'point'    │
+│ 5       │ 'palm'      │ 'stop'     │ 'smile'       │ 'smile'       │ 'pop'         │ 'hiss'       │ 'stop'     │ 'stop'        │ 'smug' │ 'sleepy' │ 'huh' │ 'stop'     │
+│ 6       │ 'twoPalms'  │ 'wizard'   │ 'smile'       │ 'smile'       │ 'pop'         │ 'hiss'       │ 'wizard'   │ 'wizard'      │ 'smug' │ 'sleepy' │ 'huh' │ 'wizard'   │
+│ 7       │ 'chin_fist' │ 'think'    │ 'smile'       │ 'smile'       │ 'pop'         │ 'hiss'       │ 'think'    │ 'think'       │ 'smug' │ 'sleepy' │ 'huh' │ 'think'    │
+│ 8       │ 'handsUp'   │ 'yippee'   │ 'smile'       │ 'smile'       │ 'pop'         │ 'hiss'       │ 'yippee'   │ 'yippee'      │ 'smug' │ 'sleepy' │ 'huh' │ 'yippee'   │
+└─────────┴─────────────┴────────────┴───────────────┴───────────────┴───────────────┴──────────────┴────────────┴───────────────┴────────┴──────────┴───────┴────────────┘
+thumbsUp: neutral-face meme=thumbs, kept under 4/11 expressions
+shaka: neutral-face meme=shaka, kept under 4/11 expressions
+fist: neutral-face meme=fistbump, kept under 4/11 expressions
+point: neutral-face meme=point, kept under 4/11 expressions
+palm: neutral-face meme=stop, kept under 4/11 expressions
+twoPalms: neutral-face meme=wizard, kept under 4/11 expressions
+chin_fist: neutral-face meme=think, kept under 4/11 expressions
+handsUp: neutral-face meme=yippee, kept under 4/11 expressions
