@@ -35,10 +35,14 @@ else none. Each of the 34 HaGRID classes is in exactly one group:
 
 - **mapped** (charter): like→thumbsUp, call→shaka, fist→fist, one→pointing, palm and stop→openPalm. Recall and precision.
 - **look-alike (ambiguous)**: dislike, xsign, grip, grabbing→fist; point, thumb_index, thumb_index2, take_picture,
-  mute, three_gun→pointing; little_finger→shaka; stop_inverted, timeout, holy, hand_heart, hand_heart2→openPalm.
+  mute→pointing; stop_inverted, timeout, holy, hand_heart, hand_heart2→openPalm.
   A landmark rule cannot tell these from a mapped gesture, so firing on them is printed but **not** counted as a false trigger.
-- **distinct (should fire none)**: four, middle_finger, ok, peace, peace_inverted, rock, three, three2, three3, two_up,
-  two_up_inverted. Their trigger rate is the **false-trigger rate**.
+- **distinct (should fire none)**: four, little_finger, middle_finger, ok, peace, peace_inverted, rock, three, three2,
+  three3, three_gun, two_up, two_up_inverted. Their trigger rate is the **false-trigger rate**.
+- **Review of three_gun, little_finger, stop_inverted (#32)**: the lab note only reaches its 5.5 % with all three as
+  look-alikes. three_gun (0.6 % fire) and little_finger (10.5 %) are moved to distinct: no mapped gesture is
+  meant to fire on them, and hiding them would mask a regression (e.g. a loose shaka thumb test firing on a raised
+  pinky). stop_inverted (4.9 %) stays a look-alike: it is "stop" turned over and openPalm fires on it legitimately.
 - **no_gesture**: its own line. It is what the app sees between poses, but the test split has only 607 such hands.
 
 Measured 2026-11-22 (24,772 hands skipped for lack of landmarks; 11.7 s):
@@ -51,9 +55,10 @@ Measured 2026-11-22 (24,772 hands skipped for lack of landmarks; 11.7 s):
 | pointing | one | 4943 | 0.989 | 0.154 |
 | openPalm | palm+stop | 9970 | 0.503 | 0.235 |
 
-False triggers: distinct gestures 5.0 % (2,702 of 54,404), no_gesture 56.8 % (345 of 607), both together 5.5 %
-(3,047 of 55,011), and every unmapped class including look-alikes 43.3 % (63,349 of 146,205). These match
-`lab/2026-11-18-hagrid-baseline.md` on the `agents/lab` branch. Precision counts fires on all other classes,
+False triggers (re-measured 2026-11-22 after the split change): distinct gestures 5.1 % (3,251 of 64,290),
+no_gesture 56.8 % (345 of 607), both together 5.5 % (3,596 of 64,897), and every unmapped class including
+look-alikes 43.3 % (63,349 of 146,205). The lab note's 5.5 % (3,047 of 55,011) used the old split without the two
+moved classes; the per-class counts are otherwise the same as `lab/2026-11-18-hagrid-baseline.md` on `agents/lab`. Precision counts fires on all other classes,
 look-alikes included, so it is low for fist and pointing.
 
 ## M2 face regression: dump a clip, replay it in `npm test`
