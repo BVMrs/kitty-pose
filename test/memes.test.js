@@ -159,3 +159,10 @@ test("a malformed hand is ignored but valid ones still count", () => {
   assert.equal(f.anyHand, 1);
   assert.equal(handFeatures([[]], face).anyHand, 0);
 });
+
+test("a zero face height (top and chin coincide) keeps handAtChin finite", () => {
+  const pt = { x: 0.5, y: 0.5 };
+  const f = handFeatures([Array(21).fill(pt)], Array(478).fill(pt));
+  assert.ok(Number.isFinite(f.handAtChin));
+  assert.equal(f.handAtChin, 1);
+});

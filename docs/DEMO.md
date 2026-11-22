@@ -1,4 +1,4 @@
-Status: partial — the app runs in the browser; the M1 HaGRID gesture eval and the M2 face-clip dump run (no `--check` thresholds yet; all 3 labelled clips pass); offline after one visit (checked in headless Chromium).
+Status: partial — the app runs in the browser; the M1 HaGRID gesture eval and the M2 face-clip dump run (no `--check` thresholds yet; all 3 labelled clips pass); offline after one visit; the shared meme keeps what the live view shows (both checked in headless Chromium).
 
 ```sh
 node demo/fetch-hagrid.mjs        # HaGRIDv2 test annotations (~105 MB) into ~/.cache/agent-data/kitty-pose/hagrid-v2
@@ -7,6 +7,7 @@ node demo/fetch-face-clips.mjs    # 3 CC BY face clips (~0.5 MB) into ~/.cache/a
 node demo/face-dump.mjs --clips demo/face-clips.json   # play them into the app as the camera, dump per-frame JSON (~5 min)
 python3 -m http.server 8000       # then open http://localhost:8000 (camera needs localhost or HTTPS)
 node demo/offline-check.mjs       # headless Chromium: one online visit, then reload with no network (~30 s)
+node demo/snap-check.mjs          # headless Chromium: the snap keeps the live view's window, 3 frame sizes (~40 s)
 ```
 
 ## The app
@@ -130,3 +131,22 @@ fake camera and waits for detections. Measured 2026-11-22 (Chromium 149):
 
 Not checked here: Safari. WebKit may drop the Cache API data of a site that is not on the Home Screen after 7 days
 without a visit; add the app to the Home Screen to keep it offline-capable.
+
+## The shared meme keeps what the live view shows
+`snap()` crops the camera frame with the aspect of the live `.cam` box (`crop.js`: `snapCamera`, the centred
+`object-fit: cover` window), so a raised hand that is on screen is in the meme. The image is 1080 wide; the camera
+part is as tall as that aspect gives (clamped to 0.75–2 width/height) and the cat part below stays 1080x675.
+
+`node demo/snap-check.mjs [--save DIR]` plays a synthetic frame whose luma and U chroma ramp with the frame row and
+column as the fake front camera (390x844 viewport, `?cpu`), reads which frame window the screenshot of `.cam` shows
+and which the snap JPEG holds, and fails if an edge differs by more than 3 % of the frame side. Measured 2026-11-22
+(Chromium 149, `.cam` 390x374; absolute edges are good to about ±3 %, live and snap are read the same way):
+
+| frame | live view keeps | snap keeps (before → now) | snap size (before → now) |
+|---|---|---|---|
+| portrait 720x1280 | 54.3 % | 35.0 % → 54.1 % | 1080x1350 → 1080x1711 |
+| landscape 1280x720 | 60.6 % | 89.6 % → 60.2 % | 1080x1350 → 1080x1711 |
+| 4:3 640x480 | 78.5 % | 84.5 % → 77.6 % | 1080x1350 → 1080x1711 |
+
+Not checked here: which frame size iOS Safari delivers when the phone is upright (assumed portrait; the check rotates
+the 1280x720 `ideal` for portrait feeds the way iOS does).
