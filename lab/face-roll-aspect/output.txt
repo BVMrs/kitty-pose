@@ -1,0 +1,13 @@
+aspect          measured roll at true 10/20/30 deg | huh wins from true tilt: neutral brows / raised brows
+9:16 portrait   5.7 / 11.6 / 18.0      |   33.5 /   27.5
+3:4 portrait    7.5 / 15.3 / 23.4      |   26.5 /  21.25
+1:1             10.0 / 20.0 / 30.0     |   20.5 /  16.25
+4:3             13.2 / 25.9 / 37.6     |  15.75 /   12.5
+16:9            17.4 / 32.9 / 45.7     |     12 /    9.5
+
+surprised face (eyes wide + brows up, mouth slightly open), winner by true tilt:
+9:16 portrait   0°:shocked  5°:shocked  10°:shocked  15°:shocked  20°:shocked
+3:4 portrait    0°:shocked  5°:shocked  10°:shocked  15°:shocked  20°:shocked
+1:1             0°:shocked  5°:shocked  10°:shocked  15°:shocked  20°:huh
+4:3             0°:shocked  5°:shocked  10°:shocked  15°:huh  20°:huh
+16:9            0°:shocked  5°:shocked  10°:shocked  15°:huh  20°:huh
