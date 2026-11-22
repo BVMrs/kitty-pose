@@ -149,3 +149,18 @@ test("a zero face height (top and chin coincide) keeps handAtChin finite", () =>
   assert.ok(Number.isFinite(f.handAtChin));
   assert.equal(f.handAtChin, 1);
 });
+
+// --- chooser gaps (issue #44) ---
+test("a stall of more than 500 ms drops pending and smoothing state", () => {
+  const thumbs = { ...faceFeatures({}), ...handFeatures([hand([1, 0, 0, 0, 0])], face), face: true };
+  const neutral = { ...faceFeatures({}), ...handFeatures([]), face: true };
+  const c = createChooser();
+  const shown = [c.step(thumbs, 0), c.step(thumbs, 33)];
+  assert.ok(c.ema.thumbs > 0, "probe needs thumbs to register");
+  assert.equal(c.step(neutral, 30033), false);
+  assert.equal(c.current, "stare");
+  assert.ok(c.ema.thumbs < 0.01);
+  c.reset();
+  assert.ok(Object.values(c.ema).every((v) => v === 0));
+  void shown;
+});

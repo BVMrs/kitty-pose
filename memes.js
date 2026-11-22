@@ -161,10 +161,19 @@ export function faceFeatures(b, lm) {
 // step(f, now) returns true when the shown meme changed; now is in milliseconds.
 export function createChooser() {
   const ema = Object.fromEntries(MEMES.map((m) => [m.id, 0]));
-  let pending = null, pendingSince = 0;
+  let pending = null, pendingSince = 0, last = null;
   const c = {
     ema, current: "stare",
+    // Forget in-flight state (pending switch, smoothing); the shown meme stays. Called on gaps automatically.
+    reset() { pending = null; last = null; for (const k in ema) ema[k] = 0; },
     step(f, now) {
+      // After a stall (tab hidden, camera flip) pre-gap state is stale: drop it. A non-increasing clock drops the pending switch.
+      if (last !== null) {
+        const dt = now - last;
+        if (dt > 500) { pending = null; for (const k in ema) ema[k] = 0; }
+        else if (!(dt > 0)) pending = null;
+      }
+      last = now;
       for (const m of MEMES) {
         const sc = m.score(f);
         ema[m.id] = ema[m.id] * 0.6 + (Number.isFinite(sc) ? clamp(sc) : 0) * 0.4;
