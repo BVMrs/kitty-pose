@@ -9,7 +9,9 @@ const not = (x) => 1 - x;
 // mouth corners not pulled down. MediaPipe often under-scores eyeWide on a widened eye (0.05 on the Hadjikhani 2017
 // fear face) but still sees the brows, so shocked and close-stare take this as "eyes wide" too.
 const outerUp = (f) => ramp(f.browOuterUp, 0.03, 0.09);
-const browsRaised = (f) => ramp(f.browInnerUp, 0.25, 0.45) * outerUp(f) * not(ramp(f.frown, 0.1, 0.25));
+// A tilted head with raised brows is huh: the tilt turns this off, fully by 16°, before huh (roll 12..24°) can win.
+const browsRaised = (f) => ramp(f.browInnerUp, 0.25, 0.45) * outerUp(f) * not(ramp(f.frown, 0.1, 0.25))
+  * not(ramp(Math.abs(f.roll), 8, 16));
 const wideEyes = (f, lo, hi) => Math.max(ramp(f.eyeWide, lo, hi), browsRaised(f));
 
 export const MEMES = [

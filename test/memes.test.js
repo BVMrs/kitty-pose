@@ -72,7 +72,7 @@ test("each pose picks its meme", () => {
   const cases = {
     stare: {}, pop: { jawOpen: 0.8 }, shocked: { eyeWide: 0.6, jawOpen: 0.25 }, "close-stare": { eyeWide: 0.7 },
     hiss: { browDown: 0.7, jawOpen: 0.4 }, crying: { browInnerUp: 0.7, frown: 0.4 }, smile: { smile: 0.9 },
-    smug: { squint: 0.7, smile: 0.6 }, "side-eye": { gazeSide: 0.8 }, lookaway: { yaw: 0.7 }, huh: { roll: 25, browUp: 0.5 },
+    smug: { squint: 0.7, smile: 0.6 }, "side-eye": { gazeSide: 0.8 }, lookaway: { yaw: 0.7 }, huh: { roll: 25, browUp: 0.5, browInnerUp: 0.5, browOuterUp: 0.3 },
     sleepy: { blink: 0.9 }, think: { handAtChin: 0.9, anyHand: 1 }, "laugh-point": { pointing: 1, jawOpen: 0.5, anyHand: 1 },
     point: { pointing: 1, anyHand: 1 }, fistbump: { fist: 1, anyHand: 1 }, "angry-fist": { fist: 1, jawOpen: 0.5, anyHand: 1 },
     shaka: { shaka: 1, anyHand: 1 }, thumbs: { thumbsUp: 1, anyHand: 1 }, wizard: { twoPalms: 1, openPalm: 1, anyHand: 1 },
@@ -92,6 +92,9 @@ test("sad brows show crying, fear brows do not", () => {
   assert.equal(winner(fear), "close-stare");
   assert.equal(winner({ ...fear, jawOpen: 0.25 }), "shocked");
   assert.equal(winner({ browInnerUp: 0.6, eyeWide: 0.4 }), "close-stare");
+  // head tilt + raised brows is huh, also at a partial tilt and tilted the other way (review of #54)
+  const huhBrows = { browUp: 0.5, browInnerUp: 0.5, browOuterUp: 0.3 };
+  for (const roll of [25, 18, -18, 15]) assert.equal(winner({ ...huhBrows, roll }), "huh", `roll ${roll}`);
   // fear brows with the mouth corners pulled down are sad again
   assert.equal(winner({ ...fear, frown: 0.45 }), "crying");
 });
