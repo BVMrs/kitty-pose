@@ -17,6 +17,7 @@
 //                                       fixtures are made with --out-dir test/fixtures/face --gz
 // Out ending in .gz is gzipped (the committed fixtures in test/fixtures/face/ are).
 // Labels: JSON {"segments": [{"from": s, "to": s, "meme": "pop" | ["smile", "smug"]}]}, clip seconds;
+//   (a manifest clip may carry "trim": {"start": s, "dur": s}: only that excerpt is played, clip seconds count from start)
 //   default CLIP minus extension + ".labels.json". Out default: $KITTY_FACE_DUMPS/<name>.dump.json.
 // Needs: ffmpeg ($FFMPEG) and Chromium ($CHROMIUM, else chromium / chromium-browser / google-chrome on PATH).
 // Headless Chromium has only software WebGL, so the app runs with ?cpu (MediaPipe's CPU delegate) and the clip plays
@@ -48,8 +49,9 @@ function findExe(envVar, names) {
 
 // ---------- clip -> stamped Y4M ----------
 // Streams ffmpeg's Y4M output, stamping each frame's index; returns { w, h, fps, lead, frames, total }.
-export async function makeY4m(ffmpeg, clip, out, { width = 640, fps = 30, slow = 1, lead = 3, tail = 2 } = {}) {
-  const ff = spawn(ffmpeg, ["-v", "error", "-i", clip, "-an", "-vf", `fps=${fps},scale=${width}:-2`, "-pix_fmt", "yuv420p",
+// trim {start, dur} (s) keeps one excerpt of a longer clip; clip seconds then count from `start`.
+export async function makeY4m(ffmpeg, clip, out, { width = 640, fps = 30, slow = 1, lead = 3, tail = 2, trim } = {}) {
+  const ff = spawn(ffmpeg, ["-v", "error", ...(trim ? ["-ss", String(trim.start), "-t", String(trim.dur)] : []), "-i", clip, "-an", "-vf", `fps=${fps},scale=${width}:-2`, "-pix_fmt", "yuv420p",
     "-f", "yuv4mpegpipe", "-"], { stdio: ["ignore", "pipe", "inherit"] });
   const ws = createWriteStream(out);
   const write = (b) => (ws.write(b) ? null : new Promise((r) => ws.once("drain", r)));
@@ -147,7 +149,7 @@ const hookSource = (w) => `(() => {
 
 export { cacheDir, cdp, dumpsDir, evaluate, findExe, serve };   // serve/cdp/evaluate/findExe: also demo/offline-check.mjs
 
-export async function dumpClip(clip, { labels, out, lead = 2, tail = 2, width = 640, fps = 30, slow = 10, digits = 4, timeout, log = console.error } = {}) {
+export async function dumpClip(clip, { labels, out, trim, lead = 2, tail = 2, width = 640, fps = 30, slow = 10, digits = 4, timeout, log = console.error } = {}) {
   const ffmpeg = findExe("FFMPEG", ["ffmpeg"]);
   const chromium = findExe("CHROMIUM", ["chromium", "chromium-browser", "google-chrome"]);
   const tmp = mkdtempSync(join(tmpdir(), "kitty-face-"));
@@ -155,7 +157,7 @@ export async function dumpClip(clip, { labels, out, lead = 2, tail = 2, width = 
   let browser, srv, c;
   try {
     const y4m = join(tmp, "clip.y4m");
-    const v = await makeY4m(ffmpeg, clip, y4m, { width, fps, slow, lead, tail });
+    const v = await makeY4m(ffmpeg, clip, y4m, { width, fps, slow, lead, tail, trim });
     log(`${basename(clip)}: ${v.frames} frames ${v.w}x${v.h} @${fps} fps played at 1/${slow} speed, +${v.lead} lead-in, ${v.total} in all (${((Date.now() - t0) / 1000).toFixed(1)} s)`);
 
     srv = await serve(ROOT);
@@ -223,7 +225,7 @@ export async function dumpClip(clip, { labels, out, lead = 2, tail = 2, width = 
     const dump = {
       format: FORMAT,
       clip: { name: basename(clip).replace(/\.[^.]+$/, ""), sha256: createHash("sha256").update(readFileSync(clip)).digest("hex"),
-        width: v.w, height: v.h, fps, slow, frames: v.frames, lead, tail: tail, video: [frames[0].vw, frames[0].vh] },
+        trim, width: v.w, height: v.h, fps, slow, frames: v.frames, lead, tail: tail, video: [frames[0].vw, frames[0].vh] },
       source: labelSet.source,
       landmarks: LANDMARKS, blendshapes: names,
       segments: labelSet.segments || [],
@@ -298,8 +300,8 @@ async function main(argv) {
     const m = JSON.parse(readFileSync(manifest, "utf8"));
     const dir = process.env.KITTY_FACE_CLIPS || cacheDir("face-clips");
     for (const e of m.clips) jobs.push({ clip: join(dir, e.file), opt: { ...opt,
-      out: join(outDir || dumpsDir(), e.file.replace(/\.[^.]+$/, "") + (gz ? ".dump.json.gz" : ".dump.json")), lead: e.lead ?? opt.lead, tail: e.tail ?? opt.tail,
-      labels: { source: { url: e.url, licence: m.licence, credit: m.credit }, segments: e.segments } } });
+      out: join(outDir || dumpsDir(), e.file.replace(/\.[^.]+$/, "") + (gz ? ".dump.json.gz" : ".dump.json")), trim: e.trim, lead: e.lead ?? opt.lead, tail: e.tail ?? opt.tail,
+      labels: { source: { url: e.url, licence: e.licence ?? m.licence, credit: e.credit ?? m.credit }, segments: e.segments } } });
   } else if (clip) {
     const lp = labelsPath || clip.replace(/\.[^.]+$/, "") + ".labels.json";
     if (!existsSync(lp)) console.error(`no labels (${lp}): dumping without segments`);

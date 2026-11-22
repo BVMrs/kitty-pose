@@ -1,5 +1,5 @@
 {
-  "about": "Openly licensed face clips for the face regression (demo/face-dump.mjs --clips). Labels follow the README pose table; clip seconds, the first frame is held for `lead` s before 0 and the last for `tail` s after the end.",
+  "about": "Openly licensed face clips (credit/licence per clip, else the top-level ones) for the face regression (demo/face-dump.mjs --clips). Labels follow the README pose table; clip seconds, the first frame is held for `lead` s before 0 and the last for `tail` s after the end.",
   "licence": "CC BY 4.0",
   "credit": "Hadjikhani N, Åsberg Johnels J, Zürcher NR, et al. Look me in the eyes: constraining gaze in the eye-region provokes abnormally high subcortical activation in autism. Scientific Reports 7, 3163 (2017). doi:10.1038/s41598-017-03378-5. Supplementary videos via Wikimedia Commons.",
   "clips": [
@@ -72,6 +72,29 @@
             "smug"
           ],
           "pose": "big smile / smug half-smile"
+        }
+      ]
+    },
+    {
+      "file": "livingstone2016-sad.ogv",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Deficits-in-the-Mimicry-of-Facial-Expressions-in-Parkinsons-Disease-Video1.ogv",
+      "sha256": "972acbb7f5b8e49a041866d7dc1678fc4a467ba0264197528393ea5838494fbc",
+      "licence": "CC BY 4.0",
+      "credit": "Livingstone SR, Vezer E, McGarry LM, Lang AE, Russo FA. Deficits in the Mimicry of Facial Expressions in Parkinson's Disease. Frontiers in Psychology 7, 780 (2016). doi:10.3389/fpsyg.2016.00780. Supplemental Video 1 (31 s: calm, happy, sad, angry, fearful speech stimuli), via Wikimedia Commons.",
+      "about": "an actor speaking a sentence with a sad face (brows drawn up and together, mouth corners down); only the sad excerpt is played",
+      "trim": {
+        "start": 16,
+        "dur": 3.5
+      },
+      "lead": 1,
+      "tail": 1,
+      "segments": [
+        {
+          "from": 0.3,
+          "to": 3.3,
+          "meme": "crying",
+          "pose": "sad speech: brows drawn up and together, mouth corners down. todo: MediaPipe scores mouthFrown 0 and browInnerUp ~0 here, so memes.js shows stare (0 % crying); not a threshold problem, see docs/DEMO.md",
+          "todo": true
         }
       ]
     }

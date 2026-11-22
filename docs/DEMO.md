@@ -1,9 +1,9 @@
-Status: partial — the app runs in the browser; the M1 HaGRID gesture eval and the M2 face-clip dump run (no `--check` thresholds yet; all 3 labelled clips pass); offline after one visit (asks for persistent storage; Safari on an iPhone not checked yet); the shared meme keeps what the live view shows (both checked in headless Chromium).
+Status: partial — the app runs in the browser; the M1 HaGRID gesture eval and the M2 face-clip dump run (no `--check` thresholds yet; 3 of 4 labelled clips pass, the sad clip is a todo); offline after one visit (asks for persistent storage; Safari on an iPhone not checked yet); the shared meme keeps what the live view shows (both checked in headless Chromium).
 
 ```sh
 node demo/fetch-hagrid.mjs        # HaGRIDv2 test annotations (~105 MB) into ~/.cache/agent-data/kitty-pose/hagrid-v2
 node demo/eval-hagrid.js          # handFeatures() on 201k real hands: recall, precision, false triggers (~12 s)
-node demo/fetch-face-clips.mjs    # 3 CC BY face clips (~0.5 MB) into ~/.cache/agent-data/kitty-pose/face-clips
+node demo/fetch-face-clips.mjs    # 4 CC BY face clips (~0.5 MB) into ~/.cache/agent-data/kitty-pose/face-clips
 node demo/face-dump.mjs --clips demo/face-clips.json   # play them into the app as the camera, dump per-frame JSON (~5 min)
 python3 -m http.server 8000       # then open http://localhost:8000 (camera needs localhost or HTTPS)
 node demo/offline-check.mjs       # headless Chromium: one online visit, then reload with no network (~30 s)
@@ -88,7 +88,7 @@ shown on ≥ 60 % of the frames from `from + 0.4 s` to `to`. A segment with `"to
 - Dumps in the cache folder (for example of the owner's own clips) are tested too, but only on that machine.
 - No video is committed.
 
-The committed clips are 3 stimuli from Hadjikhani et al., "Look me in the eyes: constraining gaze in the eye-region
+The first 3 committed clips are stimuli from Hadjikhani et al., "Look me in the eyes: constraining gaze in the eye-region
 provokes abnormally high subcortical activation in autism", *Scientific Reports* 7, 3163 (2017),
 doi:10.1038/s41598-017-03378-5, CC BY 4.0, via Wikimedia Commons. Each is a 5 s morph of one face from neutral to
 anger, fear or happiness. `demo/face-clips.json` pins their sha256 and holds the labels.
@@ -101,6 +101,8 @@ Measured 2026-11-22 (Chromium 149 headless, 3 CPU cores, ~100 s per clip):
 | fear (eyes wide, brows up) | 280 of 282 | 280/280 | 100 % of 49 | close-stare 100 % of 49 (want shocked or close-stare) |
 | happy (closed-mouth smile) | 230 of 280 | 230/230 | 100 % of 39 | smile 100 % of 46 (want smile or smug) |
 
+| sad (speech, brows up, mouth down) | 173 of 175 | 173/173 | – | stare 100 % of 79 (want crying: **todo**, see below) |
+
 No console errors and no POSTs. The only hosts contacted were 127.0.0.1, cdn.jsdelivr.net, storage.googleapis.com,
 fonts.googleapis.com and fonts.gstatic.com.
 Fear: MediaPipe scores `eyeWide` only 0.05 on this face but `browInnerUp` 0.45 and outer brows ~0.1, which used to
@@ -109,6 +111,17 @@ FACS AU1+2) for shocked and close-stare, and crying needs a frown or inner brows
 wide eyes (sadness, AU1+4+15). The fear row was re-measured 2026-11-22 after that change; the app shows close-stare
 from 2.9 s (1 m 40 s with `nix-shell -p ffmpeg-headless chromium`). The committed fixture is the earlier run
 (249 frames); its replay also shows close-stare on 100 % of the 38 end-of-morph frames.
+
+Sad clip (issue #53): the 4th clip is the 3.5 s "sad" excerpt (16–19.5 s, `trim` in the manifest) of Supplemental Video 1 from
+Livingstone SR, Vezer E, McGarry LM, Lang AE, Russo FA, "Deficits in the Mimicry of Facial Expressions in Parkinson's
+Disease", *Frontiers in Psychology* 7, 780 (2016), doi:10.3389/fpsyg.2016.00780, CC BY 4.0, via Wikimedia Commons
+(an actor speaking a sentence sadly). It is the only CC BY sad-face video found; it is speech, not a held morph.
+MediaPipe scores `mouthFrown` 0 and `browInnerUp` ~0 on it (outer brows 0.03–0.16, a one-off speech spike to
+0.6 at 1.5 s), so with the current `memes.js` it shows stare on 100 % of the frames, and no `outerUp`/`frown`
+threshold change can make it show crying: the sad signals are simply not in the scores. The segment is therefore
+labelled crying with `"todo"` (reported, not failed) rather than loosening thresholds on one speaking face. Open: a
+held sad face (the owner's own clip via `$KITTY_FACE_DUMPS`) to check the crying vs fear split on both sides.
+The same video also has a fear stimulus; no surprise clip (brows up, jaw open) was found.
 
 Your own clip: record each pose from the README table for a few seconds (front camera, face filling about half the
 frame), write `NAME.labels.json`, then run `node demo/face-dump.mjs NAME.mov` and `npm test`.
