@@ -102,3 +102,43 @@ test("every meme and palette renders an svg", () => {
     assert.doesNotMatch(s, /undefined/);
   }
 });
+
+// Upright hand drawn at a fixed physical shape on a frame of the given aspect (width/height): x is
+// normalised by the width, so the same hand spans fewer x units on a wide frame.
+function handAt(ext, aspect) {
+  return hand(ext).map((p) => ({ ...p, x: 0.5 + (p.x - 0.5) / aspect }));
+}
+
+for (const [name, aspect] of [["9:16", 9 / 16], ["16:9", 16 / 9]]) {
+  test(`gestures from an upright hand at ${name}`, () => {
+    const at = (ext) => handFeatures([handAt(ext, aspect)], face, aspect);
+    assert.equal(at([1, 0, 0, 0, 0]).thumbsUp, 1);
+    assert.equal(at([0, 1, 0, 0, 0]).pointing, 1);
+    assert.equal(at([1, 1, 1, 1, 1]).openPalm, 1);
+    assert.equal(at([0, 0, 0, 0, 0]).fist, 1);
+    assert.equal(at([1, 0, 0, 0, 1]).shaka, 1);
+  });
+}
+
+// --- malformed landmarks (issue #25) ---
+import { faceFeatures, createChooser } from "../memes.js";
+test("short, holey and NaN landmarks never throw and every score stays finite in [0,1]", () => {
+  const good = hand([1, 1, 1, 1, 1]);
+  const nanHand = good.map((p, i) => (i === 8 ? { x: NaN, y: 0.2 } : p));
+  const holey = good.map((p, i) => (i === 4 ? undefined : p));
+  const nanFace = face.map((p, i) => (i === 152 || i === 263 ? { x: NaN, y: NaN } : p));
+  const faces = [null, undefined, [], face.slice(0, 100), face.slice(0, 454), nanFace, face];
+  const handSets = [[], undefined, [good.slice(0, 10)], [holey], [nanHand], [null], [good, nanHand], [good]];
+  for (const lm of faces) for (const hs of handSets) for (const aspect of [1, NaN, 0, undefined]) {
+    const f = { ...faceFeatures({ jawOpen: NaN, smile: undefined }, lm), ...handFeatures(hs, lm, aspect) };
+    const c = createChooser();
+    for (const m of MEMES) { const v = m.score(f); assert.ok(Number.isFinite(v) && v >= 0 && v <= 1, `${m.id}=${v}`); }
+    c.step(f, 0);
+    for (const v of Object.values(c.ema)) assert.ok(Number.isFinite(v));
+  }
+});
+test("a malformed hand is ignored but valid ones still count", () => {
+  const f = handFeatures([[], hand([1, 1, 1, 1, 1])], face);
+  assert.equal(f.anyHand, 1);
+  assert.equal(handFeatures([[]], face).anyHand, 0);
+});
