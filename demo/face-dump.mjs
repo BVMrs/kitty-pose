@@ -145,7 +145,7 @@ const hookSource = (w) => `(() => {
   };
 })();`;
 
-export { cacheDir, dumpsDir };
+export { cacheDir, cdp, dumpsDir, evaluate, findExe, serve };   // serve/cdp/evaluate/findExe: also demo/offline-check.mjs
 
 export async function dumpClip(clip, { labels, out, lead = 2, tail = 2, width = 640, fps = 30, slow = 10, digits = 4, timeout, log = console.error } = {}) {
   const ffmpeg = findExe("FFMPEG", ["ffmpeg"]);

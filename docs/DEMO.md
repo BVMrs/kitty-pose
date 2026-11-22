@@ -1,4 +1,4 @@
-Status: partial — the app runs in the browser; the M1 HaGRID gesture eval and the M2 face-clip dump run (no `--check` thresholds yet).
+Status: partial — the app runs in the browser; the M1 HaGRID gesture eval and the M2 face-clip dump run (no `--check` thresholds yet); offline after one visit (checked in headless Chromium).
 
 ```sh
 node demo/fetch-hagrid.mjs        # HaGRIDv2 test annotations (~105 MB) into ~/.cache/agent-data/kitty-pose/hagrid-v2
@@ -6,6 +6,7 @@ node demo/eval-hagrid.js          # handFeatures() on 201k real hands: recall, p
 node demo/fetch-face-clips.mjs    # 3 CC BY face clips (~0.5 MB) into ~/.cache/agent-data/kitty-pose/face-clips
 node demo/face-dump.mjs --clips demo/face-clips.json   # play them into the app as the camera, dump per-frame JSON (~5 min)
 python3 -m http.server 8000       # then open http://localhost:8000 (camera needs localhost or HTTPS)
+node demo/offline-check.mjs       # headless Chromium: one online visit, then reload with no network (~30 s)
 ```
 
 ## The app
@@ -101,3 +102,22 @@ shocked or close-stare (the segment is a `todo`).
 
 Your own clip: record each pose from the README table for a few seconds (front camera, face filling about half the
 frame), write `NAME.labels.json`, then run `node demo/face-dump.mjs NAME.mov` and `npm test`.
+
+## Offline after one visit
+`sw.js` precaches, at install, the shell and meme photos (atomic) and, non-atomically (`Promise.allSettled`, so a CDN
+hiccup does not fail the install), the MediaPipe bundle, the wasm variant this browser will load (the SIMD probe is
+the bundle's own; both variants if WebAssembly is missing), both `.task` models and the Latin subset of the fonts.
+`app.js` registers the worker once the models have loaded, so the precache reads them from the HTTP cache instead of
+downloading 21 MB a second time. Own files are network-first with a 3 s timeout, and only 2xx responses are cached.
+
+`node demo/offline-check.mjs` opens the app once online in headless Chromium (390x844 mobile viewport, `?cpu`),
+waits for the worker to activate, restarts with the local server stopped and all DNS failing, reloads, starts the
+fake camera and waits for detections. Measured 2026-11-22 (Chromium 149):
+
+- visit 1: worker active after 4.6 s, cache `kitty-v4` holds 33 entries, 8 external (bundle, SIMD wasm .js + .wasm,
+  both models, font CSS, 2 woff2). The worker's fetches of the jsDelivr files had `transferSize` 0 (HTTP cache).
+- visit 2, offline: 6 frames detected after 5.9 s; 34 of 34 responses from the service worker, 0 from the network.
+- The same check on the previous `sw.js`: 0 external entries cached, no detection offline within 60 s.
+
+Not checked here: Safari. WebKit may drop the Cache API data of a site that is not on the Home Screen after 7 days
+without a visit; add the app to the Home Screen to keep it offline-capable.
