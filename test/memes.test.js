@@ -102,3 +102,20 @@ test("every meme and palette renders an svg", () => {
     assert.doesNotMatch(s, /undefined/);
   }
 });
+
+// Upright hand drawn at a fixed physical shape on a frame of the given aspect (width/height): x is
+// normalised by the width, so the same hand spans fewer x units on a wide frame.
+function handAt(ext, aspect) {
+  return hand(ext).map((p) => ({ ...p, x: 0.5 + (p.x - 0.5) / aspect }));
+}
+
+for (const [name, aspect] of [["9:16", 9 / 16], ["16:9", 16 / 9]]) {
+  test(`gestures from an upright hand at ${name}`, () => {
+    const at = (ext) => handFeatures([handAt(ext, aspect)], face, aspect);
+    assert.equal(at([1, 0, 0, 0, 0]).thumbsUp, 1);
+    assert.equal(at([0, 1, 0, 0, 0]).pointing, 1);
+    assert.equal(at([1, 1, 1, 1, 1]).openPalm, 1);
+    assert.equal(at([0, 0, 0, 0, 0]).fist, 1);
+    assert.equal(at([1, 0, 0, 0, 1]).shaka, 1);
+  });
+}

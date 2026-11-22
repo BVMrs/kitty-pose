@@ -73,7 +73,7 @@ function renderScores() {
 function features(fr, hr) {
   const bs = Object.fromEntries((fr.faceBlendshapes?.[0]?.categories || []).map((c) => [c.categoryName, c.score]));
   const lm = fr.faceLandmarks?.[0];
-  return { ...faceFeatures(bs, lm), ...handFeatures(hr.landmarks || [], lm) };
+  return { ...faceFeatures(bs, lm), ...handFeatures(hr.landmarks || [], lm, video.videoWidth / video.videoHeight || 1) };
 }
 
 function choose(f, now) {

@@ -79,8 +79,11 @@ export const MEMES = [
 ];
 
 // Hand shape helpers on MediaPipe's 21 hand landmarks (normalised image coordinates).
-const d = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
-export function fingerState(h) {
+// Landmarks are normalised per axis, so distances are only meaningful once x is scaled by the frame's
+// aspect ratio (videoWidth / videoHeight); y stays in frame heights. aspect defaults to 1 (square).
+const dist = (aspect) => (a, b) => Math.hypot((a.x - b.x) * aspect, a.y - b.y);
+export function fingerState(h, aspect = 1) {
+  const d = dist(aspect);
   const w = h[0];
   const ext = (tip, pip) => d(h[tip], w) > d(h[pip], w) * 1.12;
   return {
@@ -90,12 +93,13 @@ export function fingerState(h) {
   };
 }
 
-export function handFeatures(hands, face) {
+export function handFeatures(hands, face, aspect = 1) {
+  const d = dist(aspect);
   const out = { thumbsUp: 0, pointing: 0, openPalm: 0, twoPalms: 0, fist: 0, shaka: 0, handAtChin: 0, handsUp: 0, anyHand: hands.length ? 1 : 0 };
   const chin = face?.[152], top = face?.[10];
   let up = 0, palms = 0;
   for (const h of hands) {
-    const s = fingerState(h);
+    const s = fingerState(h, aspect);
     const curled = [s.index, s.middle, s.ring, s.pinky].filter((x) => !x).length;
     const thumbUp = s.thumb && h[4].y < h[2].y - s.size * 0.35;
     if (thumbUp && curled === 4) out.thumbsUp = 1;
