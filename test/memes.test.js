@@ -168,7 +168,7 @@ test("a zero face height (top and chin coincide) keeps handAtChin finite", () =>
 });
 
 // --- chooser gaps (issue #44) ---
-test("a stall of more than 500 ms drops pending and smoothing state", () => {
+test("a stall of more than 2 s drops pending and smoothing state", () => {
   const thumbs = { ...faceFeatures({}), ...handFeatures([hand([1, 0, 0, 0, 0])], face), face: true };
   const neutral = { ...faceFeatures({}), ...handFeatures([]), face: true };
   const c = createChooser();
@@ -180,4 +180,13 @@ test("a stall of more than 500 ms drops pending and smoothing state", () => {
   c.reset();
   assert.ok(Object.values(c.ema).every((v) => v === 0));
   void shown;
+});
+
+test("a slow device (600 ms per frame) still switches memes", () => {
+  const thumbs = { ...faceFeatures({}), ...handFeatures([hand([1, 0, 0, 0, 0])], face), face: true };
+  const c = createChooser();
+  let t = 0, changed = false;
+  for (let i = 0; i < 6; i++, t += 600) changed = c.step(thumbs, t) || changed;
+  assert.ok(changed, "meme should be shown at ~1.7 fps");
+  assert.notEqual(c.current, "stare");
 });

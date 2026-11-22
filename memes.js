@@ -170,6 +170,8 @@ export function faceFeatures(b, lm) {
 // The app's meme picker: per-meme exponential smoothing, a margin over the current meme, and a hold time
 // (~0.2 s for a new meme, 0.6 s to fall back to the default). Pure, so a recorded clip can be replayed in Node.
 // step(f, now) returns true when the shown meme changed; now is in milliseconds.
+// A step further apart than this is a stall, not slow frames: a device sustaining 1 fps must still work.
+const GAP_MS = 2000;
 export function createChooser() {
   const ema = Object.fromEntries(MEMES.map((m) => [m.id, 0]));
   let pending = null, pendingSince = 0, last = null;
@@ -181,7 +183,7 @@ export function createChooser() {
       // After a stall (tab hidden, camera flip) pre-gap state is stale: drop it. A non-increasing clock drops the pending switch.
       if (last !== null) {
         const dt = now - last;
-        if (dt > 500) { pending = null; for (const k in ema) ema[k] = 0; }
+        if (dt > GAP_MS) { pending = null; for (const k in ema) ema[k] = 0; }
         else if (!(dt > 0)) pending = null;
       }
       last = now;
