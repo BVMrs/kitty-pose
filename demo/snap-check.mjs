@@ -116,7 +116,8 @@ async function checkSize(chromium, url, tmp, fw, fh, timeout) {
     const visH = Math.min(info.cam.h, info.cardTop - info.cam.y);
     const shot = await c.send("Page.captureScreenshot", { format: "png" });
     const live = await evaluate(c, `(async () => { ${MEASURE}
-      const blob = await (await fetch("data:image/png;base64,${shot.data}")).blob();
+      // Decode in-page, not with fetch("data:..."): the app's CSP connect-src does not allow data: URLs.
+      const blob = new Blob([Uint8Array.from(atob("${shot.data}"), (ch) => ch.charCodeAt(0))], { type: "image/png" });
       return measure(blob, { x: ${info.cam.x}, y: ${info.cam.y}, w: ${info.cam.w}, h: ${info.cam.h} },
         [8, ${Math.floor(visH) - 8}], [8, ${Math.floor(info.cam.w) - 8}]); })()`);
     const snap = await evaluate(c, `(async () => { ${MEASURE}

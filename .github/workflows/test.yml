@@ -8,3 +8,15 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 20 }
       - run: npm test
+  browser-checks:
+    # Real-browser checks `npm test` cannot see. They fetch MediaPipe and the models from the CDN (~21 MB).
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Locate Chrome
+        run: echo "CHROMIUM=$(command -v google-chrome)" >> "$GITHUB_ENV"
+      - run: node demo/snap-check.mjs
+      - run: node demo/offline-check.mjs

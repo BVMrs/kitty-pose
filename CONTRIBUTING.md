@@ -44,7 +44,12 @@ Follow the existing history (`git log --format='%s%n%b'`):
    - how you verified it: the `npm test` result, plus what you saw when you ran the app (which poses, which
      viewport or device)
    - the risks, and any follow-ups you did not do
-3. CI must be green, and the owner must approve.
+3. CI must be green, and the owner must approve. CI has two jobs in `.github/workflows/test.yml`: `test` (`npm test`,
+   fast) and `browser-checks`, which runs `node demo/snap-check.mjs` (the shared snap keeps the live view's window) and
+   `node demo/offline-check.mjs` (the app works offline after one visit) in the runner's Google Chrome, via
+   `$CHROMIUM`. The job fails if either script exits 1. It downloads MediaPipe and the models (~21 MB) and takes
+   about 1-2 minutes. The job uses Node 22: the scripts need its global `WebSocket`. To run a check locally, use Node >= 22,
+   set `CHROMIUM` to your Chrome binary, and run the script with node.
 4. PRs are **squash merged**, so the PR title becomes the commit subject. Write it in the commit style above.
 5. After each merge, the runner rebases the open agent PRs (`claude/*`) onto `master`. Keep PRs independent so
    these rebases stay clean.
