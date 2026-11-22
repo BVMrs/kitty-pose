@@ -121,5 +121,5 @@ become follow-up issues.
 - `npm test` passes locally and in CI.
 - The demo still runs: `python3 -m http.server 8000`, then the camera opens, a pose shows its meme, and the
   shutter makes the meme image. Check this in a mobile viewport.
-- `sw.js` is updated if the `SHELL` list changed or the change is offline-critical (see above). Docs you touched are updated, and changes needed in shared docs
-  are listed in the PR description.
+- `sw.js` is updated if the `SHELL` list changed or the change is offline-critical (see above). Docs you touched
+  are updated, and changes needed in shared docs are listed in the PR description.
