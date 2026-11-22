@@ -1,6 +1,7 @@
 import { FaceLandmarker, HandLandmarker, FilesetResolver } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs";
 import { MEMES, createChooser, handFeatures, faceFeatures } from "./memes.js";
 import { catSVG, PALETTES } from "./cats.js";
+import { snapCamera } from "./crop.js";
 
 const MP = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm";
 const MODELS = {
@@ -195,14 +196,15 @@ async function start() {
 // ---------- snap: you + the cat + the caption, as one image ----------
 async function snap() {
   if (!running) return;
-  const W = 1080, H = 1350, c = document.createElement("canvas"); c.width = W; c.height = H;
+  // Camera part: the same window of the frame the live .cam view shows (its aspect, cover fit); cat part below, 1080×675.
+  const camBox = $(".cam"), cam = snapCamera(video.videoWidth, video.videoHeight, camBox.clientWidth, camBox.clientHeight);
+  const W = cam.width, top = cam.height, H = top + 675, c = document.createElement("canvas"); c.width = W; c.height = H;
   const x = c.getContext("2d");
   x.fillStyle = "#111"; x.fillRect(0, 0, W, H);
-  const vw = video.videoWidth, vh = video.videoHeight, top = H / 2;
-  const s = Math.max(W / vw, top / vh), sw = W / s, sh = top / s;
+  const { sx, sy, sw, sh } = cam.crop;
   x.save();
   if (facing === "user") { x.translate(W, 0); x.scale(-1, 1); }
-  x.drawImage(video, (vw - sw) / 2, (vh - sh) / 2, sw, sh, 0, 0, W, top);
+  if (sw > 0 && sh > 0) x.drawImage(video, sx, sy, sw, sh, 0, 0, W, top);
   x.restore();
   const m = MEMES.find((mm) => mm.id === chooser.current);
   x.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--card").trim() || "#fff3e0";
