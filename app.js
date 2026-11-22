@@ -282,6 +282,19 @@ document.addEventListener("visibilitychange", () => {
 
 // Registered once the page has downloaded the MediaPipe files itself: sw.js precaches them at install, and by then
 // they are in the HTTP cache, so the first visit does not download the 21 MB twice.
-if ("serviceWorker" in navigator) modelsReady.catch(() => {}).finally(() => navigator.serviceWorker.register("sw.js").catch(() => {}));
+if ("serviceWorker" in navigator) {
+  modelsReady.catch(() => {}).finally(() => navigator.serviceWorker.register("sw.js").catch(() => {}));
+  navigator.serviceWorker.ready.then(keepOffline);
+}
+
+// WebKit may delete the Cache API data of a site that is not on the Home Screen after 7 days without a visit, which
+// would drop the 21 MB sw.js cached. Persisted storage is exempt, so ask for it once the worker is active; if the
+// browser says no and the app is in a browser tab, suggest Add to Home Screen (Home Screen apps are exempt as well).
+async function keepOffline() {
+  const persisted = await navigator.storage?.persist?.().catch(() => null) ?? null;   // null: no API, or it threw
+  const standalone = matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+  console.info(`kitty pose: storage.persist() -> ${persisted} (${standalone ? "Home Screen app" : "browser tab"})`);
+  if (persisted !== true && !standalone) $("#homeHint").hidden = false;
+}
 picsLoad().then(() => render(chooser.current, false));
 for (const m of MEMES) if (m.img) { const i = new Image(); i.src = m.img; }  // no flicker on the first switch
