@@ -122,11 +122,12 @@ downloading 21 MB a second time. Own files are network-first with a 3 s timeout,
 
 `node demo/offline-check.mjs` opens the app once online in headless Chromium (390x844 mobile viewport, `?cpu`),
 waits for the worker to activate, restarts with the local server stopped and all DNS failing, reloads, starts the
-fake camera and waits for detections. Measured 2026-11-22 (Chromium 149):
+fake camera and waits for detections. Measured 2026-11-22 (Chromium 149, `sw.js` at `kitty-v8`; the cache name
+and entry count change with every `V` bump or shell-list change, so re-run to refresh):
 
-- visit 1: worker active after 4.6 s, cache `kitty-v4` holds 33 entries, 8 external (bundle, SIMD wasm .js + .wasm,
+- visit 1: worker active after 1.8 s, cache `kitty-v8` holds 34 entries, 8 external (bundle, SIMD wasm .js + .wasm,
   both models, font CSS, 2 woff2). The worker's fetches of the jsDelivr files had `transferSize` 0 (HTTP cache).
-- visit 2, offline: 6 frames detected after 5.9 s; 34 of 34 responses from the service worker, 0 from the network.
+- visit 2, offline: 5 frames detected after 2.0 s; 35 of 35 responses from the service worker, 0 from the network.
 - The same check on the previous `sw.js`: 0 external entries cached, no detection offline within 60 s.
 
 ### Keeping the cache on Safari (#40)
