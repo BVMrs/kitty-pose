@@ -37,7 +37,14 @@ async function launch(chromium, profile, extra = []) {
   return { c, stop };
 }
 
-const SW_STATE = `(async () => {
+// Collects the line app.js logs with the storage.persist() result (keepOffline()).
+function persistLog(c) {
+  const out = [];
+  c.on((m, p) => { if (m === "Runtime.consoleAPICalled" && String(p.args?.[0]?.value).includes("storage.persist()")) out.push(p.args[0].value); });
+  return out;
+}
+
+const SW_STATE =`(async () => {
   const r = await navigator.serviceWorker.getRegistration();
   const names = await caches.keys(), urls = [];
   for (const n of names) for (const q of await (await caches.open(n)).keys()) urls.push(q.url);
@@ -55,6 +62,7 @@ async function main(argv) {
     const srv = await serve(ROOT);
     const url = `http://127.0.0.1:${srv.address().port}/?cpu`;
     b = await launch(chromium, profile);
+    const persist1 = persistLog(b.c);
     const t0 = Date.now();
     await b.c.send("Page.navigate", { url });
     let sw;
@@ -68,11 +76,15 @@ async function main(argv) {
     console.log(`visit 1 (online): service worker activated after ${((Date.now() - t0) / 1000).toFixed(1)} s; cache ${sw.names.join(", ")}: ` +
       `${sw.urls.length} entries, ${external.length} external:`);
     for (const u of external) console.log("  " + short(u));
+    await sleep(1000);   // keepOffline() runs on serviceWorker.ready; give persist() a moment to answer
+    const hint1 = await evaluate(b.c, `!document.querySelector("#homeHint").hidden`);
+    console.log(`visit 1: ${persist1[0] ?? "no storage.persist() log"}; Home Screen hint ${hint1 ? "shown" : "hidden"}`);
     await b.stop(); b = null;
     await new Promise((r) => srv.close(r));
 
     // ---- visit 2, offline: no server, no DNS ----
     b = await launch(chromium, profile, ["--host-resolver-rules=MAP * ~NOTFOUND"]);
+    const persist2 = persistLog(b.c);
     const resp = [], failed = [], errors = [];
     b.c.on((m, p) => {
       if (m === "Network.responseReceived" && /^https?:/.test(p.response.url)) resp.push({ url: p.response.url, sw: p.response.fromServiceWorker, status: p.response.status });
@@ -98,6 +110,7 @@ async function main(argv) {
       `${resp.length} responses, ${resp.length - fromNet.length} from the service worker, ${fromNet.length} from the network; ` +
       `${failed.length} failed loads; ${errors.length} page errors`);
     for (const r of fromNet) console.log("  network: " + short(r.url) + " " + r.status);
+    console.log(`visit 2: ${persist2[0] ?? "no storage.persist() log"}`);
     for (const f of failed) console.log("  failed: " + f);
     const ok = frames > 0 && fromNet.length === 0;
     console.log(ok ? "OK: the app starts and detects offline after one visit" : "FAIL");

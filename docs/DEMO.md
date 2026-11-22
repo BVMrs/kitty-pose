@@ -1,4 +1,4 @@
-Status: partial — the app runs in the browser; the M1 HaGRID gesture eval and the M2 face-clip dump run (no `--check` thresholds yet); offline after one visit; the shared meme keeps what the live view shows (both checked in headless Chromium).
+Status: partial — the app runs in the browser; the M1 HaGRID gesture eval and the M2 face-clip dump run (no `--check` thresholds yet); offline after one visit (asks for persistent storage; Safari on an iPhone not checked yet); the shared meme keeps what the live view shows (both checked in headless Chromium).
 
 ```sh
 node demo/fetch-hagrid.mjs        # HaGRIDv2 test annotations (~105 MB) into ~/.cache/agent-data/kitty-pose/hagrid-v2
@@ -125,8 +125,28 @@ fake camera and waits for detections. Measured 2026-11-22 (Chromium 149):
 - visit 2, offline: 6 frames detected after 5.9 s; 34 of 34 responses from the service worker, 0 from the network.
 - The same check on the previous `sw.js`: 0 external entries cached, no detection offline within 60 s.
 
-Not checked here: Safari. WebKit may drop the Cache API data of a site that is not on the Home Screen after 7 days
-without a visit; add the app to the Home Screen to keep it offline-capable.
+### Keeping the cache on Safari (#40)
+WebKit may delete the Cache API data of a site that is not on the Home Screen after 7 days without use
+(lab/2026-11-19-offline-sw.md, not re-verified); persisted storage and Home Screen apps are exempt. So once the worker
+is active (`navigator.serviceWorker.ready`), `app.js` calls `navigator.storage.persist?.()` and logs
+`kitty pose: storage.persist() -> true|false|null (Home Screen app|browser tab)` to the console (`null`: no API).
+If the answer is not `true` and the app runs in a browser tab, the start card shows a hint:
+"To keep it working offline, add it to the Home Screen (Share → Add to Home Screen) …".
+
+`demo/offline-check.mjs` prints that line too. Measured 2026-11-22 (Chromium 149 headless, 390x844): visit 1 logs
+`storage.persist() -> false (browser tab)` and shows the hint (Chromium grants it only to installed or much-used
+sites); visit 2 offline still detects 6 frames, 35 of 35 responses from the service worker.
+
+**On the iPhone (not done yet, needs the owner's 2024 iPhone):**
+1. Open the GitHub Pages URL in Safari once, allow the camera, wait until a meme shows (the 21 MB are cached by then).
+   The start card shows the Home Screen hint.
+2. Share → Add to Home Screen, then open kitty pose from the Home Screen icon once, online.
+   (A Home Screen app has its own storage, separate from Safari's, so this first open fills its cache.)
+3. Turn on airplane mode, close the app (swipe it away) and open it from the icon again.
+4. Expected: no hint, "Start the camera" works, the front camera starts and a meme shows for a pose.
+   Optional: with Safari's Web Inspector (Mac → Develop → the iPhone) the console shows the `storage.persist()` line.
+
+Result: _not recorded yet_ — write the date, iOS version and what happened here.
 
 ## The shared meme keeps what the live view shows
 `snap()` crops the camera frame with the aspect of the live `.cam` box (`crop.js`: `snapCamera`, the centred
