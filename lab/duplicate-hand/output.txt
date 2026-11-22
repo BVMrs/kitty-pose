@@ -1,0 +1,10 @@
+palm @chest: single=stop | dup 0: wizard 100% | 0.005: wizard 89%, stop 11% | 0.02: wizard 42.5%, stop 57.5%
+palm @above head: single=stop | dup 0: wizard 100% | 0.005: wizard 89.5%, stop 10.5% | 0.02: stop 50.5%, wizard 49.5%
+fist @chest: single=fistbump | dup 0: fistbump 100% | 0.005: fistbump 100% | 0.02: fistbump 100%
+fist @above head: single=fistbump | dup 0: fistbump 100% | 0.005: fistbump 100% | 0.02: fistbump 100%
+thumbsUp @chest: single=thumbs | dup 0: thumbs 100% | 0.005: fistbump 13.5%, thumbs 86.5% | 0.02: thumbs 51%, fistbump 49%
+thumbsUp @above head: single=thumbs | dup 0: thumbs 100% | 0.005: thumbs 89%, fistbump 11% | 0.02: fistbump 54.5%, thumbs 45.5%
+point @chest: single=point | dup 0: point 100% | 0.005: point 100% | 0.02: point 100%
+point @above head: single=point | dup 0: point 100% | 0.005: point 100% | 0.02: point 100%
+shaka @chest: single=shaka | dup 0: shaka 100% | 0.005: shaka 100% | 0.02: shaka 100%
+shaka @above head: single=shaka | dup 0: shaka 100% | 0.005: shaka 100% | 0.02: shaka 100%
