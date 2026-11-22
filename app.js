@@ -193,7 +193,16 @@ async function start() {
 }
 
 // ---------- snap: you + the cat + the caption, as one image ----------
+// Canvas doesn't load web fonts itself; wait (bounded, offline-safe) so the caption isn't Impact.
+async function fontReady() {
+  try {
+    await Promise.race([document.fonts.load("120px Anton"), new Promise((r) => setTimeout(r, 1500))]);
+  } catch {}
+}
+
 async function snap() {
+  if (!running) return;
+  await fontReady();
   if (!running) return;
   const W = 1080, H = 1350, c = document.createElement("canvas"); c.width = W; c.height = H;
   const x = c.getContext("2d");
