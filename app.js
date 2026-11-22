@@ -194,7 +194,16 @@ async function start() {
 }
 
 // ---------- snap: you + the cat + the caption, as one image ----------
+// Canvas doesn't load web fonts itself; wait (bounded, offline-safe) so the caption isn't Impact.
+async function fontReady() {
+  try {
+    await Promise.race([document.fonts.load("120px Anton"), new Promise((r) => setTimeout(r, 1500))]);
+  } catch {}
+}
+
 async function snap() {
+  if (!running) return;
+  await fontReady();
   if (!running) return;
   // Camera part: the same window of the frame the live .cam view shows (its aspect, cover fit); cat part below, 1080×675.
   const camBox = $(".cam"), cam = snapCamera(video.videoWidth, video.videoHeight, camBox.clientWidth, camBox.clientHeight);
