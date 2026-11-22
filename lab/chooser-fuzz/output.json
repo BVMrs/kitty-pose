@@ -1,0 +1,32 @@
+{
+ "runs": 2000,
+ "frames": 600000,
+ "switches": 21458,
+ "bad": {
+  "invalidId": 0,
+  "emaOutOfRange": 0,
+  "fastSwitch": 0,
+  "staleGapSwitch": 1666,
+  "stuck": 0,
+  "throws": 0
+ },
+ "examples": {
+  "gap": "run 2 frame 216: close-stare->stop after 45277 ms gap on one frame"
+ },
+ "probes": {
+  "preStall": "stare",
+  "stallThenNeutralFrame": {
+   "changed": true,
+   "current": "thumbs"
+  },
+  "stallThenSameFrame": {
+   "changed": true,
+   "current": "thumbs"
+  },
+  "afterFourFramesAt33ms": "stare",
+  "framesToThumbs": 8,
+  "smileHeld": "smile",
+  "framesToStareAfterFaceLoss": 22,
+  "msToStare": 726
+ }
+}
