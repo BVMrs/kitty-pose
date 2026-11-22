@@ -1,4 +1,4 @@
-Status: partial — the app runs in the browser; the M1 HaGRID gesture eval and the M2 face-clip dump run (no `--check` thresholds yet); offline after one visit (asks for persistent storage; Safari on an iPhone not checked yet); the shared meme keeps what the live view shows (both checked in headless Chromium).
+Status: partial — the app runs in the browser; the M1 HaGRID gesture eval and the M2 face-clip dump run (no `--check` thresholds yet; all 3 labelled clips pass); offline after one visit (asks for persistent storage; Safari on an iPhone not checked yet); the shared meme keeps what the live view shows (both checked in headless Chromium).
 
 ```sh
 node demo/fetch-hagrid.mjs        # HaGRIDv2 test annotations (~105 MB) into ~/.cache/agent-data/kitty-pose/hagrid-v2
@@ -98,13 +98,17 @@ Measured 2026-11-22 (Chromium 149 headless, 3 CPU cores, ~100 s per clip):
 | clip | frames detected | replay = app | neutral → stare | end of morph |
 |---|---|---|---|---|
 | anger (brows down, no teeth) | 217 of 250 | 217/217 | 100 % of 41 | stare 100 % of 24 (want stare) |
-| fear (eyes wide, brows up) | 249 of 282 | 249/249 | 100 % of 43 | **crying** 100 % of 38 (want shocked or close-stare; `todo`) |
+| fear (eyes wide, brows up) | 280 of 282 | 280/280 | 100 % of 49 | close-stare 100 % of 49 (want shocked or close-stare) |
 | happy (closed-mouth smile) | 230 of 280 | 230/230 | 100 % of 39 | smile 100 % of 46 (want smile or smug) |
 
 No console errors and no POSTs. The only hosts contacted were 127.0.0.1, cdn.jsdelivr.net, storage.googleapis.com,
 fonts.googleapis.com and fonts.gstatic.com.
-**Known miss:** at full fear, MediaPipe scores `eyeWide` only 0.05 but `browInnerUp` 0.45, so `crying` wins instead of
-shocked or close-stare (the segment is a `todo`).
+Fear: MediaPipe scores `eyeWide` only 0.05 on this face but `browInnerUp` 0.45 and outer brows ~0.1, which used to
+show `crying` (issue #34). `memes.js` now reads inner + outer brows up without a frown as wide eyes (fear/surprise,
+FACS AU1+2) for shocked and close-stare, and crying needs a frown or inner brows up *without* raised outer brows or
+wide eyes (sadness, AU1+4+15). The fear row was re-measured 2026-11-22 after that change; the app shows close-stare
+from 2.9 s (1 m 40 s with `nix-shell -p ffmpeg-headless chromium`). The committed fixture is the earlier run
+(249 frames); its replay also shows close-stare on 100 % of the 38 end-of-morph frames.
 
 Your own clip: record each pose from the README table for a few seconds (front camera, face filling about half the
 frame), write `NAME.labels.json`, then run `node demo/face-dump.mjs NAME.mov` and `npm test`.
