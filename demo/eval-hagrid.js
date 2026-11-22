@@ -12,7 +12,13 @@
 //     with the thumb down). Firing on it is not a mistake, so it is not counted as a false trigger. Its rates are
 //     still printed.
 //   - no_gesture: reported on its own line (it is what the app sees between poses).
-// This split is the one in lab/2026-11-18-hagrid-baseline.md (branch agents/lab). It reproduces that note's numbers.
+// Review (#32): the lab note's split (branch agents/lab) kept three_gun, little_finger and stop_inverted as
+// look-alikes, which is the only split giving its 5.5 % (3,047 of 55,011). A landmark rule does not confuse the
+// first two with a mapped gesture (thumb+index+middle is not a pointing finger; a pinky-only hand is not a shaka),
+// and hiding them would mask a regression (e.g. a relaxed shaka thumb test firing on little_finger). So three_gun
+// and little_finger are now distinct (should fire none). stop_inverted stays a look-alike: it is "stop" with the
+// fingers down, and openPalm legitimately fires on it (4.9 %). The headline number therefore no longer equals
+// the lab note's 5.5 %.
 //
 // Prediction for one hand: the first of GESTURES that handFeatures([hand], null) fires, else "none".
 // Hands without 21 landmarks (MediaPipe failed on them) are skipped and counted.
@@ -39,16 +45,14 @@ export const AMBIGUOUS = {
   thumb_index2: "pointing",
   take_picture: "pointing", // thumb + index frame
   mute: "pointing",         // index on lips
-  three_gun: "pointing",    // thumb + index + middle
-  little_finger: "shaka",   // pinky out
-  stop_inverted: "openPalm",// stop, fingers down
+  stop_inverted: "openPalm",// stop, fingers down (kept: it is "stop" turned over, and openPalm fires on it)
   timeout: "openPalm",      // flat hands in a T
   holy: "openPalm",         // palms together
   hand_heart: "openPalm",
   hand_heart2: "openPalm",
 };
-export const NONE = ["four", "middle_finger", "ok", "peace", "peace_inverted", "rock", "three", "three2", "three3",
-  "two_up", "two_up_inverted"];
+export const NONE = ["four", "little_finger", "middle_finger", "ok", "peace", "peace_inverted", "rock", "three", "three2",
+  "three3", "three_gun", "two_up", "two_up_inverted"];
 export const NO_GESTURE = "no_gesture";
 export const ALL_CLASSES = [...Object.keys(MAPPED), ...Object.keys(AMBIGUOUS), ...NONE, NO_GESTURE].sort();
 
@@ -109,7 +113,7 @@ export function score(conf) {
     gestures,
     falseTrigger: { ...rate(none), classes: none.sort() },          // the headline number
     noGesture: rate(ng),
-    noneWithNoGesture: rate([...none, ...ng]),                        // = the lab note's "5.5 %"
+    noneWithNoGesture: rate([...none, ...ng]),                        // the lab note's 5.5 % used the old split (see header)
     allUnmapped: rate([...none, ...ng, ...amb]),                      // = the charter's literal "unmapped = none" (43 %)
     ambiguous: Object.fromEntries(Object.entries(perClass(amb)).map(([c, r]) => [c, { looksLike: AMBIGUOUS[c], ...r }])),
     none: perClass([...none]),
@@ -141,7 +145,7 @@ export function formatReport(r) {
   out.push("", "False triggers (a hand that fires any gesture)");
   out.push(line(`distinct gestures (${r.falseTrigger.classes.length} classes)`, r.falseTrigger));
   out.push(line("no_gesture", r.noGesture));
-  out.push(line("both together (lab 2026-11-18 figure)", r.noneWithNoGesture));
+  out.push(line("both together (lab note's 5.5 % was on the old split)", r.noneWithNoGesture));
   out.push(line("all unmapped incl. look-alikes (not scored)", r.allUnmapped));
   out.push("", `Look-alike (ambiguous) classes, not counted as false triggers (${Object.keys(r.ambiguous).length}):`);
   out.push("class          looks like   fires    n      top prediction");
