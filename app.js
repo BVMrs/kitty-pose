@@ -269,6 +269,8 @@ document.addEventListener("visibilitychange", () => {
   else if (stream) { stream.getTracks().forEach((t) => (t.enabled = true)); if (face && !running) { running = true; loop(); } }
 });
 
-if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+// Registered once the page has downloaded the MediaPipe files itself: sw.js precaches them at install, and by then
+// they are in the HTTP cache, so the first visit does not download the 21 MB twice.
+if ("serviceWorker" in navigator) modelsReady.catch(() => {}).finally(() => navigator.serviceWorker.register("sw.js").catch(() => {}));
 picsLoad().then(() => render(chooser.current, false));
 for (const m of MEMES) if (m.img) { const i = new Image(); i.src = m.img; }  // no flicker on the first switch
