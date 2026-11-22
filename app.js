@@ -290,7 +290,10 @@ if ("serviceWorker" in navigator) {
 // WebKit may delete the Cache API data of a site that is not on the Home Screen after 7 days without a visit, which
 // would drop the 21 MB sw.js cached. Persisted storage is exempt, so ask for it once the worker is active; if the
 // browser says no and the app is in a browser tab, suggest Add to Home Screen (Home Screen apps are exempt as well).
+// Gecko (UA token "Firefox/"; iOS Firefox is "FxiOS" and runs WebKit) shows a permission doorhanger for persist() and has
+// no 7-day eviction, so an unprompted call there only annoys: skip it, and the Home Screen hint with it.
 async function keepOffline() {
+  if (/\bFirefox\//.test(navigator.userAgent)) return;
   const persisted = await navigator.storage?.persist?.().catch(() => null) ?? null;   // null: no API, or it threw
   const standalone = matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
   console.info(`kitty pose: storage.persist() -> ${persisted} (${standalone ? "Home Screen app" : "browser tab"})`);
