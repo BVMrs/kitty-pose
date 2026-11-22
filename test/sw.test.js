@@ -100,6 +100,13 @@ test("offline works after ONE online visit: install precaches MediaPipe bundle, 
   assert.deepEqual(await visit(env), [], "offline reload after visit 1");
 });
 
+test("sw.js names the same MediaPipe version, models and font CSS as app.js and index.html", () => {
+  assert.ok(APP.includes(`"${MP}/vision_bundle.mjs"`) && APP.includes(`"${MP}/wasm"`), "app.js loads " + MP);
+  assert.ok(SRC.includes(`const MP = "${MP}"`), "sw.js precaches " + MP);
+  for (const u of [...MODELS, FONT_CSS]) assert.ok(SRC.includes(`"${u}"`), "sw.js lists " + u);
+  assert.equal(MODELS.length, 2);
+});
+
 test("the SW caches the same wasm variant vision_bundle.mjs 0.10.14 will pick", async () => {
   const bundleProbe = [0,97,115,109,1,0,0,0,1,5,1,96,0,1,123,3,2,1,0,10,10,1,8,0,65,0,253,15,253,98,11];
   assert.match(SRC, new RegExp(bundleProbe.join(",")), "SIMD probe bytes match the bundle's");
