@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: 20 }
+        with: { node-version: 22 }
       - name: Locate Chrome
         run: echo "CHROMIUM=$(command -v google-chrome)" >> "$GITHUB_ENV"
       - run: node demo/snap-check.mjs
