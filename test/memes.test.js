@@ -64,7 +64,7 @@ test("both hands above the head", () => {
   assert.equal(handFeatures([up[0]], face).handsUp, 0);
 });
 
-const base = { face: true, jawOpen: 0, eyeWide: 0, blink: 0, squint: 0, smile: 0, frown: 0, browInnerUp: 0, browUp: 0, browDown: 0,
+const base = { face: true, jawOpen: 0, eyeWide: 0, blink: 0, squint: 0, smile: 0, frown: 0, browInnerUp: 0, browOuterUp: 0, browUp: 0, browDown: 0,
   gazeSide: 0, roll: 0, yaw: 0, thumbsUp: 0, pointing: 0, openPalm: 0, twoPalms: 0, fist: 0, shaka: 0, handAtChin: 0, handsUp: 0, anyHand: 0 };
 const winner = (f) => MEMES.reduce((a, m) => (m.score({ ...base, ...f }) > a.s ? { id: m.id, s: m.score({ ...base, ...f }) } : a), { id: "", s: -1 }).id;
 
@@ -80,6 +80,20 @@ test("each pose picks its meme", () => {
   };
   for (const [id, f] of Object.entries(cases)) assert.equal(winner(f), id, JSON.stringify(f));
   assert.equal(Object.keys(cases).length, MEMES.length, "every meme has a case");
+});
+
+// Issue #34: inner brows up is sadness only without raised outer brows or wide eyes (FACS AU1+4+15 vs fear AU1+2+5).
+test("sad brows show crying, fear brows do not", () => {
+  assert.equal(winner({ browInnerUp: 0.5, frown: 0.3 }), "crying");                 // brows up, mouth down
+  assert.equal(winner({ browInnerUp: 0.6 }), "crying");                             // inner brows only
+  assert.equal(winner({ frown: 0.4, browOuterUp: 0.1 }), "crying");                 // a frown wins either way
+  // the Hadjikhani 2017 fear face as MediaPipe scores it: eyeWide 0.05, brows up, mouth closed
+  const fear = { browInnerUp: 0.45, browOuterUp: 0.1, eyeWide: 0.05, jawOpen: 0.02, frown: 0.01 };
+  assert.equal(winner(fear), "close-stare");
+  assert.equal(winner({ ...fear, jawOpen: 0.25 }), "shocked");
+  assert.equal(winner({ browInnerUp: 0.6, eyeWide: 0.4 }), "close-stare");
+  // fear brows with the mouth corners pulled down are sad again
+  assert.equal(winner({ ...fear, frown: 0.45 }), "crying");
 });
 
 test("fist and shaka from synthetic hands", () => {

@@ -46,8 +46,7 @@
             "shocked",
             "close-stare"
           ],
-          "pose": "eyes wide, mouth (a little) open or closed",
-          "todo": "known miss (2026-11-22): MediaPipe scores this face eyeWide 0.05 but browInnerUp 0.45, so crying wins; scoring change belongs to M3"
+          "pose": "eyes wide, mouth (a little) open or closed"
         }
       ]
     },

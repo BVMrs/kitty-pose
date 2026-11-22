@@ -5,6 +5,12 @@
 const clamp = (x) => Math.max(0, Math.min(1, x));
 const ramp = (x, lo, hi) => clamp((x - lo) / (hi - lo));
 const not = (x) => 1 - x;
+// Raised brows that read as surprise or fear rather than sadness (FACS AU1+2 vs AU1+4+15): inner and outer brows up,
+// mouth corners not pulled down. MediaPipe often under-scores eyeWide on a widened eye (0.05 on the Hadjikhani 2017
+// fear face) but still sees the brows, so shocked and close-stare take this as "eyes wide" too.
+const outerUp = (f) => ramp(f.browOuterUp, 0.03, 0.09);
+const browsRaised = (f) => ramp(f.browInnerUp, 0.25, 0.45) * outerUp(f) * not(ramp(f.frown, 0.1, 0.25));
+const wideEyes = (f, lo, hi) => Math.max(ramp(f.eyeWide, lo, hi), browsRaised(f));
 
 export const MEMES = [
   // --- mouth and eyes ---
@@ -13,16 +19,18 @@ export const MEMES = [
     score: (f) => ramp(f.jawOpen, 0.45, 0.7) * not(f.pointing) * not(f.fist) * not(ramp(f.browDown, 0.35, 0.6)) },
   { id: "shocked", img: "assets/shocked.jpg", caption: "wait what", hint: "eyes wide, mouth a little open",
     cat: { eyes: "wide", mouth: "open" },
-    score: (f) => ramp(f.eyeWide, 0.2, 0.5) * ramp(f.jawOpen, 0.08, 0.22) * not(ramp(f.jawOpen, 0.45, 0.6)) * not(f.anyHand) },
+    score: (f) => wideEyes(f, 0.2, 0.5) * ramp(f.jawOpen, 0.08, 0.22) * not(ramp(f.jawOpen, 0.45, 0.6)) * not(f.anyHand) },
   { id: "close-stare", img: "assets/close-stare.jpg", caption: "o_o", hint: "eyes wide open, mouth closed",
     cat: { eyes: "wide", mouth: "flat" },
-    score: (f) => ramp(f.eyeWide, 0.3, 0.6) * not(ramp(f.jawOpen, 0.08, 0.18)) * not(f.anyHand) },
+    score: (f) => wideEyes(f, 0.3, 0.6) * not(ramp(f.jawOpen, 0.08, 0.18)) * not(f.anyHand) },
   { id: "hiss", img: "assets/hiss.jpg", caption: "HSSSS", hint: "angry brows, show your teeth",
     cat: { eyes: "stare", mouth: "scream" },
     score: (f) => ramp(f.browDown, 0.3, 0.6) * ramp(f.jawOpen, 0.12, 0.35) * not(f.fist) },
   { id: "crying", img: "assets/crying.jpg", caption: "it's over", hint: "sad face: brows up, mouth down",
     cat: { eyes: "teary", mouth: "frown" },
-    score: (f) => Math.max(ramp(f.browInnerUp, 0.3, 0.6), ramp(f.frown, 0.2, 0.45)) * not(f.anyHand) * not(ramp(f.smile, 0.3, 0.5)) },
+    // a frown, or inner brows up on their own: not with wide eyes or raised outer brows (that is fear / surprise)
+    score: (f) => Math.max(ramp(f.frown, 0.2, 0.45), ramp(f.browInnerUp, 0.3, 0.6) * not(ramp(f.eyeWide, 0.15, 0.3)) * not(outerUp(f)))
+      * not(f.anyHand) * not(ramp(f.smile, 0.3, 0.5)) },
   { id: "smile", img: "assets/smile.jpg", caption: "hehe", hint: "big smile",
     cat: { eyes: "happy", mouth: "w", paws: "cheeks", extras: "blush" },
     score: (f) => ramp(f.smile, 0.45, 0.8) * not(ramp(f.squint, 0.5, 0.75)) * not(f.pointing) },
@@ -148,6 +156,7 @@ export function faceFeatures(b, lm) {
     smile: Math.max(g("mouthSmileLeft"), g("mouthSmileRight")),
     frown: (g("mouthFrownLeft") + g("mouthFrownRight")) / 2,
     browInnerUp: g("browInnerUp"),
+    browOuterUp: (g("browOuterUpLeft") + g("browOuterUpRight")) / 2,
     browUp: Math.max(g("browOuterUpLeft"), g("browOuterUpRight"), g("browInnerUp")),
     browDown: (g("browDownLeft") + g("browDownRight")) / 2,
     gazeSide: Math.max((g("eyeLookOutLeft") + g("eyeLookInRight")) / 2, (g("eyeLookInLeft") + g("eyeLookOutRight")) / 2),
