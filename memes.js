@@ -116,7 +116,8 @@ export function handFeatures(hands, face, aspect = 1) {
     if (chin) {
       const knuckles = [5, 9, 13, 8, 12].map((i) => h[i]);
       const near = Math.min(...knuckles.map((k) => d(k, chin)));
-      const faceH = top ? d(top, chin) : 0.3;
+      const fh = top ? d(top, chin) : 0;
+      const faceH = fh > 0 ? fh : 0.3;
       out.handAtChin = Math.max(out.handAtChin, 1 - clamp((near / faceH - 0.15) / 0.35));
     }
     if (top && h[0].y < top.y && h[9].y < top.y) up++;
