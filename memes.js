@@ -142,3 +142,26 @@ export function faceFeatures(b, lm) {
     roll, yaw,
   };
 }
+
+// The app's meme picker: per-meme exponential smoothing, a margin over the current meme, and a hold time
+// (~0.2 s for a new meme, 0.6 s to fall back to the default). Pure, so a recorded clip can be replayed in Node.
+// step(f, now) returns true when the shown meme changed; now is in milliseconds.
+export function createChooser() {
+  const ema = Object.fromEntries(MEMES.map((m) => [m.id, 0]));
+  let pending = null, pendingSince = 0;
+  const c = {
+    ema, current: "stare",
+    step(f, now) {
+      for (const m of MEMES) ema[m.id] = ema[m.id] * 0.6 + m.score(f) * 0.4;
+      let best = "stare";
+      for (const m of MEMES) if (ema[m.id] > ema[best]) best = m.id;
+      if (ema[best] < 0.35 && best !== "stare") best = "stare";
+      if (best === c.current) { pending = null; return false; }
+      if (best !== "stare" && ema[best] < ema[c.current] + 0.08) return false;
+      if (pending !== best) { pending = best; pendingSince = now; return false; }
+      if (now - pendingSince > (best === "stare" ? 600 : 220)) { c.current = best; pending = null; return true; }
+      return false;
+    },
+  };
+  return c;
+}

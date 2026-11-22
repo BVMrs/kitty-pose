@@ -1,5 +1,5 @@
 // Offline after the first visit: app shell + MediaPipe runtime + models, cache-first.
-const V = "kitty-v2";
+const V = "kitty-v3";
 const SHELL = ["./", "index.html", "style.css", "app.js", "memes.js", "cats.js", "manifest.webmanifest", "icon.svg",
   ...["pop.jpg", "shocked.jpg", "close-stare.jpg", "hiss.jpg", "crying.jpg", "smile.jpg", "smug.jpg", "side-eye.jpg", "lookaway.jpg",
       "think.jpg", "laugh-point.gif", "point.jpg", "fistbump.jpg", "angry-fist.jpg", "shaka.jpg", "wizard.jpg", "stare.jpg"].map((f) => "assets/" + f)];

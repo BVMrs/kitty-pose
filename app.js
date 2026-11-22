@@ -1,5 +1,5 @@
 import { FaceLandmarker, HandLandmarker, FilesetResolver } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs";
-import { MEMES, handFeatures, faceFeatures } from "./memes.js";
+import { MEMES, createChooser, handFeatures, faceFeatures } from "./memes.js";
 import { catSVG, PALETTES } from "./cats.js";
 
 const MP = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm";
@@ -20,8 +20,8 @@ const store = {
 
 let face, hand, stream, facing = "user", running = false;
 let palette = store.get("palette", "ginger"), showScores = store.get("scores", false);
-let current = "stare", pending = null, pendingSince = 0, lastFeatures = null;
-const ema = Object.fromEntries(MEMES.map((m) => [m.id, 0]));
+let lastFeatures = null;
+const chooser = createChooser(), ema = chooser.ema;
 const custom = {};                                      // meme id -> object URL of the owner's own picture
 
 // ---------- own pictures (IndexedDB, never leave the phone) ----------
@@ -65,7 +65,7 @@ function render(id, pop = true) {
 function renderScores() {
   scoresEl.hidden = !showScores;
   if (!showScores) return;
-  scoresEl.innerHTML = MEMES.map((m) => `<div class="row${m.id === current ? " on" : ""}"><span>${m.id}</span>
+  scoresEl.innerHTML = MEMES.map((m) => `<div class="row${m.id === chooser.current ? " on" : ""}"><span>${m.id}</span>
     <i style="width:${Math.round(ema[m.id] * 100)}%"></i><b>${ema[m.id].toFixed(2)}</b></div>`).join("");
 }
 
@@ -77,14 +77,7 @@ function features(fr, hr) {
 }
 
 function choose(f, now) {
-  for (const m of MEMES) ema[m.id] = ema[m.id] * 0.6 + m.score(f) * 0.4;
-  let best = "stare";
-  for (const m of MEMES) if (ema[m.id] > ema[best]) best = m.id;
-  if (ema[best] < 0.35 && best !== "stare") best = "stare";
-  if (best === current) { pending = null; return; }
-  if (best !== "stare" && ema[best] < ema[current] + 0.08) return;
-  if (pending !== best) { pending = best; pendingSince = now; return; }
-  if (now - pendingSince > (best === "stare" ? 600 : 220)) { current = best; pending = null; render(current); }
+  if (chooser.step(f, now)) render(chooser.current);
 }
 
 function drawOverlay(fr, hr) {
@@ -115,6 +108,7 @@ function loop() {
     const hr = hand.detectForVideo(video, now);
     lastFeatures = features(fr, hr);
     choose(lastFeatures, now);
+    globalThis.kittyTrace?.(fr, hr, chooser.current, now);   // dev hook for demo/face-dump.mjs; unset in the app
     drawOverlay(fr, hr);
     renderScores();
     frames++;
@@ -150,7 +144,8 @@ const modelsReady = (async () => {
   ]);
   if (wantStatus) progress();
   const opts = (buf, delegate) => ({ baseOptions: { modelAssetBuffer: buf, delegate }, runningMode: "VIDEO" });
-  for (const delegate of ["GPU", "CPU"]) {
+  // ?cpu skips the GPU delegate (headless dumps: demo/face-dump.mjs, where WebGL is software and very slow).
+  for (const delegate of new URLSearchParams(location.search).has("cpu") ? ["CPU"] : ["GPU", "CPU"]) {
     try {
       face = await FaceLandmarker.createFromOptions(fs, { ...opts(faceBuf, delegate), numFaces: 1, outputFaceBlendshapes: true });
       hand = await HandLandmarker.createFromOptions(fs, { ...opts(handBuf, delegate), numHands: 2 });
@@ -182,7 +177,7 @@ async function start() {
     if (!navigator.mediaDevices?.getUserMedia) throw new Error("this browser has no camera access (open the page in Safari or Chrome, over https)");
     await startCamera();
     $("#intro").hidden = true;                          // the camera is on: get out of the way now
-    render(current, false);
+    render(chooser.current, false);
     if (!ready) { wantStatus = true; progress(); }
     const delegate = await modelsReady;
     wantStatus = false;
@@ -209,11 +204,11 @@ async function snap() {
   if (facing === "user") { x.translate(W, 0); x.scale(-1, 1); }
   x.drawImage(video, (vw - sw) / 2, (vh - sh) / 2, sw, sh, 0, 0, W, top);
   x.restore();
-  const m = MEMES.find((mm) => mm.id === current);
+  const m = MEMES.find((mm) => mm.id === chooser.current);
   x.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--card").trim() || "#fff3e0";
   x.fillRect(0, top, W, H - top);
   const img = new Image();
-  const photo = custom[current] || m.img;
+  const photo = custom[chooser.current] || m.img;
   img.src = photo || "data:image/svg+xml;charset=utf-8," + encodeURIComponent(catSVG(m.cat, palette));
   await img.decode().catch(() => {});
   if (photo) {                                          // cover the bottom half
@@ -250,15 +245,15 @@ function buildSettings() {
 }
 $("#palettes").addEventListener("click", (e) => {
   const p = e.target.dataset.p; if (!p) return;
-  palette = p; store.set("palette", p); buildSettings(); render(current, false);
+  palette = p; store.set("palette", p); buildSettings(); render(chooser.current, false);
 });
 $("#pics").addEventListener("change", async (e) => {
   const id = e.target.dataset.id, f = e.target.files?.[0]; if (!id || !f) return;
-  await picSet(id, f); buildSettings(); if (id === current) render(current, false);
+  await picSet(id, f); buildSettings(); if (id === chooser.current) render(chooser.current, false);
 });
 $("#pics").addEventListener("click", async (e) => {
   const id = e.target.dataset.reset; if (!id) return;
-  await picSet(id, null); buildSettings(); if (id === current) render(current, false);
+  await picSet(id, null); buildSettings(); if (id === chooser.current) render(chooser.current, false);
 });
 $("#scoresToggle").addEventListener("change", (e) => { showScores = e.target.checked; store.set("scores", showScores); renderScores(); });
 $("#settingsBtn").addEventListener("click", () => { buildSettings(); $("#settings").showModal(); });
@@ -267,7 +262,7 @@ $("#start").addEventListener("click", start);
 $("#snap").addEventListener("click", snap);
 $("#flip").addEventListener("click", async () => { facing = facing === "user" ? "environment" : "user"; if (running) await startCamera(); });
 catBox.addEventListener("click", () => {
-  const ks = Object.keys(PALETTES); palette = ks[(ks.indexOf(palette) + 1) % ks.length]; store.set("palette", palette); render(current, false);
+  const ks = Object.keys(PALETTES); palette = ks[(ks.indexOf(palette) + 1) % ks.length]; store.set("palette", palette); render(chooser.current, false);
 });
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) { running = false; stream?.getTracks().forEach((t) => (t.enabled = false)); }
@@ -275,5 +270,5 @@ document.addEventListener("visibilitychange", () => {
 });
 
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
-picsLoad().then(() => render(current, false));
+picsLoad().then(() => render(chooser.current, false));
 for (const m of MEMES) if (m.img) { const i = new Image(); i.src = m.img; }  // no flicker on the first switch
