@@ -40,7 +40,7 @@ else none. Each of the 34 HaGRID classes is in exactly one group:
   A landmark rule cannot tell these from a mapped gesture, so firing on them is printed but **not** counted as a false trigger.
 - **distinct (should fire none)**: four, little_finger, middle_finger, ok, peace, peace_inverted, rock, three, three2,
   three3, three_gun, two_up, two_up_inverted. Their trigger rate is the **false-trigger rate**.
-- **Review of three_gun, little_finger, stop_inverted (#32)**: the lab note only reaches its 5.5 % with all three as
+- **Review of three_gun, little_finger, stop_inverted (#32)**: the lab note only reaches its 3,047 of 55,011 (5.5 %) with all three as
   look-alikes. three_gun (0.6 % fire) and little_finger (10.5 %) are moved to distinct: no mapped gesture is
   meant to fire on them, and hiding them would mask a regression (e.g. a loose shaka thumb test firing on a raised
   pinky). stop_inverted (4.9 %) stays a look-alike: it is "stop" turned over and openPalm fires on it legitimately.

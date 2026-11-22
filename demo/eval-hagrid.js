@@ -13,7 +13,7 @@
 //     still printed.
 //   - no_gesture: reported on its own line (it is what the app sees between poses).
 // Review (#32): the lab note's split (branch agents/lab) kept three_gun, little_finger and stop_inverted as
-// look-alikes, which is the only split giving its 5.5 % (3,047 of 55,011). A landmark rule does not confuse the
+// look-alikes, which is the only split giving exactly 3,047 of 55,011 (5.5 %). A landmark rule does not confuse the
 // first two with a mapped gesture (thumb+index+middle is not a pointing finger; a pinky-only hand is not a shaka),
 // and hiding them would mask a regression (e.g. a relaxed shaka thumb test firing on little_finger). So three_gun
 // and little_finger are now distinct (should fire none). stop_inverted stays a look-alike: it is "stop" with the
