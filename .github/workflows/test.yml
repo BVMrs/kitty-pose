@@ -16,8 +16,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
-      - name: Locate Chrome
-        run: echo "CHROMIUM=$(command -v google-chrome)" >> "$GITHUB_ENV"
       # One retry each: a CDN hiccup while downloading MediaPipe/models should not turn CI red.
       - run: node demo/snap-check.mjs || { echo "retrying snap-check once"; node demo/snap-check.mjs; }
       - run: node demo/offline-check.mjs || { echo "retrying offline-check once"; node demo/offline-check.mjs; }
