@@ -51,7 +51,7 @@ export function frameFeatures(dump, fr) {
   if (fr.lm) { lm = []; dump.landmarks.forEach((idx, k) => { const [x, y, z] = fr.lm[k]; lm[idx] = { x, y, z }; }); }
   const hands = (fr.hands || []).map((h) => h.map(([x, y, z]) => ({ x, y, z })));
   const [cw, ch] = dump.clip?.video || [];
-  const aspect = (fr.vw && fr.vh ? fr.vw / fr.vh : cw / ch) || 1; // as app.js: videoWidth / videoHeight || 1
+  const aspect = (cw / ch) || 1; // as app.js: videoWidth / videoHeight || 1 (the dump keeps one size per clip)
   return { ...faceFeatures(b, lm), ...handFeatures(hands, lm, aspect) };
 }
 
