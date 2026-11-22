@@ -73,8 +73,9 @@ Many PRs touch these files, so keep them out of feature PRs unless the task is a
 Some files have to change together:
 
 - New or renamed files under `assets/`, and new top-level `.js` or `.css` files, also go into the `SHELL` list in
-  `sw.js`. Bump the cache name `V` (`kitty-vN`) there whenever shipped files change, so that installed copies
-  update.
+  `sw.js`. Own files are served network-first (3 s fallback to the cache), so online users get edits to
+  existing files without a bump. Bump the cache name `V` (`kitty-vN`) only when the `SHELL` list changes or an
+  edit must reach offline-first installs (the cached copy is what a slow or offline start serves).
 - A new meme with `img:` in `memes.js` needs that file in `assets/`. The test
   "photos exist for every meme that names one" checks this.
 
@@ -120,5 +121,5 @@ become follow-up issues.
 - `npm test` passes locally and in CI.
 - The demo still runs: `python3 -m http.server 8000`, then the camera opens, a pose shows its meme, and the
   shutter makes the meme image. Check this in a mobile viewport.
-- `sw.js` is updated if shipped files changed. Docs you touched are updated, and changes needed in shared docs
+- `sw.js` is updated if the `SHELL` list changed or the change is offline-critical (see above). Docs you touched are updated, and changes needed in shared docs
   are listed in the PR description.
