@@ -76,6 +76,9 @@ Some files have to change together:
   `sw.js`. Own files are served network-first (3 s fallback to the cache), so online users get edits to
   existing files without a bump. Bump the cache name `V` (`kitty-vN`) only when the `SHELL` list changes or an
   edit must reach offline-first installs (the cached copy is what a slow or offline start serves).
+  Example: replacing a meme photo in `assets/` under the same name. Network-first only refreshes a cached file
+  when it is fetched online, and a meme photo loads only when it is shown or the gallery opens. A phone that
+  then goes offline keeps the old photo until a `V` bump re-precaches `SHELL`.
 - A new meme with `img:` in `memes.js` needs that file in `assets/`. The test
   "photos exist for every meme that names one" checks this.
 
