@@ -1,8 +1,8 @@
 // Offline after the first visit: app shell + MediaPipe runtime + models.
 // On the first visit the page is not controlled by this worker yet, so its own requests for the 21 MB of
 // MediaPipe files never reach the fetch handler: they are precached here, at install, instead.
-const V = "kitty-v4";
-const SHELL = ["./", "index.html", "style.css", "app.js", "memes.js", "cats.js", "manifest.webmanifest", "icon.svg",
+const V = "kitty-v5";
+const SHELL = ["./", "index.html", "style.css", "app.js", "memes.js", "cats.js", "crop.js", "manifest.webmanifest", "icon.svg",
   ...["pop.jpg", "shocked.jpg", "close-stare.jpg", "hiss.jpg", "crying.jpg", "smile.jpg", "smug.jpg", "side-eye.jpg", "lookaway.jpg",
       "think.jpg", "laugh-point.gif", "point.jpg", "fistbump.jpg", "angry-fist.jpg", "shaka.jpg", "wizard.jpg", "stare.jpg"].map((f) => "assets/" + f)];
 // Must match app.js (bundle version, wasm base, model URLs) and index.html (font CSS).

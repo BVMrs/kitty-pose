@@ -22,7 +22,7 @@ const NOSIMD = [MP + "/wasm/vision_wasm_nosimd_internal.js", MP + "/wasm/vision_
 const HEAVY = [MP + "/vision_bundle.mjs", ...SIMD, ...MODELS];
 
 // One page load: shell, every meme photo (app.js preloads them), MediaPipe bundle + wasm + models, fonts.
-const PAGE = [["/", "navigate"], ...["/style.css", "/app.js", "/memes.js", "/cats.js", "/manifest.webmanifest", "/icon.svg",
+const PAGE = [["/", "navigate"], ...["/style.css", "/app.js", "/memes.js", "/cats.js", "/crop.js", "/manifest.webmanifest", "/icon.svg",
   ...fs.readdirSync(new URL("../assets", import.meta.url)).map((f) => "/assets/" + f)].map((p) => [p, "same-origin"])]
   .map(([p, m]) => [ORIGIN + p, m])
   .concat([[MP + "/vision_bundle.mjs", "cors"], [SIMD[0], "no-cors"], [SIMD[1], "cors"], ...MODELS.map((u) => [u, "cors"]),
