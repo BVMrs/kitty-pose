@@ -82,7 +82,11 @@ export const MEMES = [
 // Landmarks are normalised per axis, so distances are only meaningful once x is scaled by the frame's
 // aspect ratio (videoWidth / videoHeight); y stays in frame heights. aspect defaults to 1 (square).
 const dist = (aspect) => (a, b) => Math.hypot((a.x - b.x) * aspect, a.y - b.y);
+const okPt = (p) => !!p && Number.isFinite(p.x) && Number.isFinite(p.y);
+export const validHand = (h) => Array.isArray(h) && h.length >= 21 && h.slice(0, 21).every(okPt);
+const okAspect = (a) => (Number.isFinite(a) && a > 0 ? a : 1);
 export function fingerState(h, aspect = 1) {
+  aspect = okAspect(aspect);
   const d = dist(aspect);
   const w = h[0];
   const ext = (tip, pip) => d(h[tip], w) > d(h[pip], w) * 1.12;
@@ -94,9 +98,11 @@ export function fingerState(h, aspect = 1) {
 }
 
 export function handFeatures(hands, face, aspect = 1) {
+  aspect = okAspect(aspect);
+  hands = Array.isArray(hands) ? hands.filter(validHand) : [];   // drop short / holey / NaN hands
   const d = dist(aspect);
   const out = { thumbsUp: 0, pointing: 0, openPalm: 0, twoPalms: 0, fist: 0, shaka: 0, handAtChin: 0, handsUp: 0, anyHand: hands.length ? 1 : 0 };
-  const chin = face?.[152], top = face?.[10];
+  const chin = okPt(face?.[152]) ? face[152] : null, top = okPt(face?.[10]) ? face[10] : null;
   let up = 0, palms = 0;
   for (const h of hands) {
     const s = fingerState(h, aspect);
@@ -124,8 +130,10 @@ export function handFeatures(hands, face, aspect = 1) {
 
 // Face features from MediaPipe blendshapes (b: name -> score) and the 478 face landmarks.
 export function faceFeatures(b, lm) {
-  const g = (k) => b[k] || 0;
+  b = b || {};
+  const g = (k) => (Number.isFinite(b[k]) ? b[k] : 0);
   let roll = 0, yaw = 0;
+  if (!(Array.isArray(lm) && lm.length >= 455 && [1, 33, 234, 263, 454].every((i) => okPt(lm[i])))) lm = null;
   if (lm) {
     roll = (Math.atan2(lm[263].y - lm[33].y, lm[263].x - lm[33].x) * 180) / Math.PI;
     const l = lm[234], r = lm[454], n = lm[1];             // cheek edges and nose tip
@@ -156,7 +164,10 @@ export function createChooser() {
   const c = {
     ema, current: "stare",
     step(f, now) {
-      for (const m of MEMES) ema[m.id] = ema[m.id] * 0.6 + m.score(f) * 0.4;
+      for (const m of MEMES) {
+        const sc = m.score(f);
+        ema[m.id] = ema[m.id] * 0.6 + (Number.isFinite(sc) ? clamp(sc) : 0) * 0.4;
+      }
       let best = "stare";
       for (const m of MEMES) if (ema[m.id] > ema[best]) best = m.id;
       if (ema[best] < 0.35 && best !== "stare") best = "stare";
