@@ -1,8 +1,10 @@
-Status: partial — the app runs in the browser; the M1 HaGRID fetch and gesture eval run (no `--check` thresholds yet).
+Status: partial — the app runs in the browser; the M1 HaGRID gesture eval and the M2 face-clip dump run (no `--check` thresholds yet).
 
 ```sh
 node demo/fetch-hagrid.mjs        # HaGRIDv2 test annotations (~105 MB) into ~/.cache/agent-data/kitty-pose/hagrid-v2
 node demo/eval-hagrid.js          # handFeatures() on 201k real hands: recall, precision, false triggers (~12 s)
+node demo/fetch-face-clips.mjs    # 3 CC BY face clips (~0.5 MB) into ~/.cache/agent-data/kitty-pose/face-clips
+node demo/face-dump.mjs --clips demo/face-clips.json   # play them into the app as the camera, dump per-frame JSON (~5 min)
 python3 -m http.server 8000       # then open http://localhost:8000 (camera needs localhost or HTTPS)
 ```
 
@@ -52,3 +54,50 @@ False triggers: distinct gestures 5.0 % (2,702 of 54,404), no_gesture 56.8 % (34
 (3,047 of 55,011), and every unmapped class including look-alikes 43.3 % (63,349 of 146,205). These match
 `lab/2026-11-18-hagrid-baseline.md` on the `agents/lab` branch. Precision counts fires on all other classes,
 look-alikes included, so it is low for fist and pointing.
+
+## M2 face regression: dump a clip, replay it in `npm test`
+No open, licence-clean dataset covers our face poses, and only video covers head turn and tilt, so the face check
+uses clips: openly licensed ones now, and the owner's own clips (one per face pose in the README table) when recorded.
+
+`node demo/face-dump.mjs CLIP` plays a clip into the real app as the front camera and writes what the app saw to JSON:
+
+- It converts the clip with ffmpeg to Y4M (640 px wide, 30 fps), holds the first frame for `--lead` s (default 2) and
+  the last for `--tail` s (default 2), and stamps a frame-index barcode on the bottom 8 px rows.
+- Headless Chromium plays it as a fake camera into `index.html?cpu`, served from the repo on 127.0.0.1, at 390×844
+  with a mobile device scale. It clicks "Start the camera" once the models are downloaded.
+- `app.js` calls `globalThis.kittyTrace` (if set) after each detection. The script sets it and records, per frame, the
+  clip time from the barcode, the 52 blendshape scores, the 7 face landmarks `memes.js` reads, both hands' landmarks,
+  and the meme the app showed.
+- The output is `$KITTY_FACE_DUMPS/<name>.dump.json` (default `~/.cache/agent-data/kitty-pose/face-dumps/`). It also
+  lists the hosts the page contacted, any POSTs and any console errors.
+- Labels come from `CLIP` minus its extension plus `.labels.json`:
+  `{"segments": [{"from": 1.0, "to": 3.0, "meme": "pop"}]}`, in clip seconds. `meme` can be a list of acceptable ids.
+
+`npm test` (`test/face-regression.test.js`) replays every dump through `faceFeatures()`, `handFeatures()` and the app's
+chooser (`createChooser()` in `memes.js`), at 30 fps clip time. For each labelled segment, the expected meme must be
+shown on ≥ 60 % of the frames from `from + 0.4 s` to `to`. A segment with `"todo"` is reported, not failed.
+
+- Dumps of the CC BY clips are committed in `test/fixtures/face/` (gzipped, ~20 KB each).
+- Dumps in the cache folder (for example of the owner's own clips) are tested too, but only on that machine.
+- No video is committed.
+
+The committed clips are 3 stimuli from Hadjikhani et al., "Look me in the eyes: constraining gaze in the eye-region
+provokes abnormally high subcortical activation in autism", *Scientific Reports* 7, 3163 (2017),
+doi:10.1038/s41598-017-03378-5, CC BY 4.0, via Wikimedia Commons. Each is a 5 s morph of one face from neutral to
+anger, fear or happiness. `demo/face-clips.json` pins their sha256 and holds the labels.
+
+Measured 2026-11-22 (Chromium 149 headless, 3 CPU cores, ~100 s per clip):
+
+| clip | frames detected | replay = app | neutral → stare | end of morph |
+|---|---|---|---|---|
+| anger (brows down, no teeth) | 217 of 250 | 217/217 | 100 % of 41 | stare 100 % of 24 (want stare) |
+| fear (eyes wide, brows up) | 249 of 282 | 249/249 | 100 % of 43 | **crying** 100 % of 38 (want shocked or close-stare; `todo`) |
+| happy (closed-mouth smile) | 230 of 280 | 230/230 | 100 % of 39 | smile 100 % of 46 (want smile or smug) |
+
+No console errors and no POSTs. The only hosts contacted were 127.0.0.1, cdn.jsdelivr.net, storage.googleapis.com,
+fonts.googleapis.com and fonts.gstatic.com.
+**Known miss:** at full fear, MediaPipe scores `eyeWide` only 0.05 but `browInnerUp` 0.45, so `crying` wins instead of
+shocked or close-stare (the segment is a `todo`).
+
+Your own clip: record each pose from the README table for a few seconds (front camera, face filling about half the
+frame), write `NAME.labels.json`, then run `node demo/face-dump.mjs NAME.mov` and `npm test`.

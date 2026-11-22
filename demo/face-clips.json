@@ -1,0 +1,80 @@
+{
+  "about": "Openly licensed face clips for the face regression (demo/face-dump.mjs --clips). Labels follow the README pose table; clip seconds, the first frame is held for `lead` s before 0 and the last for `tail` s after the end.",
+  "licence": "CC BY 4.0",
+  "credit": "Hadjikhani N, Åsberg Johnels J, Zürcher NR, et al. Look me in the eyes: constraining gaze in the eye-region provokes abnormally high subcortical activation in autism. Scientific Reports 7, 3163 (2017). doi:10.1038/s41598-017-03378-5. Supplementary videos via Wikimedia Commons.",
+  "clips": [
+    {
+      "file": "hadjikhani2017-anger.ogv",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Look-me-in-the-eyes-constraining-gaze-in-the-eye-region-provokes-abnormally-high-subcortical-41598_2017_3378_MOESM2_ESM.ogv",
+      "sha256": "006c7b7a1984fdad00236fd28376f8514fa82d16a156dd47134deda8d873721b",
+      "about": "neutral face morphing to anger: brows down, mouth closed (no teeth, so no hiss)",
+      "lead": 2,
+      "tail": 2,
+      "segments": [
+        {
+          "from": -2,
+          "to": 0,
+          "meme": "stare",
+          "pose": "neutral"
+        },
+        {
+          "from": 5.0,
+          "to": 6.9,
+          "meme": "stare",
+          "pose": "angry brows, mouth closed: no row in the table, so the default"
+        }
+      ]
+    },
+    {
+      "file": "hadjikhani2017-fear.ogv",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Look-me-in-the-eyes-constraining-gaze-in-the-eye-region-provokes-abnormally-high-subcortical-41598_2017_3378_MOESM4_ESM.ogv",
+      "sha256": "424209bd655d32309e35708ff0967619722d805e6e48f229e3f258a2cbe788a1",
+      "about": "neutral face morphing to fear: eyes wide, brows up, mouth closed or barely open",
+      "lead": 2,
+      "tail": 2,
+      "segments": [
+        {
+          "from": -2,
+          "to": 0,
+          "meme": "stare",
+          "pose": "neutral"
+        },
+        {
+          "from": 5.0,
+          "to": 7.0,
+          "meme": [
+            "shocked",
+            "close-stare"
+          ],
+          "pose": "eyes wide, mouth (a little) open or closed",
+          "todo": "known miss (2026-11-22): MediaPipe scores this face eyeWide 0.05 but browInnerUp 0.45, so crying wins; scoring change belongs to M3"
+        }
+      ]
+    },
+    {
+      "file": "hadjikhani2017-happy.ogv",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/9/90/Look-me-in-the-eyes-constraining-gaze-in-the-eye-region-provokes-abnormally-high-subcortical-41598_2017_3378_MOESM6_ESM.ogv",
+      "sha256": "17f3cdaf2cc0a723c88650019c37485b8e59b887a3186abe6ecac9c9349a1458",
+      "about": "neutral face morphing to a closed-mouth smile",
+      "lead": 2,
+      "tail": 2,
+      "segments": [
+        {
+          "from": -2,
+          "to": 0,
+          "meme": "stare",
+          "pose": "neutral"
+        },
+        {
+          "from": 5.0,
+          "to": 7.3,
+          "meme": [
+            "smile",
+            "smug"
+          ],
+          "pose": "big smile / smug half-smile"
+        }
+      ]
+    }
+  ]
+}
