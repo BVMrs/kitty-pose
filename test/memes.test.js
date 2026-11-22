@@ -64,7 +64,7 @@ test("both hands above the head", () => {
   assert.equal(handFeatures([up[0]], face).handsUp, 0);
 });
 
-const base = { face: true, jawOpen: 0, eyeWide: 0, blink: 0, squint: 0, smile: 0, frown: 0, browInnerUp: 0, browUp: 0, browDown: 0,
+const base = { face: true, jawOpen: 0, eyeWide: 0, blink: 0, squint: 0, smile: 0, frown: 0, browInnerUp: 0, browOuterUp: 0, browUp: 0, browDown: 0,
   gazeSide: 0, roll: 0, yaw: 0, thumbsUp: 0, pointing: 0, openPalm: 0, twoPalms: 0, fist: 0, shaka: 0, handAtChin: 0, handsUp: 0, anyHand: 0 };
 const winner = (f) => MEMES.reduce((a, m) => (m.score({ ...base, ...f }) > a.s ? { id: m.id, s: m.score({ ...base, ...f }) } : a), { id: "", s: -1 }).id;
 
@@ -72,7 +72,7 @@ test("each pose picks its meme", () => {
   const cases = {
     stare: {}, pop: { jawOpen: 0.8 }, shocked: { eyeWide: 0.6, jawOpen: 0.25 }, "close-stare": { eyeWide: 0.7 },
     hiss: { browDown: 0.7, jawOpen: 0.4 }, crying: { browInnerUp: 0.7, frown: 0.4 }, smile: { smile: 0.9 },
-    smug: { squint: 0.7, smile: 0.6 }, "side-eye": { gazeSide: 0.8 }, lookaway: { yaw: 0.7 }, huh: { roll: 25, browUp: 0.5 },
+    smug: { squint: 0.7, smile: 0.6 }, "side-eye": { gazeSide: 0.8 }, lookaway: { yaw: 0.7 }, huh: { roll: 25, browUp: 0.5, browInnerUp: 0.5, browOuterUp: 0.3 },
     sleepy: { blink: 0.9 }, think: { handAtChin: 0.9, anyHand: 1 }, "laugh-point": { pointing: 1, jawOpen: 0.5, anyHand: 1 },
     point: { pointing: 1, anyHand: 1 }, fistbump: { fist: 1, anyHand: 1 }, "angry-fist": { fist: 1, jawOpen: 0.5, anyHand: 1 },
     shaka: { shaka: 1, anyHand: 1 }, thumbs: { thumbsUp: 1, anyHand: 1 }, wizard: { twoPalms: 1, openPalm: 1, anyHand: 1 },
@@ -80,6 +80,23 @@ test("each pose picks its meme", () => {
   };
   for (const [id, f] of Object.entries(cases)) assert.equal(winner(f), id, JSON.stringify(f));
   assert.equal(Object.keys(cases).length, MEMES.length, "every meme has a case");
+});
+
+// Issue #34: inner brows up is sadness only without raised outer brows or wide eyes (FACS AU1+4+15 vs fear AU1+2+5).
+test("sad brows show crying, fear brows do not", () => {
+  assert.equal(winner({ browInnerUp: 0.5, frown: 0.3 }), "crying");                 // brows up, mouth down
+  assert.equal(winner({ browInnerUp: 0.6 }), "crying");                             // inner brows only
+  assert.equal(winner({ frown: 0.4, browOuterUp: 0.1 }), "crying");                 // a frown wins either way
+  // the Hadjikhani 2017 fear face as MediaPipe scores it: eyeWide 0.05, brows up, mouth closed
+  const fear = { browInnerUp: 0.45, browOuterUp: 0.1, eyeWide: 0.05, jawOpen: 0.02, frown: 0.01 };
+  assert.equal(winner(fear), "close-stare");
+  assert.equal(winner({ ...fear, jawOpen: 0.25 }), "shocked");
+  assert.equal(winner({ browInnerUp: 0.6, eyeWide: 0.4 }), "close-stare");
+  // head tilt + raised brows is huh, also at a partial tilt and tilted the other way (review of #54)
+  const huhBrows = { browUp: 0.5, browInnerUp: 0.5, browOuterUp: 0.3 };
+  for (const roll of [25, 18, -18, 15]) assert.equal(winner({ ...huhBrows, roll }), "huh", `roll ${roll}`);
+  // fear brows with the mouth corners pulled down are sad again
+  assert.equal(winner({ ...fear, frown: 0.45 }), "crying");
 });
 
 test("fist and shaka from synthetic hands", () => {
@@ -141,4 +158,35 @@ test("a malformed hand is ignored but valid ones still count", () => {
   const f = handFeatures([[], hand([1, 1, 1, 1, 1])], face);
   assert.equal(f.anyHand, 1);
   assert.equal(handFeatures([[]], face).anyHand, 0);
+});
+
+test("a zero face height (top and chin coincide) keeps handAtChin finite", () => {
+  const pt = { x: 0.5, y: 0.5 };
+  const f = handFeatures([Array(21).fill(pt)], Array(478).fill(pt));
+  assert.ok(Number.isFinite(f.handAtChin));
+  assert.equal(f.handAtChin, 1);
+});
+
+// --- chooser gaps (issue #44) ---
+test("a stall of more than 2 s drops pending and smoothing state", () => {
+  const thumbs = { ...faceFeatures({}), ...handFeatures([hand([1, 0, 0, 0, 0])], face), face: true };
+  const neutral = { ...faceFeatures({}), ...handFeatures([]), face: true };
+  const c = createChooser();
+  const shown = [c.step(thumbs, 0), c.step(thumbs, 33)];
+  assert.ok(c.ema.thumbs > 0, "probe needs thumbs to register");
+  assert.equal(c.step(neutral, 30033), false);
+  assert.equal(c.current, "stare");
+  assert.ok(c.ema.thumbs < 0.01);
+  c.reset();
+  assert.ok(Object.values(c.ema).every((v) => v === 0));
+  void shown;
+});
+
+test("a slow device (600 ms per frame) still switches memes", () => {
+  const thumbs = { ...faceFeatures({}), ...handFeatures([hand([1, 0, 0, 0, 0])], face), face: true };
+  const c = createChooser();
+  let t = 0, changed = false;
+  for (let i = 0; i < 6; i++, t += 600) changed = c.step(thumbs, t) || changed;
+  assert.ok(changed, "meme should be shown at ~1.7 fps");
+  assert.notEqual(c.current, "stare");
 });

@@ -1,6 +1,7 @@
 import { FaceLandmarker, HandLandmarker, FilesetResolver } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs";
 import { MEMES, createChooser, handFeatures, faceFeatures } from "./memes.js";
 import { catSVG, PALETTES } from "./cats.js";
+import { snapCamera } from "./crop.js";
 
 const MP = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm";
 const MODELS = {
@@ -204,14 +205,15 @@ async function snap() {
   if (!running) return;
   await fontReady();
   if (!running) return;
-  const W = 1080, H = 1350, c = document.createElement("canvas"); c.width = W; c.height = H;
+  // Camera part: the same window of the frame the live .cam view shows (its aspect, cover fit); cat part below, 1080×675.
+  const camBox = $(".cam"), cam = snapCamera(video.videoWidth, video.videoHeight, camBox.clientWidth, camBox.clientHeight);
+  const W = cam.width, top = cam.height, H = top + 675, c = document.createElement("canvas"); c.width = W; c.height = H;
   const x = c.getContext("2d");
   x.fillStyle = "#111"; x.fillRect(0, 0, W, H);
-  const vw = video.videoWidth, vh = video.videoHeight, top = H / 2;
-  const s = Math.max(W / vw, top / vh), sw = W / s, sh = top / s;
+  const { sx, sy, sw, sh } = cam.crop;
   x.save();
   if (facing === "user") { x.translate(W, 0); x.scale(-1, 1); }
-  x.drawImage(video, (vw - sw) / 2, (vh - sh) / 2, sw, sh, 0, 0, W, top);
+  if (sw > 0 && sh > 0) x.drawImage(video, sx, sy, sw, sh, 0, 0, W, top);
   x.restore();
   const m = MEMES.find((mm) => mm.id === chooser.current);
   x.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--card").trim() || "#fff3e0";
@@ -280,6 +282,22 @@ document.addEventListener("visibilitychange", () => {
 
 // Registered once the page has downloaded the MediaPipe files itself: sw.js precaches them at install, and by then
 // they are in the HTTP cache, so the first visit does not download the 21 MB twice.
-if ("serviceWorker" in navigator) modelsReady.catch(() => {}).finally(() => navigator.serviceWorker.register("sw.js").catch(() => {}));
+if ("serviceWorker" in navigator) {
+  modelsReady.catch(() => {}).finally(() => navigator.serviceWorker.register("sw.js").catch(() => {}));
+  navigator.serviceWorker.ready.then(keepOffline);
+}
+
+// WebKit may delete the Cache API data of a site that is not on the Home Screen after 7 days without a visit, which
+// would drop the 21 MB sw.js cached. Persisted storage is exempt, so ask for it once the worker is active; if the
+// browser says no and the app is in a browser tab, suggest Add to Home Screen (Home Screen apps are exempt as well).
+// Gecko (UA token "Firefox/"; iOS Firefox is "FxiOS" and runs WebKit) shows a permission doorhanger for persist() and has
+// no 7-day eviction, so an unprompted call there only annoys: skip it, and the Home Screen hint with it.
+async function keepOffline() {
+  if (/\bFirefox\//.test(navigator.userAgent)) return;
+  const persisted = await navigator.storage?.persist?.().catch(() => null) ?? null;   // null: no API, or it threw
+  const standalone = matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+  console.info(`kitty pose: storage.persist() -> ${persisted} (${standalone ? "Home Screen app" : "browser tab"})`);
+  if (persisted !== true && !standalone) $("#homeHint").hidden = false;
+}
 picsLoad().then(() => render(chooser.current, false));
 for (const m of MEMES) if (m.img) { const i = new Image(); i.src = m.img; }  // no flicker on the first switch

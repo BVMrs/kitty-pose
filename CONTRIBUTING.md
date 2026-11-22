@@ -44,7 +44,12 @@ Follow the existing history (`git log --format='%s%n%b'`):
    - how you verified it: the `npm test` result, plus what you saw when you ran the app (which poses, which
      viewport or device)
    - the risks, and any follow-ups you did not do
-3. CI must be green, and the owner must approve.
+3. CI must be green, and the owner must approve. CI has two jobs in `.github/workflows/test.yml`: `test` (`npm test`,
+   fast) and `browser-checks`, which runs `node demo/snap-check.mjs` (the shared snap keeps the live view's window) and
+   `node demo/offline-check.mjs` (the app works offline after one visit) in the runner's Google Chrome, via
+   `$CHROMIUM`. The job fails if either script exits 1. It downloads MediaPipe and the models (~21 MB) and takes
+   about 1-2 minutes. The job uses Node 22: the scripts need its global `WebSocket`. To run a check locally, use Node >= 22,
+   set `CHROMIUM` to your Chrome binary, and run the script with node.
 4. PRs are **squash merged**, so the PR title becomes the commit subject. Write it in the commit style above.
 5. After each merge, the runner rebases the open agent PRs (`claude/*`) onto `master`. Keep PRs independent so
    these rebases stay clean.
@@ -68,8 +73,14 @@ Many PRs touch these files, so keep them out of feature PRs unless the task is a
 Some files have to change together:
 
 - New or renamed files under `assets/`, and new top-level `.js` or `.css` files, also go into the `SHELL` list in
-  `sw.js`. Bump the cache name `V` (`kitty-vN`) there whenever shipped files change, so that installed copies
-  update.
+  `sw.js`. Own files are served network-first (3 s fallback to the cache), so online users get edits to
+  existing files without a bump. Bump the cache name `V` (`kitty-vN`) only when the `SHELL` list changes or an
+  edit must reach offline-first installs (the cached copy is what a slow or offline start serves).
+  Example: renaming an export in `memes.js` and its import in `app.js`. Each file falls back to the cache on its
+  own, so a slow start can get the new `app.js` from the network and the old `memes.js` from the cache, and the
+  import then fails. A `V` bump re-precaches the whole `SHELL` in one install, so the cached pair stays matched.
+  A replaced photo under the same name needs no bump: `app.js` preloads every meme photo on each start, which
+  refreshes the cached copy.
 - A new meme with `img:` in `memes.js` needs that file in `assets/`. The test
   "photos exist for every meme that names one" checks this.
 
@@ -115,5 +126,5 @@ become follow-up issues.
 - `npm test` passes locally and in CI.
 - The demo still runs: `python3 -m http.server 8000`, then the camera opens, a pose shows its meme, and the
   shutter makes the meme image. Check this in a mobile viewport.
-- `sw.js` is updated if shipped files changed. Docs you touched are updated, and changes needed in shared docs
-  are listed in the PR description.
+- `sw.js` is updated if the `SHELL` list changed or the change is offline-critical (see above). Docs you touched
+  are updated, and changes needed in shared docs are listed in the PR description.

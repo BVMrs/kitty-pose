@@ -1,8 +1,8 @@
 // Offline after the first visit: app shell + MediaPipe runtime + models.
 // On the first visit the page is not controlled by this worker yet, so its own requests for the 21 MB of
 // MediaPipe files never reach the fetch handler: they are precached here, at install, instead.
-const V = "kitty-v4";
-const SHELL = ["./", "index.html", "style.css", "app.js", "memes.js", "cats.js", "manifest.webmanifest", "icon.svg",
+const V = "kitty-v8";
+const SHELL = ["./", "index.html", "style.css", "app.js", "memes.js", "cats.js", "crop.js", "manifest.webmanifest", "icon.svg",
   ...["pop.jpg", "shocked.jpg", "close-stare.jpg", "hiss.jpg", "crying.jpg", "smile.jpg", "smug.jpg", "side-eye.jpg", "lookaway.jpg",
       "think.jpg", "laugh-point.gif", "point.jpg", "fistbump.jpg", "angry-fist.jpg", "shaka.jpg", "wizard.jpg", "stare.jpg"].map((f) => "assets/" + f)];
 // Must match app.js (bundle version, wasm base, model URLs) and index.html (font CSS).
@@ -13,6 +13,8 @@ const FONT_CSS = "https://fonts.googleapis.com/css2?family=Anton&family=Inter:wg
 // The same probe vision_bundle.mjs 0.10.14 uses to pick vision_wasm_internal (SIMD) or vision_wasm_nosimd_internal,
 // so the variant cached here is the one the page will ask for (9.4 MB each; a 2024 iPhone takes the SIMD one).
 const SIMD_PROBE = new Uint8Array([0,97,115,109,1,0,0,0,1,5,1,96,0,1,123,3,2,1,0,10,10,1,8,0,65,0,253,15,253,98,11]);
+// Exact hosts only: an unanchored regex would also match look-alikes (the Google storage host with a suffix appended).
+const HEAVY_HOSTS = new Set(["storage.googleapis.com", "cdn.jsdelivr.net", "fonts.googleapis.com", "fonts.gstatic.com"]);
 const NET_TIMEOUT_MS = 3000;   // own files: wait this long for the network before serving the cached copy
 
 async function wasmVariants() {
@@ -76,8 +78,7 @@ function networkFirst(e) {
 self.addEventListener("fetch", (e) => {
   const u = new URL(e.request.url);
   if (e.request.method !== "GET") return;
-  const heavy = /storage\.googleapis\.com|cdn\.jsdelivr\.net|fonts\.(googleapis|gstatic)\.com/.test(u.host);
-  if (heavy) {               // versioned / immutable: cache first
+  if (HEAVY_HOSTS.has(u.host)) {              // versioned / immutable: cache first
     e.respondWith(caches.open(V).then(async (c) => (await c.match(e.request)) ||
       fetch(e.request).then((r) => { if (r.ok || r.type === "opaque") c.put(e.request, r.clone()); return r; })));
   } else if (u.origin === location.origin) {   // own files: network first so updates land, cache as fallback

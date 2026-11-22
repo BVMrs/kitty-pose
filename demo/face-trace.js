@@ -50,7 +50,9 @@ export function frameFeatures(dump, fr) {
   let lm;
   if (fr.lm) { lm = []; dump.landmarks.forEach((idx, k) => { const [x, y, z] = fr.lm[k]; lm[idx] = { x, y, z }; }); }
   const hands = (fr.hands || []).map((h) => h.map(([x, y, z]) => ({ x, y, z })));
-  return { ...faceFeatures(b, lm), ...handFeatures(hands, lm) };
+  const [cw, ch] = dump.clip?.video || [];
+  const aspect = (cw / ch) || 1; // as app.js: videoWidth / videoHeight || 1 (the dump keeps one size per clip)
+  return { ...faceFeatures(b, lm), ...handFeatures(hands, lm, aspect) };
 }
 
 // Runs the app's chooser over every frame in order; returns the shown meme after each frame.

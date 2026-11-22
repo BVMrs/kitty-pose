@@ -219,6 +219,10 @@ export async function dumpClip(clip, { labels, out, lead = 2, tail = 2, width = 
     if (frames[0].i >= v.lead && !process.env.KITTY_DEBUG) throw new Error(`the first detected frame (${frames[0].i}) is past the ${v.lead}-frame lead-in: raise --lead`);
     if (!names) throw new Error("no face was found in any frame");
 
+    // clip.video is the only aspect the replay knows: a mid-run resolution change would be replayed wrongly.
+    const odd = frames.find((f) => f.vw !== frames[0].vw || f.vh !== frames[0].vh);
+    if (odd) throw new Error(`the video size changed mid-run: frame ${frames[0].i} is ${frames[0].vw}x${frames[0].vh}, frame ${odd.i} is ${odd.vw}x${odd.vh}`);
+
     const labelSet = labels ?? {};
     const dump = {
       format: FORMAT,

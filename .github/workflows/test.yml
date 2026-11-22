@@ -8,3 +8,20 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 20 }
       - run: npm test
+  browser-checks:
+    # Real-browser checks `npm test` cannot see. They fetch MediaPipe and the models from the CDN (~21 MB).
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      # Pin the runner's Google Chrome: findExe() tries `chromium` first, and the runner's `chromium` crashes
+      # headless (SIGABRT, PR #81). Fail loudly here if Chrome is missing instead of exporting an empty path.
+      - name: Locate Chrome
+        run: |
+          chrome="$(command -v google-chrome)" || { echo "::error::google-chrome not found on the runner"; exit 1; }
+          echo "CHROMIUM=$chrome" >> "$GITHUB_ENV"
+      # One retry each: a CDN hiccup while downloading MediaPipe/models should not turn CI red.
+      - run: node demo/snap-check.mjs || { echo "retrying snap-check once"; node demo/snap-check.mjs; }
+      - run: node demo/offline-check.mjs || { echo "retrying offline-check once"; node demo/offline-check.mjs; }

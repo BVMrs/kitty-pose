@@ -22,7 +22,7 @@ const NOSIMD = [MP + "/wasm/vision_wasm_nosimd_internal.js", MP + "/wasm/vision_
 const HEAVY = [MP + "/vision_bundle.mjs", ...SIMD, ...MODELS];
 
 // One page load: shell, every meme photo (app.js preloads them), MediaPipe bundle + wasm + models, fonts.
-const PAGE = [["/", "navigate"], ...["/style.css", "/app.js", "/memes.js", "/cats.js", "/manifest.webmanifest", "/icon.svg",
+const PAGE = [["/", "navigate"], ...["/style.css", "/app.js", "/memes.js", "/cats.js", "/crop.js", "/manifest.webmanifest", "/icon.svg",
   ...fs.readdirSync(new URL("../assets", import.meta.url)).map((f) => "/assets/" + f)].map((p) => [p, "same-origin"])]
   .map(([p, m]) => [ORIGIN + p, m])
   .concat([[MP + "/vision_bundle.mjs", "cors"], [SIMD[0], "no-cors"], [SIMD[1], "cors"], ...MODELS.map((u) => [u, "cors"]),
@@ -163,4 +163,17 @@ test("an update reuses the previous version's heavy files instead of downloading
   assert.ok(env.net.log.includes(SIMD[0]), "an opaque old copy is refetched, not reused");
   for (const u of HEAVY) assert.ok(env.cached().includes(u), "copied into " + V + ": " + u);
   assert.deepEqual(await env.caches.keys(), [V]);
+});
+
+test("heavy hosts are matched exactly: look-alike hosts are not cached, the real ones are", async () => {
+  const env = makeEnv();
+  await env.fire("install"); await env.fire("activate");
+  const REAL = [...MODELS, MP + "/vision_bundle.mjs", FONT_CSS, LATIN];
+  for (const x of REAL) {
+    const suffixed = new URL(x); suffixed.host += ".evil.example";
+    assert.equal((await env.request(suffixed.href)).handled, false, "look-alike is not heavy: " + suffixed.href);
+    const prefixed = new URL(x); prefixed.host = "x" + prefixed.host;
+    assert.equal((await env.request(prefixed.href)).handled, false, "prefixed host is not heavy: " + prefixed.href);
+  }
+  for (const u of REAL) assert.equal((await env.request(u)).handled, true, "heavy: " + u);
 });
