@@ -1,0 +1,123 @@
+by region {
+  helpers: { n: 18, k: 3 },
+  'face memes': { n: 122, k: 5 },
+  'cat drawing params': { n: 4, k: 0 },
+  'hand memes+default': { n: 37, k: 2 },
+  'hand features': { n: 115, k: 80 },
+  'face features': { n: 45, k: 15 },
+  chooser: { n: 22, k: 9 }
+}
+per meme score lines (killed/total) {
+  pop: '0/11',
+  shocked: '0/14',
+  'close-stare': '1/10',
+  hiss: '0/9',
+  crying: '2/20',
+  smile: '0/10',
+  smug: '0/13',
+  'side-eye': '0/9',
+  lookaway: '0/5',
+  huh: '2/17',
+  sleepy: '0/4',
+  think: '0/6',
+  'laugh-point': '0/8',
+  point: '0/9',
+  fistbump: '1/5',
+  'angry-fist': '0/4',
+  stare: '0/2',
+  wizard: '1/1',
+  stop: '0/2'
+}
+11 helpers num 0.03 -> 0.0375 | const outerUp = (f) => ramp(f.browOuterUp, 0.03, 0.09);
+11 helpers num 0.03 -> 0.024 | const outerUp = (f) => ramp(f.browOuterUp, 0.03, 0.09);
+11 helpers num 0.09 -> 0.1125 | const outerUp = (f) => ramp(f.browOuterUp, 0.03, 0.09);
+11 helpers num 0.09 -> 0.072 | const outerUp = (f) => ramp(f.browOuterUp, 0.03, 0.09);
+13 helpers num 0.25 -> 0.3125 | const browsRaised = (f) => ramp(f.browInnerUp, 0.25, 0.45) * outerUp(f) * not(ramp(f.frown, 0.1, 0.2
+13 helpers num 0.25 -> 0.2 | const browsRaised = (f) => ramp(f.browInnerUp, 0.25, 0.45) * outerUp(f) * not(ramp(f.frown, 0.1, 0.2
+13 helpers num 0.45 -> 0.5625 | const browsRaised = (f) => ramp(f.browInnerUp, 0.25, 0.45) * outerUp(f) * not(ramp(f.frown, 0.1, 0.2
+13 helpers num 0.45 -> 0.36 | const browsRaised = (f) => ramp(f.browInnerUp, 0.25, 0.45) * outerUp(f) * not(ramp(f.frown, 0.1, 0.2
+13 helpers num 0.1 -> 0.125 | const browsRaised = (f) => ramp(f.browInnerUp, 0.25, 0.45) * outerUp(f) * not(ramp(f.frown, 0.1, 0.2
+13 helpers num 0.1 -> 0.08 | const browsRaised = (f) => ramp(f.browInnerUp, 0.25, 0.45) * outerUp(f) * not(ramp(f.frown, 0.1, 0.2
+13 helpers num 0.25 -> 0.3125 | const browsRaised = (f) => ramp(f.browInnerUp, 0.25, 0.45) * outerUp(f) * not(ramp(f.frown, 0.1, 0.2
+13 helpers num 0.25 -> 0.2 | const browsRaised = (f) => ramp(f.browInnerUp, 0.25, 0.45) * outerUp(f) * not(ramp(f.frown, 0.1, 0.2
+14 helpers num 8 -> 10 | * not(ramp(Math.abs(f.roll), 8, 16));
+14 helpers num 8 -> 6.4 | * not(ramp(Math.abs(f.roll), 8, 16));
+14 helpers num 16 -> 12.8 | * not(ramp(Math.abs(f.roll), 8, 16));
+96 hand features num 21 -> 16.8 | export const validHand = (h) => Array.isArray(h) && h.length >= 21 && h.slice(0, 21).every(okPt);
+96 hand features num 21 -> 26.25 | export const validHand = (h) => Array.isArray(h) && h.length >= 21 && h.slice(0, 21).every(okPt);
+96 hand features num 21 -> 16.8 | export const validHand = (h) => Array.isArray(h) && h.length >= 21 && h.slice(0, 21).every(okPt);
+102 hand features num 1.12 -> 1.4 | const ext = (tip, pip) => d(h[tip], w) > d(h[pip], w) * 1.12;
+102 hand features num 1.12 -> 0.896 | const ext = (tip, pip) => d(h[tip], w) > d(h[pip], w) * 1.12;
+104 hand features num 1.1 -> 0.88 | thumb: d(h[4], h[9]) > d(h[3], h[9]) * 1.1 && d(h[4], h[5]) > d(h[0], h[5]) * 0.55,
+104 hand features num 0.55 -> 0.44 | thumb: d(h[4], h[9]) > d(h[3], h[9]) * 1.1 && d(h[4], h[5]) > d(h[0], h[5]) * 0.55,
+105 hand features num 12 -> 15 | index: ext(8, 6), middle: ext(12, 10), ring: ext(16, 14), pinky: ext(20, 18),
+120 hand features num 4 -> 5 | const thumbUp = s.thumb && h[4].y < h[2].y - s.size * 0.35;
+120 hand features num 0.35 -> 0.4375 | const thumbUp = s.thumb && h[4].y < h[2].y - s.size * 0.35;
+120 hand features num 0.35 -> 0.28 | const thumbUp = s.thumb && h[4].y < h[2].y - s.size * 0.35;
+127 hand features num 5 -> 4 | const knuckles = [5, 9, 13, 8, 12].map((i) => h[i]);
+130 hand features num 0.3 -> 0.375 | const faceH = fh > 0 ? fh : 0.3;
+130 hand features num 0.3 -> 0.24 | const faceH = fh > 0 ? fh : 0.3;
+131 hand features num 0.15 -> 0.1875 | out.handAtChin = Math.max(out.handAtChin, 1 - clamp((near / faceH - 0.15) / 0.35));
+131 hand features num 0.15 -> 0.12 | out.handAtChin = Math.max(out.handAtChin, 1 - clamp((near / faceH - 0.15) / 0.35));
+131 hand features num 0.35 -> 0.4375 | out.handAtChin = Math.max(out.handAtChin, 1 - clamp((near / faceH - 0.15) / 0.35));
+131 hand features num 0.35 -> 0.28 | out.handAtChin = Math.max(out.handAtChin, 1 - clamp((near / faceH - 0.15) / 0.35));
+135 hand features num 2 -> 1.6 | out.handsUp = up >= 2 ? 1 : 0;
+136 hand features num 2 -> 2.5 | out.twoPalms = palms >= 2 ? 1 : 0;
+136 hand features num 2 -> 1.6 | out.twoPalms = palms >= 2 ? 1 : 0;
+138 hand features num 0.6 -> 0.75 | if (out.handAtChin > 0.6) out.fist = 0;                 // a fist under the chin is the thinker
+138 hand features num 0.6 -> 0.48 | if (out.handAtChin > 0.6) out.fist = 0;                 // a fist under the chin is the thinker
+147 face features num 455 -> 568.8 | if (!(Array.isArray(lm) && lm.length >= 455 && [1, 33, 234, 263, 454].every((i) => okPt(lm[i])))) lm
+147 face features num 455 -> 364 | if (!(Array.isArray(lm) && lm.length >= 455 && [1, 33, 234, 263, 454].every((i) => okPt(lm[i])))) lm
+147 face features num 33 -> 41.25 | if (!(Array.isArray(lm) && lm.length >= 455 && [1, 33, 234, 263, 454].every((i) => okPt(lm[i])))) lm
+147 face features num 33 -> 26.4 | if (!(Array.isArray(lm) && lm.length >= 455 && [1, 33, 234, 263, 454].every((i) => okPt(lm[i])))) lm
+147 face features num 234 -> 292.5 | if (!(Array.isArray(lm) && lm.length >= 455 && [1, 33, 234, 263, 454].every((i) => okPt(lm[i])))) lm
+147 face features num 234 -> 187.2 | if (!(Array.isArray(lm) && lm.length >= 455 && [1, 33, 234, 263, 454].every((i) => okPt(lm[i])))) lm
+147 face features num 263 -> 328.8 | if (!(Array.isArray(lm) && lm.length >= 455 && [1, 33, 234, 263, 454].every((i) => okPt(lm[i])))) lm
+147 face features num 263 -> 210.4 | if (!(Array.isArray(lm) && lm.length >= 455 && [1, 33, 234, 263, 454].every((i) => okPt(lm[i])))) lm
+147 face features num 454 -> 567.5 | if (!(Array.isArray(lm) && lm.length >= 455 && [1, 33, 234, 263, 454].every((i) => okPt(lm[i])))) lm
+147 face features num 454 -> 363.2 | if (!(Array.isArray(lm) && lm.length >= 455 && [1, 33, 234, 263, 454].every((i) => okPt(lm[i])))) lm
+149 face features num 180 -> 225 | roll = (Math.atan2(lm[263].y - lm[33].y, lm[263].x - lm[33].x) * 180) / Math.PI;
+149 face features num 180 -> 144 | roll = (Math.atan2(lm[263].y - lm[33].y, lm[263].x - lm[33].x) * 180) / Math.PI;
+151 face features num 0.5 -> 0.625 | yaw = r.x !== l.x ? ((n.x - l.x) / (r.x - l.x) - 0.5) * 2 : 0;
+151 face features num 0.5 -> 0.4 | yaw = r.x !== l.x ? ((n.x - l.x) / (r.x - l.x) - 0.5) * 2 : 0;
+151 face features num 2 -> 2.5 | yaw = r.x !== l.x ? ((n.x - l.x) / (r.x - l.x) - 0.5) * 2 : 0;
+151 face features num 2 -> 1.6 | yaw = r.x !== l.x ? ((n.x - l.x) / (r.x - l.x) - 0.5) * 2 : 0;
+156 face features num 2 -> 2.5 | eyeWide: (g("eyeWideLeft") + g("eyeWideRight")) / 2,
+156 face features num 2 -> 1.6 | eyeWide: (g("eyeWideLeft") + g("eyeWideRight")) / 2,
+158 face features num 2 -> 2.5 | squint: (g("eyeSquintLeft") + g("eyeSquintRight")) / 2,
+158 face features num 2 -> 1.6 | squint: (g("eyeSquintLeft") + g("eyeSquintRight")) / 2,
+160 face features num 2 -> 2.5 | frown: (g("mouthFrownLeft") + g("mouthFrownRight")) / 2,
+160 face features num 2 -> 1.6 | frown: (g("mouthFrownLeft") + g("mouthFrownRight")) / 2,
+162 face features num 2 -> 2.5 | browOuterUp: (g("browOuterUpLeft") + g("browOuterUpRight")) / 2,
+162 face features num 2 -> 1.6 | browOuterUp: (g("browOuterUpLeft") + g("browOuterUpRight")) / 2,
+164 face features num 2 -> 2.5 | browDown: (g("browDownLeft") + g("browDownRight")) / 2,
+164 face features num 2 -> 1.6 | browDown: (g("browDownLeft") + g("browDownRight")) / 2,
+165 face features num 2 -> 2.5 | gazeSide: Math.max((g("eyeLookOutLeft") + g("eyeLookInRight")) / 2, (g("eyeLookInLeft") + g("eyeLook
+165 face features num 2 -> 1.6 | gazeSide: Math.max((g("eyeLookOutLeft") + g("eyeLookInRight")) / 2, (g("eyeLookInLeft") + g("eyeLook
+165 face features num 2 -> 2.5 | gazeSide: Math.max((g("eyeLookOutLeft") + g("eyeLookInRight")) / 2, (g("eyeLookInLeft") + g("eyeLook
+165 face features num 2 -> 1.6 | gazeSide: Math.max((g("eyeLookOutLeft") + g("eyeLookInRight")) / 2, (g("eyeLookInLeft") + g("eyeLook
+174 chooser num 2000 -> 2500 | const GAP_MS = 2000;
+174 chooser num 2000 -> 1600 | const GAP_MS = 2000;
+192 chooser num 0.6 -> 0.75 | ema[m.id] = ema[m.id] * 0.6 + (Number.isFinite(sc) ? clamp(sc) : 0) * 0.4;
+192 chooser num 0.6 -> 0.48 | ema[m.id] = ema[m.id] * 0.6 + (Number.isFinite(sc) ? clamp(sc) : 0) * 0.4;
+192 chooser num 0.4 -> 0.5 | ema[m.id] = ema[m.id] * 0.6 + (Number.isFinite(sc) ? clamp(sc) : 0) * 0.4;
+192 chooser num 0.4 -> 0.32 | ema[m.id] = ema[m.id] * 0.6 + (Number.isFinite(sc) ? clamp(sc) : 0) * 0.4;
+196 chooser num 0.35 -> 0.4375 | if (ema[best] < 0.35 && best !== "stare") best = "stare";
+196 chooser num 0.35 -> 0.28 | if (ema[best] < 0.35 && best !== "stare") best = "stare";
+198 chooser num 0.08 -> 0.1 | if (best !== "stare" && ema[best] < ema[c.current] + 0.08) return false;
+198 chooser num 0.08 -> 0.064 | if (best !== "stare" && ema[best] < ema[c.current] + 0.08) return false;
+200 chooser num 600 -> 750 | if (now - pendingSince > (best === "stare" ? 600 : 220)) { c.current = best; pending = null; return 
+200 chooser num 600 -> 480 | if (now - pendingSince > (best === "stare" ? 600 : 220)) { c.current = best; pending = null; return 
+200 chooser num 220 -> 275 | if (now - pendingSince > (best === "stare" ? 600 : 220)) { c.current = best; pending = null; return 
+130 hand features cmp > flipped | const faceH = fh > 0 ? fh : 0.3;
+97 hand features logic && swapped | const okAspect = (a) => (Number.isFinite(a) && a > 0 ? a : 1);
+104 hand features logic && swapped | thumb: d(h[4], h[9]) > d(h[3], h[9]) * 1.1 && d(h[4], h[5]) > d(h[0], h[5]) * 0.55,
+120 hand features logic && swapped | const thumbUp = s.thumb && h[4].y < h[2].y - s.size * 0.35;
+122 hand features logic && swapped | else if (s.thumb && s.pinky && !s.index && !s.middle && !s.ring) out.shaka = 1;
+124 hand features logic && swapped | if (s.index && !s.middle && !s.ring && !s.pinky) out.pointing = 1;
+124 hand features logic && swapped | if (s.index && !s.middle && !s.ring && !s.pinky) out.pointing = 1;
+124 hand features logic && swapped | if (s.index && !s.middle && !s.ring && !s.pinky) out.pointing = 1;
+125 hand features logic && swapped | if (s.index && s.middle && s.ring && s.pinky && s.thumb) { out.openPalm = 1; palms++; }
+125 hand features logic && swapped | if (s.index && s.middle && s.ring && s.pinky && s.thumb) { out.openPalm = 1; palms++; }
+125 hand features logic && swapped | if (s.index && s.middle && s.ring && s.pinky && s.thumb) { out.openPalm = 1; palms++; }
+137 hand features logic || swapped | if (out.thumbsUp || out.shaka) out.pointing = 0;
