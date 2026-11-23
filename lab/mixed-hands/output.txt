@@ -1,0 +1,27 @@
+aspect 0.5625, hand scale 1.5; shown meme (steady state, neutral face); 300 pairs each
+main pose + other hand -> % main meme | top other results
+thumbs + thumbs | alone: thumbs 98%, fistbump 1%, shaka 0%  | pair: thumbs 97%, fistbump 3%, shaka 1%
+thumbs + shaka  | alone: thumbs 98%, fistbump 1%, shaka 0%  | pair: shaka 73%, thumbs 26%, fistbump 1%
+thumbs + point  | alone: thumbs 98%, fistbump 1%, shaka 0%  | pair: thumbs 97%, point 2%, think 1%
+thumbs + palm   | alone: thumbs 98%, fistbump 1%, shaka 0%  | pair: thumbs 96%, think 3%, fistbump 1%
+thumbs + fist   | alone: thumbs 98%, fistbump 1%, shaka 0%  | pair: fistbump 90%, thumbs 9%, point 0%
+shaka  + thumbs | alone: shaka 73%, stare 23%, think 2%     | pair: shaka 72%, thumbs 26%, fistbump 1%
+shaka  + shaka  | alone: shaka 73%, stare 23%, think 2%     | pair: shaka 92%, stare 8%, think 0%
+shaka  + point  | alone: shaka 73%, stare 23%, think 2%     | pair: shaka 73%, point 25%, thumbs 1%
+shaka  + palm   | alone: shaka 73%, stare 23%, think 2%     | pair: shaka 71%, stop 14%, think 8%
+shaka  + fist   | alone: shaka 73%, stare 23%, think 2%     | pair: fistbump 89%, shaka 7%, think 2%
+point  + thumbs | alone: point 99%, fistbump 0%, stare 0%   | pair: thumbs 97%, point 2%, think 1%
+point  + shaka  | alone: point 99%, fistbump 0%, stare 0%   | pair: shaka 73%, point 25%, thumbs 1%
+point  + point  | alone: point 99%, fistbump 0%, stare 0%   | pair: point 100%
+point  + palm   | alone: point 99%, fistbump 0%, stare 0%   | pair: point 99%, fistbump 0%, stop 0%
+point  + fist   | alone: point 99%, fistbump 0%, stare 0%   | pair: point 96%, thumbs 3%, think 0%
+palm   + thumbs | alone: stop 51%, think 28%, stare 21%     | pair: thumbs 96%, think 2%, fistbump 1%
+palm   + shaka  | alone: stop 51%, think 28%, stare 21%     | pair: shaka 71%, stop 12%, stare 8%
+palm   + point  | alone: stop 51%, think 28%, stare 21%     | pair: point 99%, think 0%, fistbump 0%
+palm   + palm   | alone: stop 51%, think 28%, stare 21%     | pair: stop 46%, wizard 27%, think 23%
+palm   + fist   | alone: stop 51%, think 28%, stare 21%     | pair: fistbump 68%, stop 15%, think 13%
+fist   + thumbs | alone: fistbump 92%, thumbs 3%, think 3%  | pair: fistbump 90%, thumbs 9%, think 1%
+fist   + shaka  | alone: fistbump 92%, thumbs 3%, think 3%  | pair: fistbump 89%, shaka 7%, think 3%
+fist   + point  | alone: fistbump 92%, thumbs 3%, think 3%  | pair: point 96%, thumbs 3%, fistbump 1%
+fist   + palm   | alone: fistbump 92%, thumbs 3%, think 3%  | pair: fistbump 68%, stop 15%, think 12%
+fist   + fist   | alone: fistbump 92%, thumbs 3%, think 3%  | pair: fistbump 91%, think 6%, point 1%
