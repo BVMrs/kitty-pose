@@ -1,0 +1,22 @@
+palm: wrist->highest landmark (frame heights, native size) p10 0.095 p50 0.153 p90 0.229
+like: wrist->highest landmark (frame heights, native size) p10 0.063 p50 0.107 p90 0.164
+fist: wrist->highest landmark (frame heights, native size) p10 0.046 p50 0.078 p90 0.123
+
+aspect 0.5625. Two open palms, wrist y relative to forehead-top (face top y=.30); shown meme:
+  wrists above forehead by 0.02: in-frame 97%  yippee 100%
+  wrists above forehead by 0.00: in-frame 99%  wizard 53%, stare 47%
+  wrists below forehead by 0.02: in-frame 99%  wizard 53%, stare 47%
+  wrists below forehead by 0.05: in-frame 100%  wizard 53%, stare 47%
+  wrists below forehead by 0.10: in-frame 100%  wizard 53%, stare 47%
+
+forehead-top y -> share of HaGRID palms whose wrist can be above forehead AND fingertips in frame
+  top y 0.10: 13%
+  top y 0.15: 48%
+  top y 0.20: 78%
+  top y 0.25: 94%
+  top y 0.30: 99%
+  top y 0.35: 100%
+  top y 0.40: 100%
+two fist wrists at y=.25 (forehead .30): fistbump 97%, thumbs 3%, point 1%
+two like wrists at y=.25 (forehead .30): thumbs 99%, fistbump 1%
+two palm wrists at y=.25 (forehead .30): yippee 100%

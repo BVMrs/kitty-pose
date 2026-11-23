@@ -1,0 +1,10 @@
+share of palms whose raised hand (wrist above forehead, top y .30) stays fully in frame, by hand scale k (1 = HaGRID size)
+  k=1: in frame 99% ; median headroom needed above the wrist 0.15
+  k=1.5: in frame 78% ; median headroom needed above the wrist 0.23
+  k=2: in frame 48% ; median headroom needed above the wrist 0.31
+  k=2.5: in frame 27% ; median headroom needed above the wrist 0.38
+
+cheering pairs, wrists at y=.20 (forehead .30), k=1.5, hands mirrored; mean scores of yippee vs winner, and shown meme
+  palm+palm: handsUp 100%; shown yippee 100%
+  fist+fist: handsUp 100%; shown fistbump 96%, thumbs 3%, point 1%, yippee 0%
+  palm+fist: handsUp 100%; shown fistbump 96%, thumbs 3%, point 1%, yippee 0%
