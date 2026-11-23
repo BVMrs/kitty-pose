@@ -1,0 +1,32 @@
+== A. feature yaw vs true head yaw (pitch 0, roll 0), protrusion p-dz sweep, cheek half-width 7.5
+true yaw: 10   20   30   40   50   60
+p=5: 0.12  0.24  0.38  0.56  0.79  1.15
+p=7: 0.16  0.34  0.54  0.78  1.11  1.62
+p=9: 0.21  0.44  0.69  1.01  1.43  2.08
+
+== B. true yaw where lookaway score reaches .5 / 1 (no hand), and where side-eye (gaze 0.65) is half / fully suppressed
+p=5: lookaway .5 at 35.5 deg, full at 42; side-eye halved at 31, dead at 37
+p=7: lookaway .5 at 27 deg, full at 33; side-eye halved at 23.5, dead at 28.5
+p=9: lookaway .5 at 22 deg, full at 27; side-eye halved at 18.5, dead at 23
+
+== C. fake roll from yaw+pitch (true roll 0), p=7: image roll in degrees, rows yaw, cols camera pitch of head
+yaw\pitch -30     -20     -10     0     10     20     30
+   10       -5.0   -3.5   -1.8    0.0    1.8    3.5    5.0
+   20      -10.3   -7.1   -3.6    0.0    3.6    7.1   10.3
+   30      -16.1  -11.2   -5.7    0.0    5.7   11.2   16.1
+   40      -22.8  -16.0   -8.3    0.0    8.3   16.0   22.8
+   50      -30.8  -22.2  -11.7    0.0   11.7   22.2   30.8
+
+== D. huh score with raised brows (browUp .5, jaw 0) and NO true tilt, p=7
+yaw\pitch -30     -20     -10     0     10     20     30
+   10       0.00   0.00   0.00   0.00   0.00   0.00   0.00
+   20       0.00   0.00   0.00   0.00   0.00   0.00   0.00
+   30       0.34   0.00   0.00   0.00   0.00   0.00   0.34
+   40       0.90   0.33   0.00   0.00   0.00   0.33   0.90
+   50       1.00   0.85   0.00   0.00   0.00   0.85   1.00
+
+== E. true roll 0..30 at yaw 30, pitch 20: measured roll (error vs true)
+true 0: measured 11.2
+true 10: measured 21.2
+true 20: measured 31.2
+true 30: measured 41.2
