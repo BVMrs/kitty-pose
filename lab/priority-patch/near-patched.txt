@@ -1,0 +1,51 @@
+aspect 0.5625; face height 0.32; hands N<=400 per class, only those that win the right meme at their native spot
+
+like -> thumbs  (395/400 baseline-correct)
+  far-low (below chin by 1.0 fh) kept 100%  meanChin 0.00  thumbs 100%
+  below chin 0.5 fh              kept 100%  meanChin 0.23  thumbs 100%
+  at chin                        kept 100%  meanChin 1.00  thumbs 100%
+  at mouth (-0.2 fh)             kept 100%  meanChin 0.99  thumbs 100%
+  beside cheek (+0.6 fh x)       kept 100%  meanChin 0.00  thumbs 100%
+  beside head (+1.2 fh x)        kept 100%  meanChin 0.00  thumbs 100%
+  in front of eyes (-0.7 fh)     kept 100%  meanChin 0.00  thumbs 100%
+  above head                     kept 100%  meanChin 0.00  thumbs 100%
+
+call -> shaka  (291/400 baseline-correct)
+  far-low (below chin by 1.0 fh) kept 100%  meanChin 0.00  shaka 100%
+  below chin 0.5 fh              kept 100%  meanChin 0.19  shaka 100%
+  at chin                        kept 100%  meanChin 1.00  shaka 100%
+  at mouth (-0.2 fh)             kept 100%  meanChin 1.00  shaka 100%
+  beside cheek (+0.6 fh x)       kept 100%  meanChin 0.00  shaka 100%
+  beside head (+1.2 fh x)        kept 100%  meanChin 0.00  shaka 100%
+  in front of eyes (-0.7 fh)     kept 100%  meanChin 0.00  shaka 100%
+  above head                     kept 100%  meanChin 0.00  shaka 100%
+
+fist -> fistbump  (384/400 baseline-correct)
+  far-low (below chin by 1.0 fh) kept 100%  meanChin 0.00  fistbump 100%
+  below chin 0.5 fh              kept 100%  meanChin 0.01  fistbump 100%
+  at chin                        kept   0%  meanChin 1.00  think 100%
+  at mouth (-0.2 fh)             kept   0%  meanChin 0.98  think 100%
+  beside cheek (+0.6 fh x)       kept 100%  meanChin 0.00  fistbump 100%
+  beside head (+1.2 fh x)        kept 100%  meanChin 0.00  fistbump 100%
+  in front of eyes (-0.7 fh)     kept 100%  meanChin 0.00  fistbump 100%
+  above head                     kept 100%  meanChin 0.00  fistbump 100%
+
+one -> point  (395/400 baseline-correct)
+  far-low (below chin by 1.0 fh) kept 100%  meanChin 0.00  point 100%
+  below chin 0.5 fh              kept 100%  meanChin 0.64  point 100%
+  at chin                        kept 100%  meanChin 1.00  point 100%
+  at mouth (-0.2 fh)             kept 100%  meanChin 0.98  point 100%
+  beside cheek (+0.6 fh x)       kept 100%  meanChin 0.00  point 100%
+  beside head (+1.2 fh x)        kept 100%  meanChin 0.00  point 100%
+  in front of eyes (-0.7 fh)     kept 100%  meanChin 0.00  point 100%
+  above head                     kept 100%  meanChin 0.00  point 100%
+
+palm -> stop  (224/400 baseline-correct)
+  far-low (below chin by 1.0 fh) kept 100%  meanChin 0.00  stop 100%
+  below chin 0.5 fh              kept 100%  meanChin 0.62  stop 100%
+  at chin                        kept 100%  meanChin 1.00  stop 100%
+  at mouth (-0.2 fh)             kept 100%  meanChin 0.89  stop 100%
+  beside cheek (+0.6 fh x)       kept 100%  meanChin 0.00  stop 100%
+  beside head (+1.2 fh x)        kept 100%  meanChin 0.00  stop 100%
+  in front of eyes (-0.7 fh)     kept 100%  meanChin 0.00  stop 100%
+  above head                     kept 100%  meanChin 0.00  stop 100%
