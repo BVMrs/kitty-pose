@@ -1,0 +1,24 @@
+users 4107 hands 175871 max hands/user 510
+users present in BOTH parity halves: 3588 of 4107
+== grid tuned on user-fold 0 (falseTrig<=.10), reported on user-fold 1 (disjoint people) and on parity half 1 for contrast
+{"ext":1.2,"t1":1.15,"t2":0.45,"up":0.25,"palmNoThumb":true,"shakaThumb":0.3} tune: {"thumbsUp":0.938,"shaka":0.937,"fist":0.901,"pointing":0.988,"openPalm":0.99,"falseTrig":0.092,"noGesture":0.832,"four":0.997} heldout-users: {"thumbsUp":0.931,"shaka":0.923,"fist":0.892,"pointing":0.989,"openPalm":0.993,"falseTrig":0.089,"noGesture":0.849,"four":0.998}
+{"ext":1.16,"t1":1.15,"t2":0.45,"up":0.25,"palmNoThumb":true,"shakaThumb":0.3} tune: {"thumbsUp":0.938,"shaka":0.936,"fist":0.9,"pointing":0.988,"openPalm":0.998,"falseTrig":0.095,"noGesture":0.861,"four":0.997} heldout-users: {"thumbsUp":0.931,"shaka":0.92,"fist":0.892,"pointing":0.989,"openPalm":0.999,"falseTrig":0.093,"noGesture":0.88,"four":0.999}
+{"ext":1.16,"t1":1.1,"t2":0.45,"up":0.35,"palmNoThumb":true,"shakaThumb":0.3} tune: {"thumbsUp":0.898,"shaka":0.936,"fist":0.9,"pointing":0.988,"openPalm":0.998,"falseTrig":0.095,"noGesture":0.861,"four":0.997} heldout-users: {"thumbsUp":0.903,"shaka":0.92,"fist":0.896,"pointing":0.989,"openPalm":0.999,"falseTrig":0.093,"noGesture":0.88,"four":0.999}
+COMB fold0 {"thumbsUp":0.875,"shaka":0.935,"fist":0.94,"pointing":0.989,"openPalm":0.886,"falseTrig":0.075,"noGesture":0.829,"four":0.874}
+COMB fold1 {"thumbsUp":0.88,"shaka":0.92,"fist":0.938,"pointing":0.99,"openPalm":0.875,"falseTrig":0.072,"noGesture":0.811,"four":0.865}
+COMB all {"thumbsUp":0.878,"shaka":0.928,"fist":0.939,"pointing":0.989,"openPalm":0.881,"falseTrig":0.073,"noGesture":0.82,"four":0.87}
+BASE fold0 {"thumbsUp":0.839,"shaka":0.55,"fist":0.946,"pointing":0.989,"openPalm":0.505,"falseTrig":0.015,"noGesture":0.592,"four":0.447}
+BASE fold1 {"thumbsUp":0.859,"shaka":0.522,"fist":0.945,"pointing":0.99,"openPalm":0.501,"falseTrig":0.014,"noGesture":0.543,"four":0.408}
+cluster bootstrap by user (B=200), COMB: 2.5% / 50% / 97.5%
+thumbsUp   0.855 0.878 0.898
+shaka      0.918 0.928 0.938
+fist       0.925 0.940 0.950
+pointing   0.986 0.989 0.992
+openPalm   0.865 0.880 0.893
+falseTrig  0.068 0.073 0.076
+noGesture  0.793 0.822 0.850
+like        users 768 n 4940 top5 share 0.026
+call        users 1506 n 4936 top5 share 0.029
+palm        users 773 n 4991 top5 share 0.027
+stop        users 792 n 4979 top5 share 0.027
+no_gesture  users 386 n 607 top5 share 0.044
