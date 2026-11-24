@@ -1,0 +1,5 @@
+0-9 vert n 103258 med dy 0.0695 | horiz n 25311 med dx 0.0856 | A0 ~ 0.813
+5-9 vert n 24875 med dy 0.0184 | horiz n 120186 med dx 0.0219 | A0 ~ 0.841
+0-5 vert n 59192 med dy 0.0665 | horiz n 14281 med dx 0.0837 | A0 ~ 0.795
+9-10 vert n 86609 med dy 0.0318 | horiz n 32526 med dx 0.0411 | A0 ~ 0.774
+13-14 vert n 76546 med dy 0.0267 | horiz n 34078 med dx 0.0348 | A0 ~ 0.769
