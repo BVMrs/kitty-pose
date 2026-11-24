@@ -1,0 +1,35 @@
+hands 99545 with true A0 1775
+parity mismatches 0 of 2489
+baseline (master thresholds), all      {"thumbsUp":0.858,"shaka":0.594,"fist":0.958,"pointing":0.988,"openPalm":0.446,"falseTrig":0.014,"noGesture":0.517}
+baseline, true-A0 subset only          {"thumbsUp":0.98,"shaka":0.638,"fist":0.937,"pointing":0.983,"openPalm":0.487,"falseTrig":null,"noGesture":null}
+baseline, imputed-A0 hands only        {"thumbsUp":0.85,"shaka":0.591,"fist":0.959,"pointing":0.988,"openPalm":0.444,"falseTrig":0.014,"noGesture":0.517}
+old picks (shakaThumb.3 up.25)         {"thumbsUp":0.887,"shaka":0.911,"fist":0.953,"pointing":0.988,"openPalm":0.446,"falseTrig":0.014,"noGesture":0.517}
+one-at-a-time shakaThumb 0.1 {"thumbsUp":0.858,"shaka":0.948,"fist":0.958,"pointing":0.988,"openPalm":0.446,"falseTrig":0.014,"noGesture":0.517}
+one-at-a-time shakaThumb 0.2 {"thumbsUp":0.858,"shaka":0.939,"fist":0.958,"pointing":0.988,"openPalm":0.446,"falseTrig":0.014,"noGesture":0.517}
+one-at-a-time shakaThumb 0.3 {"thumbsUp":0.858,"shaka":0.911,"fist":0.958,"pointing":0.988,"openPalm":0.446,"falseTrig":0.014,"noGesture":0.517}
+one-at-a-time shakaThumb 0.4 {"thumbsUp":0.858,"shaka":0.838,"fist":0.958,"pointing":0.988,"openPalm":0.446,"falseTrig":0.014,"noGesture":0.517}
+one-at-a-time up 0.15 {"thumbsUp":0.889,"shaka":0.594,"fist":0.951,"pointing":0.988,"openPalm":0.446,"falseTrig":0.014,"noGesture":0.517}
+one-at-a-time up 0.25 {"thumbsUp":0.887,"shaka":0.594,"fist":0.953,"pointing":0.988,"openPalm":0.446,"falseTrig":0.014,"noGesture":0.517}
+one-at-a-time up 0.45 {"thumbsUp":0.78,"shaka":0.594,"fist":0.965,"pointing":0.988,"openPalm":0.446,"falseTrig":0.014,"noGesture":0.517}
+one-at-a-time palmNoThumb true {"thumbsUp":0.858,"shaka":0.594,"fist":0.958,"pointing":0.988,"openPalm":0.998,"falseTrig":0.116,"noGesture":0.852}
+one-at-a-time palmT2 0.2 {"thumbsUp":0.858,"shaka":0.594,"fist":0.958,"pointing":0.988,"openPalm":0.659,"falseTrig":0.057,"noGesture":0.738}
+one-at-a-time palmT2 0.3 {"thumbsUp":0.858,"shaka":0.594,"fist":0.958,"pointing":0.988,"openPalm":0.634,"falseTrig":0.05,"noGesture":0.715}
+one-at-a-time palmT2 0.4 {"thumbsUp":0.858,"shaka":0.594,"fist":0.958,"pointing":0.988,"openPalm":0.544,"falseTrig":0.032,"noGesture":0.654}
+one-at-a-time t1 1 {"thumbsUp":0.859,"shaka":0.602,"fist":0.957,"pointing":0.988,"openPalm":0.471,"falseTrig":0.018,"noGesture":0.54}
+one-at-a-time t1 1.15 {"thumbsUp":0.854,"shaka":0.582,"fist":0.958,"pointing":0.988,"openPalm":0.407,"falseTrig":0.012,"noGesture":0.494}
+one-at-a-time t2 0.35 {"thumbsUp":0.885,"shaka":0.881,"fist":0.843,"pointing":0.988,"openPalm":0.598,"falseTrig":0.041,"noGesture":0.699}
+one-at-a-time t2 0.45 {"thumbsUp":0.88,"shaka":0.778,"fist":0.904,"pointing":0.988,"openPalm":0.504,"falseTrig":0.023,"noGesture":0.613}
+one-at-a-time t2 0.65 {"thumbsUp":0.784,"shaka":0.394,"fist":0.983,"pointing":0.988,"openPalm":0.384,"falseTrig":0.011,"noGesture":0.44}
+one-at-a-time ext 1 {"thumbsUp":0.854,"shaka":0.59,"fist":0.954,"pointing":0.986,"openPalm":0.447,"falseTrig":0.02,"noGesture":0.527}
+one-at-a-time ext 1.05 {"thumbsUp":0.856,"shaka":0.592,"fist":0.955,"pointing":0.987,"openPalm":0.447,"falseTrig":0.017,"noGesture":0.517}
+one-at-a-time ext 1.2 {"thumbsUp":0.859,"shaka":0.595,"fist":0.958,"pointing":0.986,"openPalm":0.436,"falseTrig":0.01,"noGesture":0.54}
+--- grid 2880 falseTrig<=.10 feasible 1440
+{"ext":1,"t1":1,"t2":0.35,"up":0.15,"palmNoThumb":false,"shakaThumb":null} A: {"thumbsUp":0.979,"shaka":0.891,"fist":0.808,"pointing":0.982,"openPalm":0.681,"falseTrig":0.065,"noGesture":0.79} B(held-out users): {"thumbsUp":0.977,"shaka":0.884,"fist":0.791,"pointing":0.99,"openPalm":0.677,"falseTrig":0.069,"noGesture":0.785}
+{"ext":1,"t1":1,"t2":0.35,"up":0.15,"palmNoThumb":false,"shakaThumb":0.1} A: {"thumbsUp":0.979,"shaka":0.963,"fist":0.808,"pointing":0.982,"openPalm":0.681,"falseTrig":0.065,"noGesture":0.79} B(held-out users): {"thumbsUp":0.977,"shaka":0.951,"fist":0.791,"pointing":0.99,"openPalm":0.677,"falseTrig":0.069,"noGesture":0.785}
+{"ext":1,"t1":1,"t2":0.35,"up":0.15,"palmNoThumb":false,"shakaThumb":0.2} A: {"thumbsUp":0.979,"shaka":0.955,"fist":0.808,"pointing":0.982,"openPalm":0.681,"falseTrig":0.065,"noGesture":0.79} B(held-out users): {"thumbsUp":0.977,"shaka":0.943,"fist":0.791,"pointing":0.99,"openPalm":0.677,"falseTrig":0.069,"noGesture":0.785}
+{"ext":1,"t1":1,"t2":0.35,"up":0.15,"palmNoThumb":false,"shakaThumb":0.3} A: {"thumbsUp":0.979,"shaka":0.925,"fist":0.808,"pointing":0.982,"openPalm":0.681,"falseTrig":0.065,"noGesture":0.79} B(held-out users): {"thumbsUp":0.977,"shaka":0.915,"fist":0.791,"pointing":0.99,"openPalm":0.677,"falseTrig":0.069,"noGesture":0.785}
+--- grid 2880 falseTrig<=.05 feasible 1350
+{"ext":1.16,"t1":1,"t2":0.35,"up":0.15,"palmNoThumb":false,"shakaThumb":null} A: {"thumbsUp":0.983,"shaka":0.897,"fist":0.811,"pointing":0.985,"openPalm":0.676,"falseTrig":0.047,"noGesture":0.739} B(held-out users): {"thumbsUp":0.982,"shaka":0.895,"fist":0.793,"pointing":0.991,"openPalm":0.673,"falseTrig":0.05,"noGesture":0.737}
+{"ext":1.16,"t1":1,"t2":0.35,"up":0.15,"palmNoThumb":false,"shakaThumb":0.1} A: {"thumbsUp":0.983,"shaka":0.971,"fist":0.811,"pointing":0.985,"openPalm":0.676,"falseTrig":0.047,"noGesture":0.739} B(held-out users): {"thumbsUp":0.982,"shaka":0.965,"fist":0.793,"pointing":0.991,"openPalm":0.673,"falseTrig":0.05,"noGesture":0.737}
+{"ext":1.16,"t1":1,"t2":0.35,"up":0.15,"palmNoThumb":false,"shakaThumb":0.2} A: {"thumbsUp":0.983,"shaka":0.963,"fist":0.811,"pointing":0.985,"openPalm":0.676,"falseTrig":0.047,"noGesture":0.739} B(held-out users): {"thumbsUp":0.982,"shaka":0.956,"fist":0.793,"pointing":0.991,"openPalm":0.673,"falseTrig":0.05,"noGesture":0.737}
+{"ext":1.16,"t1":1,"t2":0.35,"up":0.15,"palmNoThumb":false,"shakaThumb":0.3} A: {"thumbsUp":0.983,"shaka":0.932,"fist":0.811,"pointing":0.985,"openPalm":0.676,"falseTrig":0.047,"noGesture":0.739} B(held-out users): {"thumbsUp":0.982,"shaka":0.927,"fist":0.793,"pointing":0.991,"openPalm":0.673,"falseTrig":0.05,"noGesture":0.737}
