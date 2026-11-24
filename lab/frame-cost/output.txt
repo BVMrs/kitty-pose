@@ -1,0 +1,5 @@
+hands=0: per-frame µs  median 12.7  p95 28.7  p99 42.6  max 1834.6   (22 memes)
+hands=1: per-frame µs  median 14.0  p95 17.6  p99 35.9  max 2034.0   (22 memes)
+hands=2: per-frame µs  median 15.3  p95 23.9  p99 54.7  max 4046.5   (22 memes)
+cold (2 hands) first frame 60 µs, frames 2-10 mean 22 µs, frames 100-200 mean 20 µs
+breakdown µs/frame: blendshape->object 13.91 | handFeatures(2) 3.09 | chooser.step 2.11
