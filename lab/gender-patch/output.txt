@@ -1,0 +1,53 @@
+hands 29662 gender counts {"female":16792,"male":12870,"?":0}
+
+## master
+all            thumbsUp 84.9(4940)  shaka 59.7(4936)  fist 95.8(4877)  pointing 99.0(4939)  openPalm 44.6(9970)
+female         thumbsUp 85.2(2786)  shaka 69.7(2683)  fist 93.5(2768)  pointing 99.3(2884)  openPalm 46.2(5671)
+male           thumbsUp 84.6(2154)  shaka 47.8(2253)  fist 98.7(2109)  pointing 98.5(2055)  openPalm 42.5(4299)
+male >=.12     thumbsUp 42.8(283)  shaka 24.5(261)  fist 100.0(120)  pointing 100.0(130)  openPalm 25.9(544)
+female >=.12   thumbsUp 40.2(301)  shaka 48.3(325)  fist 99.2(126)  pointing 100.0(123)  openPalm 37.0(533)
+size >=.12     thumbsUp 41.4(584)  shaka 37.7(586)  fist 99.6(246)  pointing 100.0(253)  openPalm 31.4(1077)
+true-A0 only   thumbsUp 98.0(297)  shaka 63.8(298)  fist 93.7(287)  pointing 98.3(295)  openPalm 48.7(598)
+known female   thumbsUp 97.0(166)  shaka 76.9(169)  fist 90.2(173)  pointing 98.9(179)  openPalm 47.5(326)
+known male     thumbsUp 99.2(131)  shaka 46.5(129)  fist 99.1(114)  pointing 97.4(116)  openPalm 50.0(272)
+known >=.12    thumbsUp 96.4(28)  shaka 57.1(28)  fist 100.0(9)  pointing 100.0(15)  openPalm 44.8(67)
+known <.12     thumbsUp 98.1(269)  shaka 64.4(270)  fist 93.5(278)  pointing 98.2(280)  openPalm 49.2(531)
+
+## shaka.2 up.25
+all            thumbsUp 88.1(4940)  shaka 93.9(4936)  fist 95.4(4877)  pointing 99.0(4939)  openPalm 44.6(9970)
+female         thumbsUp 88.6(2786)  shaka 94.8(2683)  fist 93.0(2768)  pointing 99.3(2884)  openPalm 46.2(5671)
+male           thumbsUp 87.4(2154)  shaka 92.8(2253)  fist 98.6(2109)  pointing 98.5(2055)  openPalm 42.5(4299)
+male >=.12     thumbsUp 53.4(283)  shaka 82.8(261)  fist 99.2(120)  pointing 100.0(130)  openPalm 25.9(544)
+female >=.12   thumbsUp 52.5(301)  shaka 87.7(325)  fist 99.2(126)  pointing 100.0(123)  openPalm 37.0(533)
+size >=.12     thumbsUp 52.9(584)  shaka 85.5(586)  fist 99.2(246)  pointing 100.0(253)  openPalm 31.4(1077)
+true-A0 only   thumbsUp 98.7(297)  shaka 96.6(298)  fist 93.7(287)  pointing 98.3(295)  openPalm 48.7(598)
+known female   thumbsUp 98.2(166)  shaka 98.8(169)  fist 90.2(173)  pointing 98.9(179)  openPalm 47.5(326)
+known male     thumbsUp 99.2(131)  shaka 93.8(129)  fist 99.1(114)  pointing 97.4(116)  openPalm 50.0(272)
+known >=.12    thumbsUp 100.0(28)  shaka 92.9(28)  fist 100.0(9)  pointing 100.0(15)  openPalm 44.8(67)
+known <.12     thumbsUp 98.5(269)  shaka 97.0(270)  fist 93.5(278)  pointing 98.2(280)  openPalm 49.2(531)
+
+## shaka.3 up.25
+all            thumbsUp 88.1(4940)  shaka 90.8(4936)  fist 95.4(4877)  pointing 99.0(4939)  openPalm 44.6(9970)
+female         thumbsUp 88.6(2786)  shaka 92.9(2683)  fist 93.0(2768)  pointing 99.3(2884)  openPalm 46.2(5671)
+male           thumbsUp 87.4(2154)  shaka 88.3(2253)  fist 98.6(2109)  pointing 98.5(2055)  openPalm 42.5(4299)
+male >=.12     thumbsUp 53.4(283)  shaka 72.0(261)  fist 99.2(120)  pointing 100.0(130)  openPalm 25.9(544)
+female >=.12   thumbsUp 52.5(301)  shaka 82.2(325)  fist 99.2(126)  pointing 100.0(123)  openPalm 37.0(533)
+size >=.12     thumbsUp 52.9(584)  shaka 77.6(586)  fist 99.2(246)  pointing 100.0(253)  openPalm 31.4(1077)
+true-A0 only   thumbsUp 98.7(297)  shaka 94.6(298)  fist 93.7(287)  pointing 98.3(295)  openPalm 48.7(598)
+known female   thumbsUp 98.2(166)  shaka 97.0(169)  fist 90.2(173)  pointing 98.9(179)  openPalm 47.5(326)
+known male     thumbsUp 99.2(131)  shaka 91.5(129)  fist 99.1(114)  pointing 97.4(116)  openPalm 50.0(272)
+known >=.12    thumbsUp 100.0(28)  shaka 89.3(28)  fist 100.0(9)  pointing 100.0(15)  openPalm 44.8(67)
+known <.12     thumbsUp 98.5(269)  shaka 95.2(270)  fist 93.5(278)  pointing 98.2(280)  openPalm 49.2(531)
+
+## grid t2.35 shaka.1 up.15 ext1.0 t1 1.0
+all            thumbsUp 97.6(4940)  shaka 95.6(4936)  fist 80.0(4877)  pointing 98.7(4939)  openPalm 67.7(9970)
+female         thumbsUp 97.9(2786)  shaka 96.1(2683)  fist 71.9(2768)  pointing 99.1(2884)  openPalm 71.2(5671)
+male           thumbsUp 97.2(2154)  shaka 95.1(2253)  fist 90.8(2109)  pointing 98.3(2055)  openPalm 63.0(4299)
+male >=.12     thumbsUp 90.1(283)  shaka 93.5(261)  fist 92.5(120)  pointing 100.0(130)  openPalm 52.9(544)
+female >=.12   thumbsUp 94.0(301)  shaka 96.3(325)  fist 79.4(126)  pointing 99.2(123)  openPalm 63.4(533)
+size >=.12     thumbsUp 92.1(584)  shaka 95.1(586)  fist 85.8(246)  pointing 99.6(253)  openPalm 58.1(1077)
+true-A0 only   thumbsUp 99.0(297)  shaka 97.0(298)  fist 74.6(287)  pointing 98.3(295)  openPalm 70.4(598)
+known female   thumbsUp 98.8(166)  shaka 98.2(169)  fist 63.6(173)  pointing 99.4(179)  openPalm 73.0(326)
+known male     thumbsUp 99.2(131)  shaka 95.3(129)  fist 91.2(114)  pointing 96.6(116)  openPalm 67.3(272)
+known >=.12    thumbsUp 96.4(28)  shaka 100.0(28)  fist 77.8(9)  pointing 100.0(15)  openPalm 70.1(67)
+known <.12     thumbsUp 99.3(269)  shaka 96.7(270)  fist 74.5(278)  pointing 98.2(280)  openPalm 70.4(531)
