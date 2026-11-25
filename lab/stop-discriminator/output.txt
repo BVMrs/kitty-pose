@@ -1,0 +1,21 @@
+hands with 4 fingers extended, by class {"palm":4991,"stop":4976,"four":4960,"no_gesture":345,"three":40,"three3":17,"two_up":10,"peace":4,"ok":146,"rock":2,"stop_inverted":4936,"little_finger":1,"mute":19,"fist":5,"call":20,"like":6,"one":2,"dislike":16,"thumb_index":5,"peace_inverted":11,"two_up_inverted":17}
+t2 AUC 0.644 (vs four only: 0.596)
+spreadIM AUC 0.489 (vs four only: 0.249)
+spreadMR AUC 0.481 (vs four only: 0.258)
+spreadRP AUC 0.506 (vs four only: 0.292)
+spreadAll AUC 0.491 (vs four only: 0.259)
+tipGap AUC 0.398 (vs four only: 0.241)
+thumbAng AUC 0.714 (vs four only: 0.638)
+thumbSide AUC 0.426 (vs four only: 0.313)
+note: rates below are among hands passing the 4-finger gate; counts of all hands per class needed for absolute rates
+spreadAll base palm 0.84 stop 0.03 four 0.22 clean 0.05 nogest 0.46
+spreadAll 40.00 palm 0.85 stop 0.04 four 0.66 clean 0.06 nogest 0.62
+tipGap 0.16 palm 1.00 stop 1.00 four 1.00 clean 1.00 nogest 0.98
+spreadAll 45.00 palm 0.84 stop 0.03 four 0.48 clean 0.06 nogest 0.57
+tipGap 0.18 palm 1.00 stop 0.99 four 1.00 clean 1.00 nogest 0.97
+spreadAll 50.00 palm 0.84 stop 0.03 four 0.33 clean 0.05 nogest 0.51
+tipGap 0.20 palm 1.00 stop 0.94 four 1.00 clean 0.99 nogest 0.97
+spreadAll 55.00 palm 0.84 stop 0.03 four 0.26 clean 0.05 nogest 0.49
+tipGap 0.22 palm 1.00 stop 0.84 four 1.00 clean 0.97 nogest 0.96
+spreadAll 60.00 palm 0.84 stop 0.03 four 0.24 clean 0.05 nogest 0.47
+tipGap 0.24 palm 1.00 stop 0.75 four 1.00 clean 0.93 nogest 0.95
