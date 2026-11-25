@@ -1,0 +1,13 @@
+T=100ms  trials=2967 (skipped 33 unsettled)  final correct 99.7%  flash of a wrong meme 0.3%  passes via stare 0.0%
+   wrong memes shown: think 0.3%
+   worst pairs: one>palm 3%, call>palm 2%, palm>fist 1%, like>palm 1%
+T=200ms  trials=2983 (skipped 17 unsettled)  final correct 99.7%  flash of a wrong meme 0.3%  passes via stare 0.0%
+   wrong memes shown: think 0.3%
+   worst pairs: fist>palm 2%, one>palm 1%, palm>fist 1%, like>palm 1%
+T=400ms  trials=2966 (skipped 34 unsettled)  final correct 99.7%  flash of a wrong meme 0.3%  passes via stare 0.0%
+   wrong memes shown: think 0.3%
+   worst pairs: like>palm 2%, one>palm 2%, palm>fist 1%, fist>palm 1%
+T=800ms  trials=2979 (skipped 21 unsettled)  final correct 99.7%  flash of a wrong meme 3.0%  passes via stare 0.0%
+   wrong memes shown: fistbump 1.9%, thumbs 0.6%, think 0.5%
+   worst pairs: palm>like 19%, like>palm 8%, one>like 8%, fist>palm 5%
+endpoint-clean hands: { like: 2902, call: 1918, fist: 2899, one: 2976, palm: 2413 }
