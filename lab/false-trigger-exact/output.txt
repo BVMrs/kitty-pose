@@ -1,0 +1,79 @@
+hands 15104 classes 28 sampled per class {"dislike":492,"four":497,"grabbing":480,"grip":474,"hand_heart":894,"hand_heart2":512,"holy":596,"little_finger":494,"middle_finger":486,"mute":493,"no_gesture":607,"ok":498,"peace":495,"peace_inverted":494,"point":460,"rock":491,"stop_inverted":493,"take_picture":691,"three":498,"three2":498,"three3":497,"three_gun":497,"thumb_index":496,"thumb_index2":911,"timeout":494,"two_up":495,"two_up_inverted":495,"xsign":576}
+
+## master+aspect
+CLEAN look-alike-free    0.4% 18/4954
+no_gesture               53.9% 327/607
+all unmapped             40.4% 6099/15104
+   dislike           492 100% {"fist":489,"none":2,"openPalm":1}
+   four              497  24% {"none":379,"openPalm":118}
+   grabbing          480  47% {"none":256,"shaka":19,"fist":159,"openPalm":33,"pointing":13}
+   grip              474  94% {"pointing":15,"fist":383,"thumbsUp":36,"shaka":9,"none":28,"openPalm":3}
+   hand_heart        894  30% {"none":629,"openPalm":261,"fist":2,"pointing":1,"shaka":1}
+   hand_heart2       512  64% {"openPalm":118,"fist":106,"none":183,"pointing":10,"shaka":94,"thumbsUp":1}
+   holy              596  45% {"none":327,"openPalm":245,"fist":17,"pointing":1,"thumbsUp":6}
+   little_finger     494   4% {"none":476,"shaka":13,"fist":4,"pointing":1}
+   middle_finger     486   2% {"none":475,"openPalm":3,"pointing":7,"thumbsUp":1}
+   mute              493  96% {"pointing":461,"thumbsUp":4,"fist":9,"none":19}
+   no_gesture        607  54% {"none":280,"openPalm":151,"thumbsUp":41,"fist":115,"pointing":16,"shaka":4}
+   ok                498   0% {"none":496,"fist":1,"openPalm":1}
+   peace             495   0% {"none":495}
+   peace_inverted    494   0% {"none":494}
+   point             460  75% {"none":115,"pointing":102,"openPalm":13,"fist":223,"thumbsUp":5,"shaka":2}
+   rock              491   1% {"none":485,"fist":1,"pointing":4,"shaka":1}
+   stop_inverted     493   1% {"none":486,"openPalm":7}
+   take_picture      691  95% {"pointing":613,"openPalm":23,"none":32,"fist":22,"thumbsUp":1}
+   three             498   0% {"none":498}
+   three2            498   0% {"none":497,"pointing":1}
+   three3            497   0% {"none":497}
+   three_gun         497   1% {"none":494,"openPalm":3}
+   thumb_index       496 100% {"pointing":495,"none":1}
+   thumb_index2      911  98% {"pointing":872,"thumbsUp":3,"none":21,"fist":10,"shaka":3,"openPalm":2}
+   timeout           494  32% {"openPalm":141,"none":335,"fist":16,"thumbsUp":2}
+   two_up            495   0% {"none":494,"pointing":1}
+   two_up_inverted   495   0% {"none":494,"fist":1}
+   xsign             576  97% {"fist":545,"thumbsUp":5,"none":17,"openPalm":5,"pointing":4}
+
+## shaka.2 up.25
+CLEAN look-alike-free    0.4% 18/4954
+no_gesture               54.0% 328/607
+all unmapped             41.2% 6220/15104
+   dislike           492 100% {"fist":489,"none":2,"openPalm":1}
+   four              497  24% {"none":379,"openPalm":118}
+   grabbing          480  47% {"none":256,"shaka":19,"fist":158,"openPalm":33,"pointing":13,"thumbsUp":1}
+   grip              474  94% {"pointing":15,"fist":378,"thumbsUp":41,"shaka":10,"none":27,"openPalm":3}
+   hand_heart        894  30% {"none":629,"openPalm":261,"fist":2,"pointing":1,"shaka":1}
+   hand_heart2       512  70% {"openPalm":118,"fist":105,"shaka":123,"none":154,"pointing":10,"thumbsUp":2}
+   holy              596  45% {"none":327,"openPalm":245,"fist":17,"pointing":1,"thumbsUp":6}
+   little_finger     494  22% {"none":386,"shaka":103,"fist":4,"pointing":1}
+   middle_finger     486   2% {"none":475,"openPalm":3,"pointing":7,"thumbsUp":1}
+   mute              493  96% {"pointing":461,"thumbsUp":5,"fist":8,"none":19}
+   no_gesture        607  54% {"none":279,"openPalm":151,"thumbsUp":52,"fist":104,"pointing":16,"shaka":5}
+   ok                498   0% {"none":496,"fist":1,"openPalm":1}
+   peace             495   0% {"none":495}
+   peace_inverted    494   0% {"none":494}
+   point             460  75% {"none":115,"pointing":102,"openPalm":13,"thumbsUp":8,"fist":220,"shaka":2}
+   rock              491   1% {"none":485,"fist":1,"pointing":4,"shaka":1}
+   stop_inverted     493   1% {"none":486,"openPalm":7}
+   take_picture      691  95% {"pointing":613,"openPalm":23,"none":32,"fist":22,"thumbsUp":1}
+   three             498   0% {"none":498}
+   three2            498   0% {"none":497,"pointing":1}
+   three3            497   0% {"none":497}
+   three_gun         497   1% {"none":494,"openPalm":3}
+   thumb_index       496 100% {"pointing":495,"none":1}
+   thumb_index2      911  98% {"pointing":872,"thumbsUp":3,"none":21,"fist":10,"shaka":3,"openPalm":2}
+   timeout           494  32% {"openPalm":141,"none":335,"fist":16,"thumbsUp":2}
+   two_up            495   0% {"none":494,"pointing":1}
+   two_up_inverted   495   0% {"none":494,"fist":1}
+   xsign             576  97% {"fist":545,"thumbsUp":5,"none":17,"openPalm":5,"pointing":4}
+
+## shaka.3 up.25
+CLEAN look-alike-free    0.4% 18/4954
+no_gesture               53.9% 327/607
+all unmapped             41.2% 6218/15104
+
+## shaka.1 up.25
+CLEAN look-alike-free    0.4% 18/4954
+no_gesture               54.0% 328/607
+all unmapped             41.2% 6220/15104
+
+changed by patch (by class): [["little_finger: none->shaka",90],["hand_heart2: none->shaka",29],["no_gesture: fist->thumbsUp",11],["grip: fist->thumbsUp",5],["point: fist->thumbsUp",3],["grabbing: fist->thumbsUp",1],["grip: none->shaka",1],["hand_heart2: fist->thumbsUp",1],["mute: fist->thumbsUp",1],["no_gesture: none->shaka",1]]
