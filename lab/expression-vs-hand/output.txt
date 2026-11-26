@@ -1,0 +1,48 @@
+face frames 3780 {
+  anger: 247,
+  fear: 269,
+  happy: 229,
+  sad: 826,
+  neutral: 837,
+  angry: 684,
+  fearful: 688
+}
+hands {
+  thumbsUp: 3792,
+  shaka: 3927,
+  fist: 3917,
+  pointing: 3850,
+  openPalm: 7927,
+  unmapped: 72913
+}
+
+face-only winner by label:
+  anger {"stare":247}
+  fear {"stare":134,"close-stare":135}
+  happy {"stare":70,"smug":6,"smile":153}
+  sad {"stare":523,"sleepy":7,"shocked":24,"close-stare":58,"hiss":87,"smug":110,"smile":5,"pop":1,"crying":6,"side-eye":5}
+  neutral {"sleepy":3,"stare":776,"side-eye":27,"smug":1,"shocked":11,"close-stare":19}
+  angry {"stare":494,"hiss":109,"pop":30,"smug":32,"sleepy":1,"smile":9,"shocked":8,"close-stare":1}
+  fearful {"stare":437,"side-eye":27,"hiss":57,"smug":34,"pop":6,"smile":77,"shocked":31,"close-stare":8,"sleepy":11}
+
+% of recognised-gesture frames where the HAND meme shows (unmapped row: of expression frames, the face-only meme survives), master -> veto patch
+thumbsUp  anger 100->100 (n4940) | fear 100->100 (n5380) | happy 43->100 (n4580) | sad 88->100 (n16520) | neutral 100->100 (n16740) | angry 91->100 (n13680) | fearful 95->100 (n13760) || ALL 91.5->100.0
+shaka     anger 100->100 (n2717) | fear 100->100 (n2959) | happy 43->100 (n2519) | sad 88->100 (n9086) | neutral 100->100 (n9207) | angry 91->100 (n7524) | fearful 95->100 (n7568) || ALL 91.5->100.0
+fist      anger 100->100 (n4940) | fear 100->100 (n5380) | happy 43->100 (n4580) | sad 79->88 (n16520) | neutral 98->98 (n16740) | angry 73->74 (n13680) | fearful 79->85 (n13760) || ALL 82.7->89.6
+pointing  anger 100->100 (n4940) | fear 100->100 (n5380) | happy 32->32 (n4580) | sad 77->79 (n16520) | neutral 98->98 (n16740) | angry 71->75 (n13680) | fearful 74->74 (n13760) || ALL 80.4->81.6
+openPalm  anger 100->100 (n1729) | fear 100->100 (n1883) | happy 43->100 (n1603) | sad 88->100 (n5782) | neutral 100->100 (n5859) | angry 91->100 (n4788) | fearful 95->100 (n4816) || ALL 91.5->100.0
+unmapped  anger -->- (n0) | fear 0->0 (n2700) | happy 81->60 (n3180) | sad 56->43 (n6060) | neutral 30->30 (n1220) | angry 67->57 (n3800) | fearful 58->51 (n5020) || ALL 53.6->43.6
+
+who shows (all labels pooled; P = patched)
+thumbsUp hand 91.5, smile 3.8, hiss 2.7, smug 1.7, pop 0.3
+P thumbsUp hand 100.0
+shaka hand 91.5, smile 3.8, hiss 2.7, smug 1.7, pop 0.3
+P shaka hand 100.0
+fist hand 82.7, angry-fist 8.9, smile 4.9, smug 3.3, side-eye 0.2
+P fist hand 89.6, angry-fist 10.4
+pointing hand 80.4, laugh-point 13.0, hiss 4.2, smug 2.3, side-eye 0.1
+P pointing hand 81.6, laugh-point 18.4
+openPalm hand 91.5, smile 3.8, hiss 2.7, smug 1.7, pop 0.3
+P openPalm hand 100.0
+unmapped face 53.6, stare 15.7, fistbump 7.7, stop 7.1, point 6.2, laugh-point 5.4
+P unmapped face 43.6, stare 15.7, fistbump 11.2, stop 10.0, laugh-point 8.1, point 6.9
