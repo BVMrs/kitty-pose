@@ -42,7 +42,7 @@ xsign 97% (fist), grip 94% (fist), four 24% and hand_heart 30% and timeout 32% a
    rather than the exact value; recall .962 vs .940 favours .2.
 3. The charter's literal "unmapped classes trigger none" still cannot hold: no_gesture fires 54% (a relaxed hand, a half
    fist). That is a charter wording/owner question (`hagrid-baseline` already said 43%); it is not a patch effect (+0.1 pt).
-4. 8 of the 15 classes that fire most are fist/pointing look-alikes (dislike, xsign, grip, mute, take_picture, thumb_index):
+4. The classes that fire most are fist/pointing look-alikes (dislike, xsign, grip, mute, take_picture, thumb_index):
    the app cannot separate them from fist/pointing with finger flags (cf. `meme-confusion`). They are a labelling issue for
    the eval, not a threshold issue.
 
