@@ -1,0 +1,58 @@
+hands 29662 with true A0 29662 genders {"female":16792,"male":12870,"?":0}
+aspect w/h bins: <.7 1943 .7-.8 21259 .8-1.2 628 >=1.2 5832
+
+## master
+all            thumbsUp 97.7[97+](4940)  shaka 62.1[61+](4936)  fist 96.3[96+](4877)  pointing 99.0[99+](4939)  openPalm 49.0[48+](9970)
+female         thumbsUp 98.0[97+](2786)  shaka 73.6[72+](2683)  fist 94.5[94+](2768)  pointing 99.3[99+](2884)  openPalm 49.2[48+](5671)
+male           thumbsUp 97.4[97+](2154)  shaka 48.3[46+](2253)  fist 98.7[98+](2109)  pointing 98.5[98+](2055)  openPalm 48.7[47+](4299)
+size<.05       thumbsUp 96.4[95+](1356)  shaka 60.5[57+](739)  fist 95.2[94+](1695)  pointing 98.5[98+](1273)  openPalm 47.5[45+](1972)
+size .05-.08   thumbsUp 98.7[98+](2036)  shaka 63.7[62+](2225)  fist 95.9[95+](2002)  pointing 99.3[99+](2116)  openPalm 48.3[47+](3938)
+size .08-.12   thumbsUp 98.0[97+](1173)  shaka 61.3[59+](1543)  fist 98.5[98+](940)  pointing 98.8[98+](1303)  openPalm 51.7[50+](2990)
+size>=.12      thumbsUp 96.3[94+](375)  shaka 59.0[54+](429)  fist 99.2[97+](240)  pointing 100.0[98+](247)  openPalm 46.9[44+](1070)
+female>=.12    thumbsUp 98.6[95+](142)  shaka 77.4[71+](195)  fist 98.3[94+](117)  pointing 100.0[97+](119)  openPalm 48.4[44+](523)
+male>=.12      thumbsUp 94.8[91+](233)  shaka 43.6[37+](234)  fist 100.0[97+](123)  pointing 100.0[97+](128)  openPalm 45.5[41+](547)
+portrait src   thumbsUp 97.8[97+](3861)  shaka 62.9[61+](3881)  fist 96.2[96+](3780)  pointing 99.0[99+](3922)  openPalm 49.1[48+](7783)
+landscape src  thumbsUp 97.3[96+](1079)  shaka 59.1[56+](1055)  fist 96.6[95+](1097)  pointing 99.0[98+](1017)  openPalm 48.6[46+](2187)
+WORST slice (n>=100): thumbsUp 94.8 male>=.12 | shaka 43.6 male>=.12 | fist 94.5 female | pointing 98.5 size<.05 | openPalm 45.5 male>=.12
+
+## shaka.2 up.25
+all            thumbsUp 98.0[98+](4940)  shaka 96.2[96+](4936)  fist 96.1[95+](4877)  pointing 99.0[99+](4939)  openPalm 49.0[48+](9970)
+female         thumbsUp 98.2[98+](2786)  shaka 96.8[96+](2683)  fist 94.1[93+](2768)  pointing 99.3[99+](2884)  openPalm 49.2[48+](5671)
+male           thumbsUp 97.6[97+](2154)  shaka 95.5[95+](2253)  fist 98.6[98+](2109)  pointing 98.5[98+](2055)  openPalm 48.7[47+](4299)
+size<.05       thumbsUp 96.8[96+](1356)  shaka 94.6[93+](739)  fist 95.0[94+](1695)  pointing 98.5[98+](1273)  openPalm 47.5[45+](1972)
+size .05-.08   thumbsUp 98.9[98+](2036)  shaka 96.8[96+](2225)  fist 95.7[95+](2002)  pointing 99.3[99+](2116)  openPalm 48.3[47+](3938)
+size .08-.12   thumbsUp 98.0[97+](1173)  shaka 96.4[95+](1543)  fist 98.0[97+](940)  pointing 98.8[98+](1303)  openPalm 51.7[50+](2990)
+size>=.12      thumbsUp 97.1[95+](375)  shaka 95.3[93+](429)  fist 99.2[97+](240)  pointing 100.0[98+](247)  openPalm 46.9[44+](1070)
+female>=.12    thumbsUp 99.3[96+](142)  shaka 98.5[96+](195)  fist 98.3[94+](117)  pointing 100.0[97+](119)  openPalm 48.4[44+](523)
+male>=.12      thumbsUp 95.7[92+](233)  shaka 92.7[89+](234)  fist 100.0[97+](123)  pointing 100.0[97+](128)  openPalm 45.5[41+](547)
+portrait src   thumbsUp 98.0[98+](3861)  shaka 96.6[96+](3881)  fist 96.0[95+](3780)  pointing 99.0[99+](3922)  openPalm 49.1[48+](7783)
+landscape src  thumbsUp 97.7[97+](1079)  shaka 94.9[93+](1055)  fist 96.4[95+](1097)  pointing 99.0[98+](1017)  openPalm 48.6[46+](2187)
+WORST slice (n>=100): thumbsUp 95.7 male>=.12 | shaka 92.7 male>=.12 | fist 94.1 female | pointing 98.5 size<.05 | openPalm 45.5 male>=.12
+
+## shaka.3 up.25
+all            thumbsUp 98.0[98+](4940)  shaka 94.0[93+](4936)  fist 96.1[95+](4877)  pointing 99.0[99+](4939)  openPalm 49.0[48+](9970)
+female         thumbsUp 98.2[98+](2786)  shaka 95.8[95+](2683)  fist 94.1[93+](2768)  pointing 99.3[99+](2884)  openPalm 49.2[48+](5671)
+male           thumbsUp 97.6[97+](2154)  shaka 92.0[91+](2253)  fist 98.6[98+](2109)  pointing 98.5[98+](2055)  openPalm 48.7[47+](4299)
+size<.05       thumbsUp 96.8[96+](1356)  shaka 91.6[89+](739)  fist 95.0[94+](1695)  pointing 98.5[98+](1273)  openPalm 47.5[45+](1972)
+size .05-.08   thumbsUp 98.9[98+](2036)  shaka 94.8[94+](2225)  fist 95.7[95+](2002)  pointing 99.3[99+](2116)  openPalm 48.3[47+](3938)
+size .08-.12   thumbsUp 98.0[97+](1173)  shaka 94.6[93+](1543)  fist 98.0[97+](940)  pointing 98.8[98+](1303)  openPalm 51.7[50+](2990)
+size>=.12      thumbsUp 97.1[95+](375)  shaka 92.3[89+](429)  fist 99.2[97+](240)  pointing 100.0[98+](247)  openPalm 46.9[44+](1070)
+female>=.12    thumbsUp 99.3[96+](142)  shaka 97.4[94+](195)  fist 98.3[94+](117)  pointing 100.0[97+](119)  openPalm 48.4[44+](523)
+male>=.12      thumbsUp 95.7[92+](233)  shaka 88.0[83+](234)  fist 100.0[97+](123)  pointing 100.0[97+](128)  openPalm 45.5[41+](547)
+portrait src   thumbsUp 98.0[98+](3861)  shaka 94.6[94+](3881)  fist 96.0[95+](3780)  pointing 99.0[99+](3922)  openPalm 49.1[48+](7783)
+landscape src  thumbsUp 97.7[97+](1079)  shaka 91.9[90+](1055)  fist 96.4[95+](1097)  pointing 99.0[98+](1017)  openPalm 48.6[46+](2187)
+WORST slice (n>=100): thumbsUp 95.7 male>=.12 | shaka 88.0 male>=.12 | fist 94.1 female | pointing 98.5 size<.05 | openPalm 45.5 male>=.12
+
+## grid t2.35 shaka.1 up.15 ext1.0 t1 1.0
+all            thumbsUp 98.7[98+](4940)  shaka 96.2[96+](4936)  fist 78.6[77+](4877)  pointing 98.8[98+](4939)  openPalm 71.0[70+](9970)
+female         thumbsUp 98.7[98+](2786)  shaka 96.5[96+](2683)  fist 69.4[68+](2768)  pointing 99.1[99+](2884)  openPalm 74.0[73+](5671)
+male           thumbsUp 98.7[98+](2154)  shaka 95.8[95+](2253)  fist 90.5[89+](2109)  pointing 98.3[98+](2055)  openPalm 66.9[66+](4299)
+size<.05       thumbsUp 97.9[97+](1356)  shaka 94.0[92+](739)  fist 77.4[75+](1695)  pointing 98.4[97+](1273)  openPalm 71.1[69+](1972)
+size .05-.08   thumbsUp 99.4[99+](2036)  shaka 96.8[96+](2225)  fist 77.9[76+](2002)  pointing 99.1[99+](2116)  openPalm 70.9[69+](3938)
+size .08-.12   thumbsUp 98.7[98+](1173)  shaka 96.4[95+](1543)  fist 81.3[79+](940)  pointing 98.5[98+](1303)  openPalm 71.2[70+](2990)
+size>=.12      thumbsUp 97.6[96+](375)  shaka 96.0[94+](429)  fist 81.3[76+](240)  pointing 99.6[98+](247)  openPalm 70.0[67+](1070)
+female>=.12    thumbsUp 97.9[94+](142)  shaka 97.4[94+](195)  fist 72.6[64+](117)  pointing 99.2[95+](119)  openPalm 74.4[70+](523)
+male>=.12      thumbsUp 97.4[94+](233)  shaka 94.9[91+](234)  fist 89.4[83+](123)  pointing 100.0[97+](128)  openPalm 65.8[62+](547)
+portrait src   thumbsUp 98.9[99+](3861)  shaka 96.6[96+](3881)  fist 79.2[78+](3780)  pointing 98.8[98+](3922)  openPalm 71.2[70+](7783)
+landscape src  thumbsUp 98.1[97+](1079)  shaka 94.7[93+](1055)  fist 76.5[74+](1097)  pointing 98.7[98+](1017)  openPalm 70.2[68+](2187)
+WORST slice (n>=100): thumbsUp 97.4 male>=.12 | shaka 94.0 size<.05 | fist 69.4 female | pointing 98.3 male | openPalm 65.8 male>=.12
